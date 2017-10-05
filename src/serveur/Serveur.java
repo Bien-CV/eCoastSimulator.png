@@ -9,51 +9,41 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
 
-
-
-public class Serveur{
+public class Serveur {
 
 	private final static int port = 8090;
-	private static Donnees bdd = new Donnees();
-
+	
 
 	public static void main(String[] argv) {
-		bdd.initObjets();
-		VenteImpl vente = null;
+		
+		HotelDesVentes hdv= null;
+		affichageDeBienvenue();
+		
+		//Mise en réseau
+		try {	
+			hdv=new HotelDesVentes();
+			LocateRegistry.createRegistry(port);
+			Naming.bind("//localhost:"+port+"/hoteldesventes", hdv);
+
+		} catch(RemoteException |  MalformedURLException e){
+			//TODO
+			e.printStackTrace();
+		}catch(AlreadyBoundException e)	{
+			//Exception ignorée
+		}
+	}
+
+
+	private static void affichageDeBienvenue() {
+		// TODO Auto-generated method stub
 		try {
-			vente = new VenteImpl(bdd.getListeObjets());
 			System.out.println("@ IP : " + InetAddress.getLocalHost());
-		} catch (UnknownHostException | RemoteException e1) {
+		} catch (UnknownHostException e1) {
+			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
-		try {	
-			
-			
-			LocateRegistry.createRegistry(port);
-			Naming.bind("//localhost:"+port+"/enchere", vente);
-
+	}
 	
-			
-		} catch(RemoteException |  MalformedURLException e){
-			e.printStackTrace();
-		}catch(AlreadyBoundException e)	{
-			
-		}
-		
-		while(true){
-			
-			//On recrée une nouvelle vente
-			if(vente.getEtatVente() == EtatVente.TERMINE){
-				bdd.initObjets();
-				try {
-					vente = new VenteImpl(bdd.getListeObjets());
-				} catch (RemoteException e) {
-					e.printStackTrace();
-				}
-			}
-			
-		}
-	}	
 }
 	

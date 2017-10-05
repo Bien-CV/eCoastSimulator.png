@@ -5,16 +5,16 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 import serveur.Objet;
-import serveur.Vente;
+import serveur.IHotelDesVentes;
 
 public class Client extends UnicastRemoteObject implements Acheteur {
 
 	private static final long serialVersionUID = 1L;
-	private static final String adresseServeur = "localhost:8090/enchere";
+	private static final String adresseServeur = "localhost:8090/hoteldesventes";
 
 	private String pseudo;
 	private VueClient vue;
-	private Vente serveur;
+	private IHotelDesVentes hdv;
 	private Objet currentObjet;
 	private EtatClient etat = EtatClient.ATTENTE;
 	private Chrono chrono = new Chrono(10000, this); // Chrono de 30sc
@@ -23,13 +23,13 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 		super();
 		this.chrono.start();
 		this.pseudo = pseudo;
-		this.serveur = connexionServeur();
-		this.currentObjet = serveur.getObjet();
+		this.hdv = connexionServeur();
+		this.currentObjet = hdv.getObjet();
 	}
 
-	public static Vente connexionServeur() {
+	public static IHotelDesVentes connexionServeur() {
 		try {
-			Vente serveur = (Vente) Naming.lookup("//" + adresseServeur);
+			IHotelDesVentes serveur = (IHotelDesVentes) Naming.lookup("//" + adresseServeur);
 			System.out.println("Connexion au serveur " + adresseServeur + " reussi.");
 			return serveur;
 		} catch (Exception e) {
@@ -40,7 +40,7 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 	}
 
 	public void inscription() throws Exception {
-		if(!serveur.inscriptionAcheteur(pseudo, this)){
+		if(!hdv.inscriptionAcheteur(pseudo, this)){
 			this.vue.attente();
 		}
 	}
@@ -52,13 +52,13 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 			chrono.arreter();
 			vue.attente();
 			etat = EtatClient.ATTENTE;
-			serveur.rencherir(prix, this);
+			hdv.rencherir(prix, this);
 		}
 	}
 
 	@Override
 	public void objetVendu(String gagnant) throws RemoteException {
-		this.currentObjet = serveur.getObjet();
+		this.currentObjet = hdv.getObjet();
 		this.vue.actualiserObjet();
 		this.vue.reprise();
 		
@@ -94,7 +94,7 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 	public void nouvelleSoumission(String nom, String description, int prix) {
 		Objet nouveau = new Objet(nom, description, prix);
 		try {
-			serveur.ajouterObjet(nouveau);
+			hdv.ajouterObjet(nouveau);
 			System.out.println("Soumission de l'objet " + nom + " au serveur.");
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -120,11 +120,11 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 	}
 
 	public Vente getServeur() {
-		return serveur;
+		return hdv;
 	}
 
 	public void setServeur(Vente serveur) {
-		this.serveur = serveur;
+		this.hdv = serveur;
 	}
 
 	public void setVue(VueClient vueClient) {
