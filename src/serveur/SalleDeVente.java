@@ -12,12 +12,11 @@ import java.util.List;
 
 import client.Acheteur;
 
-public class salleDeVente extends UnicastRemoteObject implements ISalleDeVente{
-	
-	private static final long serialVersionUID = 1L;
-	
+public class SalleDeVente extends UnicastRemoteObject implements ISalleDeVente {
 
-	protected salleDeVente() throws RemoteException {
+	private static final long serialVersionUID = 1L;
+
+	protected SalleDeVente() throws RemoteException {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -32,7 +31,7 @@ public class salleDeVente extends UnicastRemoteObject implements ISalleDeVente{
 	@Override
 	public void ajouterObjet(Objet objet) throws RemoteException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -52,6 +51,5 @@ public class salleDeVente extends UnicastRemoteObject implements ISalleDeVente{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }
