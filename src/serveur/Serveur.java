@@ -28,21 +28,15 @@ public class Serveur{
 		}
 		
 		try {	
-			
-			
 			LocateRegistry.createRegistry(port);
 			Naming.bind("//localhost:"+port+"/enchere", vente);
-
-	
-			
 		} catch(RemoteException |  MalformedURLException e){
 			e.printStackTrace();
-		}catch(AlreadyBoundException e)	{
+		} catch(AlreadyBoundException e) {
 			
 		}
 		
 		while(true){
-			
 			//On recrée une nouvelle vente
 			if(vente.getEtatVente() == EtatVente.TERMINE){
 				bdd.initObjets();
@@ -52,7 +46,6 @@ public class Serveur{
 					e.printStackTrace();
 				}
 			}
-			
 		}
 	}	
 }
