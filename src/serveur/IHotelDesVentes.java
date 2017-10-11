@@ -9,8 +9,6 @@ public interface IHotelDesVentes extends Remote {
 
 	public List<SalleDeVente> getListeSalles() throws RemoteException;
 	
-	public SalleDeVente rejoindreSalle(UUID id) throws RemoteException;
-	
 	public SalleDeVente creerSalle(UUID id,Objet o) throws RemoteException;
 	
 	public void login(String nomUtilisateur);
@@ -24,5 +22,9 @@ public interface IHotelDesVentes extends Remote {
 	public boolean inscriptionAcheteur(String pseudo, ClientInfo client);
 
 	public void rencherir(int prix, ClientInfo client);
+
+	SalleDeVente rejoindreSalle(UUID roomId, UUID clientId) throws RemoteException;
+
+	SalleDeVente rejoindreSalle(UUID id) throws RemoteException;
 
 }

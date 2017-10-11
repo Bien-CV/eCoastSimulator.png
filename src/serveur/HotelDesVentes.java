@@ -24,9 +24,25 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 
 
 	@Override
-	public SalleDeVente rejoindreSalle(UUID id) throws RemoteException {
+	public SalleDeVente rejoindreSalle(UUID roomId, UUID clientId) throws RemoteException {
 		// TODO Auto-generated method stub
+		
+		//TODO: si cette méthode est reçue du client approprié ( celui qui a pour id clienId)
+		if(true){
+			getRoomById(roomId);
+		}
 		return null;
+	}
+
+
+	private SalleDeVente getRoomById(UUID roomId) {
+		
+		for (SalleDeVente sdv : listeSalles ){
+			 if ( sdv.getId()==roomId ) return sdv;
+		 }
+		return null;
+		// TODO Auto-generated method stub
+		
 	}
 
 
@@ -76,6 +92,13 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	public void rencherir(int prix, ClientInfo client) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public SalleDeVente rejoindreSalle(UUID id) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

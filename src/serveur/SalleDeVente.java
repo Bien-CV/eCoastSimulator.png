@@ -9,13 +9,15 @@ import java.util.List;
 //import java.util.Map;
 //import java.util.Set;
 //import java.util.Stack;
+import java.util.UUID;
 
 import client.Acheteur;
 
 public class SalleDeVente extends UnicastRemoteObject implements ISalleDeVente {
 
 	private static final long serialVersionUID = 1L;
-
+	private UUID id;
+	
 	protected SalleDeVente() throws RemoteException {
 		super();
 		// TODO Auto-generated constructor stub
@@ -50,6 +52,11 @@ public class SalleDeVente extends UnicastRemoteObject implements ISalleDeVente {
 	public List<Acheteur> getListeAcheteurs() throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public UUID getId() {
+		// TODO Auto-generated method stub
+		return id;
 	}
 
 }

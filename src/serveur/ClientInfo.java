@@ -1,5 +1,8 @@
 package serveur;
 
-public class ClientInfo {
+import java.util.UUID;
 
+public class ClientInfo {
+	UUID id;
+	UUID currentRoom;
 }
