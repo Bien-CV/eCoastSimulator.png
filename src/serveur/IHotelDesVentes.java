@@ -16,4 +16,13 @@ public interface IHotelDesVentes extends Remote {
 	public void login(String nomUtilisateur);
 	
 	public void logout();
+
+	public void ajouterObjet(Objet nouveau);
+
+	public Objet getObjet();
+
+	public boolean inscriptionAcheteur(String pseudo, ClientInfo client);
+
+	public void rencherir(int prix, ClientInfo client);
+
 }

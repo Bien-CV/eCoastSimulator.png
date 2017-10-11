@@ -50,6 +50,34 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		
 	}
 
+
+	@Override
+	public void ajouterObjet(Objet nouveau) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public Objet getObjet() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public boolean inscriptionAcheteur(String pseudo, ClientInfo client) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public void rencherir(int prix, ClientInfo client) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 }

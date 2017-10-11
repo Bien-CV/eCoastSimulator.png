@@ -5,7 +5,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 import serveur.Objet;
-import serveur.IHotelDesVentes;
+import serveur.ClientInfo;
+import serveur.HotelDesVentes;
 
 public class Client extends UnicastRemoteObject implements Acheteur {
 
@@ -14,7 +15,7 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 
 	private String pseudo;
 	private VueClient vue;
-	private IHotelDesVentes hdv;
+	private HotelDesVentes hdv;
 	private Objet currentObjet;
 	private EtatClient etat = EtatClient.ATTENTE;
 	private Chrono chrono = new Chrono(10000, this); // Chrono de 30sc
@@ -27,11 +28,11 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 		this.currentObjet = hdv.getObjet();
 	}
 
-	public static IHotelDesVentes connexionServeur() {
+	public static HotelDesVentes connexionServeur() {
 		try {
-			IHotelDesVentes serveur = (IHotelDesVentes) Naming.lookup("//" + adresseServeur);
+			HotelDesVentes hotelDesVentes = (HotelDesVentes) Naming.lookup("//" + adresseServeur);
 			System.out.println("Connexion au serveur " + adresseServeur + " reussi.");
-			return serveur;
+			return hotelDesVentes;
 		} catch (Exception e) {
 			System.out.println("Connexion au serveur " + adresseServeur + " impossible.");
 			e.printStackTrace();
@@ -40,9 +41,14 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 	}
 
 	public void inscription() throws Exception {
-		if(!hdv.inscriptionAcheteur(pseudo, this)){
+		if(!hdv.inscriptionAcheteur(pseudo, this.getInfos() )){
 			this.vue.attente();
 		}
+	}
+
+	private ClientInfo getInfos() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public void encherir(int prix) throws RemoteException, Exception {		
@@ -52,7 +58,7 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 			chrono.arreter();
 			vue.attente();
 			etat = EtatClient.ATTENTE;
-			hdv.rencherir(prix, this);
+			hdv.rencherir(prix, this.getInfos() );
 		}
 	}
 
@@ -93,12 +99,9 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 	
 	public void nouvelleSoumission(String nom, String description, int prix) {
 		Objet nouveau = new Objet(nom, description, prix);
-		try {
-			hdv.ajouterObjet(nouveau);
-			System.out.println("Soumission de l'objet " + nom + " au serveur.");
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+		//TODO: Est-ce qu'on ajoute les objets par le hdv ou la salle direct ?
+		hdv.ajouterObjet(nouveau);
+		System.out.println("Soumission de l'objet " + nom + " au serveur.");
 	}
 
 	public static void main(String[] argv) {
@@ -119,11 +122,11 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 		return chrono.getTemps();
 	}
 
-	public Vente getServeur() {
+	public HotelDesVentes getServeur() {
 		return hdv;
 	}
 
-	public void setServeur(Vente serveur) {
+	public void setServeur(HotelDesVentes serveur) {
 		this.hdv = serveur;
 	}
 
