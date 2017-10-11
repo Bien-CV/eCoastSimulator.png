@@ -6,7 +6,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 import serveur.Objet;
 import serveur.ClientInfo;
-import serveur.HotelDesVentes;
+import serveur.IHotelDesVentes;
 
 public class Client extends UnicastRemoteObject implements Acheteur {
 
@@ -15,7 +15,7 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 
 	private String pseudo;
 	private VueClient vue;
-	private HotelDesVentes hdv;
+	private IHotelDesVentes hdv;
 	private Objet currentObjet;
 	private EtatClient etat = EtatClient.ATTENTE;
 	private Chrono chrono = new Chrono(10000, this); // Chrono de 30sc
@@ -28,9 +28,9 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 		this.currentObjet = hdv.getObjet();
 	}
 
-	public static HotelDesVentes connexionServeur() {
+	public static IHotelDesVentes connexionServeur() {
 		try {
-			HotelDesVentes hotelDesVentes = (HotelDesVentes) Naming.lookup("//" + adresseServeur);
+			IHotelDesVentes hotelDesVentes = (IHotelDesVentes) Naming.lookup("//" + adresseServeur);
 			System.out.println("Connexion au serveur " + adresseServeur + " reussi.");
 			return hotelDesVentes;
 		} catch (Exception e) {
@@ -122,11 +122,11 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 		return chrono.getTemps();
 	}
 
-	public HotelDesVentes getServeur() {
+	public IHotelDesVentes getServeur() {
 		return hdv;
 	}
 
-	public void setServeur(HotelDesVentes serveur) {
+	public void setServeur(IHotelDesVentes serveur) {
 		this.hdv = serveur;
 	}
 
