@@ -58,7 +58,7 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 			chrono.arreter();
 			vue.attente();
 			etat = EtatClient.ATTENTE;
-			hdv.rencherir(prix, this.getInfos() );
+			hdv.rencherir(prix, this.getInfos(), null );
 		}
 	}
 

@@ -21,10 +21,8 @@ public interface IHotelDesVentes extends Remote {
 
 	public boolean inscriptionAcheteur(String pseudo, ClientInfo client);
 
-	public void rencherir(int prix, ClientInfo client);
-
 	SalleDeVente rejoindreSalle(UUID roomId, UUID clientId) throws RemoteException;
 
-	SalleDeVente rejoindreSalle(UUID id) throws RemoteException;
+	void rencherir(int prix, ClientInfo client, UUID roomId);
 
 }

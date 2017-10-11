@@ -56,13 +56,15 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	@Override
 	public void login(String nomUtilisateur) {
 		// TODO Auto-generated method stub
-		
+		//Récupération de session
+		//login par mdp ?
 	}
 
 
 	@Override
 	public void logout() {
 		// TODO Auto-generated method stub
+		//Enlever client de la liste client de l'hdv et ch
 		
 	}
 
@@ -89,17 +91,11 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 
 
 	@Override
-	public void rencherir(int prix, ClientInfo client) {
+	public void rencherir(int prix, ClientInfo client, UUID roomId) {
 		// TODO Auto-generated method stub
 		
 	}
 
-
-	@Override
-	public SalleDeVente rejoindreSalle(UUID id) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	
 
