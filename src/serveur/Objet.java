@@ -10,7 +10,7 @@ public class Objet implements Serializable{
 	private int prixBase;
 	private int prixCourant;
 	private boolean disponible;
-	private String gagnant;
+	private ClientInfo gagnant;
 	
 	
 	
@@ -21,7 +21,7 @@ public class Objet implements Serializable{
 		this.prixBase = prixBase;
 		this.prixCourant = prixBase;
 		this.disponible = true;
-		this.gagnant = "";
+		this.gagnant = null;
 	}
 	
 	public String getNom() {
@@ -55,12 +55,12 @@ public class Objet implements Serializable{
 		this.prixCourant = prixCourant;
 	}
 
-	public String getGagnant() {
+	public ClientInfo getGagnant() {
 		return gagnant;
 	}
 
-	public void setGagnant(String gagnant) {
-		this.gagnant = gagnant;
+	public void setGagnant(ClientInfo client) {
+		this.gagnant = client;
 	}
 	
 	

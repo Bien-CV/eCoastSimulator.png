@@ -30,7 +30,7 @@ public interface ISalleDeVente extends Remote {
 	
 	public List<Objet> getListeObjets() throws RemoteException;
 	
-	public List<Acheteur> getListeAcheteurs() throws RemoteException;
+	public List<ClientInfo> getListeAcheteurs() throws RemoteException;
 
 
 }

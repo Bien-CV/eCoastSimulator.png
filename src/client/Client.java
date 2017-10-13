@@ -25,7 +25,7 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 		this.chrono.start();
 		this.pseudo = pseudo;
 		this.hdv = connexionServeur();
-		this.currentObjet = hdv.getObjet();
+		//this.currentObjet = hdv.getObjetEnVente();
 	}
 
 	public static IHotelDesVentes connexionServeur() {
@@ -41,9 +41,11 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 	}
 
 	public void inscription() throws Exception {
+		/*
 		if(!hdv.inscriptionAcheteur(pseudo, this.getInfos() )){
 			this.vue.attente();
 		}
+		*/
 	}
 
 	private ClientInfo getInfos() {
@@ -64,7 +66,7 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 
 	@Override
 	public void objetVendu(String gagnant) throws RemoteException {
-		this.currentObjet = hdv.getObjet();
+		//this.currentObjet = hdv.getObjet();
 		this.vue.actualiserObjet();
 		this.vue.reprise();
 		
@@ -77,10 +79,10 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 	}
 
 	@Override
-	public void nouveauPrix(int prix, Acheteur gagnant) throws RemoteException {
+	public void nouveauPrix(int prix, ClientInfo gagnant) throws RemoteException {
 		try {
 			this.currentObjet.setPrixCourant(prix);
-			this.currentObjet.setGagnant(gagnant.getPseudo());
+			this.currentObjet.setGagnant(gagnant);
 			this.vue.actualiserPrix();
 			this.vue.reprise();
 			this.etat = EtatClient.RENCHERI;
@@ -97,10 +99,10 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 		System.exit(0);
 	}
 	
-	public void nouvelleSoumission(String nom, String description, int prix) {
+	public void nouvelleSoumission(String nom, String description, int prix) throws RemoteException {
 		Objet nouveau = new Objet(nom, description, prix);
 		//TODO: Est-ce qu'on ajoute les objets par le hdv ou la salle direct ?
-		hdv.ajouterObjet(nouveau);
+		hdv.ajouterObjet(nouveau, null);//null == sdv
 		System.out.println("Soumission de l'objet " + nom + " au serveur.");
 	}
 

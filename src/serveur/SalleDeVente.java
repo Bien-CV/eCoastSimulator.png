@@ -2,8 +2,8 @@ package serveur;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
-//import java.util.ArrayList;
 //import java.util.HashMap;
 //import java.util.Iterator;
 //import java.util.Map;
@@ -17,9 +17,12 @@ public class SalleDeVente extends UnicastRemoteObject implements ISalleDeVente {
 
 	private static final long serialVersionUID = 1L;
 	private UUID id;
+	private List<ClientInfo> acheteurs= new ArrayList<ClientInfo>();
+	private List<Objet> objetsEnVente= new ArrayList<Objet>();
 	
-	protected SalleDeVente() throws RemoteException {
+	protected SalleDeVente(Objet o) throws RemoteException {
 		super();
+		objetsEnVente.add(o);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -49,9 +52,9 @@ public class SalleDeVente extends UnicastRemoteObject implements ISalleDeVente {
 	}
 
 	@Override
-	public List<Acheteur> getListeAcheteurs() throws RemoteException {
+	public List<ClientInfo> getListeAcheteurs() throws RemoteException {
 		// TODO Auto-generated method stub
-		return null;
+		return acheteurs;
 	}
 
 	public UUID getId() {

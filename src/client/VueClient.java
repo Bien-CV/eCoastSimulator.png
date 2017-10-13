@@ -214,7 +214,7 @@ public class VueClient extends JFrame implements ActionListener{
 		else if(arg0.getSource().equals(btnSoumettreObjet)) {
 			try {
 				currentClient.nouvelleSoumission(txtSoumettreNomObjet.getText(), txtSoumettreDescriptionObjet.getText(), Integer.parseInt(txtSoumettrePrixObjet.getText()));
-			} catch (NumberFormatException e) {
+			} catch (NumberFormatException | RemoteException e) {
 				System.out.println("Impossible de soumettre cet objet.");
 			}
 			frmSoumettre.dispose();
