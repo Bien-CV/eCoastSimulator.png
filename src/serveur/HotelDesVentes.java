@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import commun.Objet;
+
 @SuppressWarnings("serial")
 public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVentes {
 	private List<SalleDeVente> listeSalles =new ArrayList<SalleDeVente>();

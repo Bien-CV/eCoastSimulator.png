@@ -4,7 +4,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import serveur.Objet;
+import commun.Objet;
 import serveur.ClientInfo;
 import serveur.IHotelDesVentes;
 

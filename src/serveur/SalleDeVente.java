@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import client.Acheteur;
+import commun.Objet;
 
 public class SalleDeVente extends UnicastRemoteObject implements ISalleDeVente {
 

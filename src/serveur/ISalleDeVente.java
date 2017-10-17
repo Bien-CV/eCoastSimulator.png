@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 import client.Acheteur;
+import commun.Objet;
 
 public interface ISalleDeVente extends Remote {
 	

@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import serveur.Objet;
+import commun.Objet;
 
 public class VueClient extends JFrame implements ActionListener{
 
