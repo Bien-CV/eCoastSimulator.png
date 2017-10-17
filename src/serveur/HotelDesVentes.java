@@ -16,20 +16,15 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		// TODO Auto-generated constructor stub
 	}
 
-	//Méthode accessible par le client
-	@Override
-	public List<SalleDeVente> getListeSalles() throws RemoteException {
-		// TODO Auto-generated method stub
-		return listeSalles;
-	}
+
 
 	//Méthode accessible par le client
 	@Override
-	public boolean rejoindreSalle(UUID roomId, UUID clientId) throws RemoteException {
+	public boolean rejoindreSalle(UUID roomId, ClientInfo client) throws RemoteException {
 		// TODO Auto-generated method stub
-		ClientInfo client=getClientById(clientId);
+		ClientInfo fetchedClient=getClientById(client.getId());
 		//TODO: exécuter seulement si cette méthode est reçue du client approprié ( celui qui a pour id clienId)
-		return putClientInRoom(client,getSalleById(roomId));
+		return ajouterClientASalle(fetchedClient,getSalleById(roomId));
 	}
 
 	//Méthode accessible par le client
@@ -44,9 +39,7 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	//Méthode accessible par le client
 	@Override
 	public boolean login(UUID id, String nomUtilisateur) throws RemoteException{
-		// TODO Auto-generated method stub
-		//Récupération de session
-		//login par mdp ?
+		//TODO Récupération de session 
 
 		//Pas d'homonyme
 		for(ClientInfo c : listeClients){
@@ -70,12 +63,13 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	//un retour sur le succès ou pas de la méthode serait bienvenu
 	@Override
 	public void logout(ClientInfo client) {
-		// TODO Auto-generated method stub
-		//Enlever client de la liste client de l'hdv et ch
+		//Enlever client de la liste client de l'hdv 
+		//TODO Enlever client de chaque salle
 		listeClients.remove(client);
 	}
 
 	//Méthode accessible par le client
+	//Met en vente un objet créé par un client
 	@Override
 	public void ajouterObjet(Objet objetAVendre, UUID idSDV ) throws RemoteException {
 		// TODO Auto-generated method stub
@@ -112,7 +106,7 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		return null;
 	}
 
-	private boolean putClientInRoom(ClientInfo client, SalleDeVente room) throws RemoteException {
+	private boolean ajouterClientASalle(ClientInfo client, SalleDeVente room) throws RemoteException {
 		room.getListeAcheteurs().add(client);
 		return true;
 	}

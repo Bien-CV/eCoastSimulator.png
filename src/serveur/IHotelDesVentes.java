@@ -6,12 +6,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface IHotelDesVentes extends Remote {
-
-	public List<SalleDeVente> getListeSalles() throws RemoteException;
 	
 	public String getListeTextuelleDesSalles() throws RemoteException;
-
-	boolean rejoindreSalle(UUID roomId, UUID clientId) throws RemoteException;
 
 	SalleDeVente creerSalle(ClientInfo client, Objet o) throws RemoteException;
 
@@ -24,5 +20,7 @@ public interface IHotelDesVentes extends Remote {
 	Objet getObjetEnVente(UUID idSDV) throws RemoteException;
 
 	void ajouterObjet(Objet objetAVendre, UUID idSDV) throws RemoteException;
+
+	boolean rejoindreSalle(UUID roomId, ClientInfo clientId) throws RemoteException;
 
 }
