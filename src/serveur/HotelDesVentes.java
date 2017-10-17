@@ -25,20 +25,17 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 
 
 	@Override
-	public SalleDeVente rejoindreSalle(UUID roomId, UUID clientId) throws RemoteException {
+	public boolean rejoindreSalle(UUID roomId, UUID clientId) throws RemoteException {
 		// TODO Auto-generated method stub
 		ClientInfo client=getClientById(clientId);
-		//TODO: si cette méthode est reçue du client approprié ( celui qui a pour id clienId)
-		if(true){
-			putClientInRoom(client,getRoomById(roomId));
-		}
-		return null;
+		//TODO: exécuter seulement si cette méthode est reçue du client approprié ( celui qui a pour id clienId)
+		return putClientInRoom(client,getRoomById(roomId));
 	}
 
 
-	private void putClientInRoom(ClientInfo client, SalleDeVente room) throws RemoteException {
-		room.getListeAcheteurs().add(client); //add(clientById);
-		
+	private boolean putClientInRoom(ClientInfo client, SalleDeVente room) throws RemoteException {
+		room.getListeAcheteurs().add(client);
+		return true;
 	}
 
 
@@ -132,6 +129,13 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 				objEnVente.setGagnant(client);
 			}
 		}
+	}
+
+
+	@Override
+	public String getListeTextuelleDesSalles() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

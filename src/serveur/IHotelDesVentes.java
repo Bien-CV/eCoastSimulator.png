@@ -8,10 +8,12 @@ import java.util.UUID;
 public interface IHotelDesVentes extends Remote {
 
 	public List<SalleDeVente> getListeSalles() throws RemoteException;
+	
+	public String getListeTextuelleDesSalles() throws RemoteException;
 
 	//public boolean inscriptionAcheteur(String pseudo, ClientInfo client);
 
-	SalleDeVente rejoindreSalle(UUID roomId, UUID clientId) throws RemoteException;
+	boolean rejoindreSalle(UUID roomId, UUID clientId) throws RemoteException;
 
 	SalleDeVente creerSalle(ClientInfo client, Objet o) throws RemoteException;
 

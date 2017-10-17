@@ -1,12 +1,15 @@
 package serveur;
 
+import java.io.Serializable;
 //import java.util.List;
 import java.util.UUID;
 
 //TODO: On doit redéfinir equals, pour qu'un listeClients.remove(ClientInfo)
 //fonctionne, entre autres.
 
-public class ClientInfo {
+public class ClientInfo  implements Serializable {
+
+	private static final long serialVersionUID = 4979345072204388593L;
 	UUID id;
 	String nom;
 	//Timestamp ?
