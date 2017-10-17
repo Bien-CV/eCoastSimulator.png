@@ -3,8 +3,6 @@ package client;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import serveur.ClientInfo;
-
 public interface Acheteur extends Remote {
 
 	/**
@@ -21,7 +19,7 @@ public interface Acheteur extends Remote {
 
 	public long getChrono() throws RemoteException;
 
-	void nouveauPrix(int prix, ClientInfo gagnant) throws RemoteException;
+	void nouveauPrix(int prix, String gagnant) throws RemoteException;
 
 
 }

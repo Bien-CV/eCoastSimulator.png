@@ -19,6 +19,7 @@ public class SalleDeVente extends UnicastRemoteObject implements ISalleDeVente {
 	private UUID id;
 	private List<ClientInfo> acheteurs= new ArrayList<ClientInfo>();
 	private List<Objet> objetsEnVente= new ArrayList<Objet>();
+	private String nom;
 	
 	protected SalleDeVente(Objet o) throws RemoteException {
 		super();
@@ -60,6 +61,14 @@ public class SalleDeVente extends UnicastRemoteObject implements ISalleDeVente {
 	public UUID getId() {
 		// TODO Auto-generated method stub
 		return id;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 
 }

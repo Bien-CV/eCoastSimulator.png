@@ -7,11 +7,10 @@ public class Objet implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String nom;
 	private String description;
-	private int prixBase;
-	private int prixCourant;
+	private float prixBase;
+	private float prixCourant;
 	private boolean disponible;
-	private ClientInfo gagnant;
-	
+	private String nomGagnant;
 	
 	
 	public Objet(String nom, String description, int prixBase) {
@@ -21,7 +20,7 @@ public class Objet implements Serializable{
 		this.prixBase = prixBase;
 		this.prixCourant = prixBase;
 		this.disponible = true;
-		this.gagnant = null;
+		this.nomGagnant = "";
 	}
 	
 	public String getNom() {
@@ -36,7 +35,7 @@ public class Objet implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public int getPrixBase() {
+	public float getPrixBase() {
 		return prixBase;
 	}
 	public void setPrixBase(int prixBase) {
@@ -48,19 +47,19 @@ public class Objet implements Serializable{
 	public void setDisponible(boolean disponible) {
 		this.disponible = disponible;
 	}
-	public int getPrixCourant() {
+	public float getPrixCourant() {
 		return prixCourant;
 	}
 	public void setPrixCourant(int prixCourant) {
 		this.prixCourant = prixCourant;
 	}
 
-	public ClientInfo getGagnant() {
-		return gagnant;
+	public String getNomGagnant() {
+		return nomGagnant;
 	}
 
-	public void setGagnant(ClientInfo client) {
-		this.gagnant = client;
+	public void setNomGagnant(String nomGagnant) {
+		this.nomGagnant = nomGagnant;
 	}
 	
 	

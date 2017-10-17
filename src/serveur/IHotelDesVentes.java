@@ -2,14 +2,13 @@ package serveur;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.List;
 import java.util.UUID;
 
 public interface IHotelDesVentes extends Remote {
 	
 	public String getListeTextuelleDesSalles() throws RemoteException;
 
-	SalleDeVente creerSalle(ClientInfo client, Objet o) throws RemoteException;
+	UUID creerSalle(ClientInfo client, Objet o) throws RemoteException;
 
 	boolean login(UUID id, String nomUtilisateur) throws RemoteException;
 
@@ -21,6 +20,7 @@ public interface IHotelDesVentes extends Remote {
 
 	void ajouterObjet(Objet objetAVendre, UUID idSDV) throws RemoteException;
 
-	boolean rejoindreSalle(UUID roomId, ClientInfo clientId) throws RemoteException;
+	Objet rejoindreSalle(UUID roomId, ClientInfo clientId) throws RemoteException;
 
+	public boolean renommerSalle(UUID roomId, ClientInfo client) throws RemoteException;
 }

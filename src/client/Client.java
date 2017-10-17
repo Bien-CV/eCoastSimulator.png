@@ -79,10 +79,10 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 	}
 
 	@Override
-	public void nouveauPrix(int prix, ClientInfo gagnant) throws RemoteException {
+	public void nouveauPrix(int prix, String gagnant) throws RemoteException {
 		try {
 			this.currentObjet.setPrixCourant(prix);
-			this.currentObjet.setGagnant(gagnant);
+			this.currentObjet.setNomGagnant(gagnant);
 			this.vue.actualiserPrix();
 			this.vue.reprise();
 			this.etat = EtatClient.RENCHERI;

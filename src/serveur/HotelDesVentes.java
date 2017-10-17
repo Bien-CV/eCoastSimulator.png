@@ -13,27 +13,33 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 
 	protected HotelDesVentes() throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 
 
 	//Méthode accessible par le client
+	//Fonction partiellement implémentée : authentification
 	@Override
-	public boolean rejoindreSalle(UUID roomId, ClientInfo client) throws RemoteException {
-		// TODO Auto-generated method stub
+	public Objet rejoindreSalle(UUID roomId, ClientInfo client) throws RemoteException {
 		ClientInfo fetchedClient=getClientById(client.getId());
-		//TODO: exécuter seulement si cette méthode est reçue du client approprié ( celui qui a pour id clienId)
-		return ajouterClientASalle(fetchedClient,getSalleById(roomId));
+		SalleDeVente salleRejointe = getSalleById(roomId);
+		if ( fetchedClient == client ){
+			ajouterClientASalle(fetchedClient,salleRejointe);
+			return salleRejointe.getObjet();
+			
+		}
+		return null;
+		
+		
 	}
 
 	//Méthode accessible par le client
 	@Override
-	public SalleDeVente creerSalle(ClientInfo client, Objet o) throws RemoteException {
-		// TODO Auto-generated method stub
+	public UUID creerSalle(ClientInfo client, Objet o) throws RemoteException {
 		SalleDeVente nouvelleSDV=new SalleDeVente(o);
+		nouvelleSDV.setNom("SDV "+nouvelleSDV.getId());
 		listeSalles.add(nouvelleSDV);
-		return nouvelleSDV;
+		return nouvelleSDV.getId();
 	}
 
 	//Méthode accessible par le client
@@ -92,9 +98,9 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		Objet objEnVente = getObjetEnVente(idSDV);
 
 		if(objEnVente.getPrixCourant()<prix){
-			if( objEnVente.getGagnant()!=getClientById(clientId)){
+			if( objEnVente.getNomGagnant()!=getClientById(clientId).getNom()){
 				objEnVente.setPrixCourant(prix);
-				objEnVente.setGagnant(getClientById(clientId));
+				objEnVente.setNomGagnant(getClientById(clientId).getNom());
 			}
 		}
 	}
@@ -131,6 +137,14 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		return null;
 		// TODO Auto-generated method stub
 
+	}
+
+
+
+	@Override
+	public boolean renommerSalle(UUID roomId, ClientInfo client) throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 

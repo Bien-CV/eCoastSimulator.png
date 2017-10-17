@@ -146,14 +146,14 @@ public class VueClient extends JFrame implements ActionListener{
 	
 	public void actualiserPrix() {
 		lblPrixObjet.setText("Prix courant : " + currentClient.getCurrentObjet().getPrixCourant() + " euros");
-		lblPseudo.setText("Gagnant : " + this.currentClient.getCurrentObjet().getGagnant());
+		lblPseudo.setText("Gagnant : " + this.currentClient.getCurrentObjet().getNomGagnant());
 		txtEncherir.setText("");
 	}
 	
 	public void actualiserObjet() {
 		Objet objet = currentClient.getCurrentObjet();
 		lblPrixObjet.setText("Prix courant : " + objet.getPrixCourant() + " euros");
-		lblPseudo.setText("Gagnant : " + objet.getGagnant());
+		lblPseudo.setText("Gagnant : " + objet.getNomGagnant());
 		lblDescriptionObjet.setText(objet.getDescription());
 		txtEncherir.setText("");
 		
