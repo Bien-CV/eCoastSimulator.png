@@ -95,7 +95,7 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	public void rencherir(int prix, UUID clientId, UUID idSDV) throws RemoteException {
 		// TODO Auto-generated method stub
 
-		Objet objEnVente = getObjetEnVente(getSalleById(idSDV));
+		Objet objEnVente = getObjetEnVente(idSDV);
 
 		if(objEnVente.getPrixCourant()<prix){
 			if( objEnVente.getGagnant()!=getClientById(clientId)){
