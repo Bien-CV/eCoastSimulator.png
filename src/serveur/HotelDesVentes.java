@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import commun.InfoSalleDeVente;
 import commun.Objet;
 
 @SuppressWarnings("serial")
@@ -106,14 +107,22 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 			}
 		}
 	}
+	
+	//Méthode accessible par le client
+	@Override
+	public boolean renommerSalle(UUID roomId, ClientInfo client) throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 	//Méthode accessible par le client
 	@Override
-	public String getListeTextuelleDesSalles() throws RemoteException {
+	public ArrayList<InfoSalleDeVente> getListeSalles() throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	private boolean ajouterClientASalle(ClientInfo client, SalleDeVente room) throws RemoteException {
 		room.getListeAcheteurs().add(client);
 		return true;
@@ -143,11 +152,6 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 
 
 
-	@Override
-	public boolean renommerSalle(UUID roomId, ClientInfo client) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 
 
