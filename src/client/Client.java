@@ -11,7 +11,9 @@ import java.util.UUID;
 import java.util.HashMap;
 
 import commun.ClientInfo;
+import commun.DejaConnecteException;
 import commun.Objet;
+import commun.PseudoDejaUtiliseException;
 import serveur.IHotelDesVentes;
 
 public class Client extends UnicastRemoteObject implements IClient {
@@ -50,7 +52,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	public void connexion () {
 		try {
 			hdv.login(id, pseudo);
-		} catch (RemoteException e) {
+		} catch (RemoteException | PseudoDejaUtiliseException | DejaConnecteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

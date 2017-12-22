@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import commun.ClientInfo;
+import commun.DejaConnecteException;
 import commun.InfoSalleDeVente;
 import commun.Objet;
+import commun.PseudoDejaUtiliseException;
 
 public interface IHotelDesVentes extends Remote {
 	
@@ -15,7 +17,7 @@ public interface IHotelDesVentes extends Remote {
 
 	UUID creerSalle(ClientInfo client, Objet o, String nomDeSalle) throws RemoteException;
 
-	boolean login(UUID id, String nomUtilisateur) throws RemoteException;
+	void login(UUID id, String nomUtilisateur) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException;
 
 	void logout(ClientInfo client) throws RemoteException;
 

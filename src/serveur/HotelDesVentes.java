@@ -11,9 +11,11 @@ import java.util.List;
 import java.util.UUID;
 
 import commun.ClientInfo;
+import commun.DejaConnecteException;
 import commun.DejaDansLaSalleException;
 import commun.InfoSalleDeVente;
 import commun.Objet;
+import commun.PseudoDejaUtiliseException;
 
 @SuppressWarnings("serial")
 public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVentes {
@@ -54,24 +56,23 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 
 	//Méthode accessible par le client
 	@Override
-	public boolean login(UUID id, String nomUtilisateur) throws RemoteException{
+	public void login(UUID id, String nomUtilisateur) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException{
 		//TODO Récupération de session 
 
 		//Pas d'homonyme
 		for(ClientInfo c : listeClients){
 			if (( c.getNom() == nomUtilisateur ) && ( c.getId()!=id )){
-				return false;
+				throw new PseudoDejaUtiliseException();
 			}
 		}
 		//Pas déjà enregistré
 		for(ClientInfo c : listeClients){
 			if (c.getId()==id ){
-				return false;
+				throw new DejaConnecteException();
 			}
 		}
 
 		listeClients.add(new ClientInfo(id,nomUtilisateur));
-		return true;
 	}
 
 
