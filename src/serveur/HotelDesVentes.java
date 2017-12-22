@@ -11,9 +11,11 @@ import commun.Objet;
 
 @SuppressWarnings("serial")
 public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVentes {
+	static final int INDEX_PREMIER_OBJET=0;
+	
 	private List<SalleDeVente> listeSalles =new ArrayList<SalleDeVente>();
 	private List<ClientInfo> listeClients =new ArrayList<ClientInfo>();
-
+	
 	protected HotelDesVentes() throws RemoteException {
 		super();
 	}
@@ -89,8 +91,8 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	@Override
 	public Objet getObjetEnVente(UUID idSDV) throws RemoteException {
 		// TODO Auto-generated method stub
-
-		return getSalleById(idSDV).getListeObjets().get(0);
+		
+		return getSalleById(idSDV).getListeObjets().get(INDEX_PREMIER_OBJET);
 	}
 
 	//Méthode accessible par le client
