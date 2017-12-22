@@ -14,6 +14,7 @@ import java.util.UUID;
 import commun.Objet;
 
 public class SalleDeVente extends UnicastRemoteObject {
+	static final int INDEX_PREMIER_OBJET = 0;
 
 	private static final long serialVersionUID = 1L;
 	private UUID id;
@@ -38,6 +39,10 @@ public class SalleDeVente extends UnicastRemoteObject {
 	public Objet getObjet(){
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public Objet getObjetCourant() {
+		return objetsEnVente.get(INDEX_PREMIER_OBJET);
 	}
 
 	public ArrayList<Objet> getListeObjets(){
