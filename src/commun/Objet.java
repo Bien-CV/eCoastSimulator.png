@@ -1,6 +1,7 @@
 package commun;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Objet implements Serializable{
@@ -67,8 +68,8 @@ public class Objet implements Serializable{
 	}
 	
 	public static Date ajouterSeconde(Date date, int nbSeconde) {
-		Calendar cal = Calendar.getlnstance();
-		cal.setTime(date.getTime());
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
 		cal.add(Calendar.SECOND, nbSeconde);
 		return cal.getTime();
 	}
