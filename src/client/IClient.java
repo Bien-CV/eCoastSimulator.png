@@ -8,8 +8,6 @@ public interface IClient extends Remote {
 	
 	void fermetureSalle (UUID idSDV);
 	
-	void objetVendu (Objet objetSuivant);
-	
-	void surenchere (float nouveauPrix, String gagnant);
+	void notifyNouvelleEnchere (float nouveauPrix, String gagnant, UUID idObjet);
 	
 }

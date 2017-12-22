@@ -26,8 +26,9 @@ public class SalleDeVente extends UnicastRemoteObject {
 	private List<Objet> objetsVendus = new ArrayList<Objet>();
 	private String nom;
 	
-	protected SalleDeVente(Objet o) throws RemoteException {
+	protected SalleDeVente(Objet o,String n) throws RemoteException {
 		super();
+		this.setNom=n;
 		objetsEnVente.add(o);
 		debutVente();
 	}

@@ -44,9 +44,8 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 
 	//Méthode accessible par le client
 	@Override
-	public UUID creerSalle(ClientInfo client, Objet o) throws RemoteException {
-		SalleDeVente nouvelleSDV=new SalleDeVente(o);
-		nouvelleSDV.setNom("SDV "+nouvelleSDV.getId());
+	public UUID creerSalle(ClientInfo client, Objet o,String nomDeSalle) throws RemoteException {
+		SalleDeVente nouvelleSDV=new SalleDeVente(o,nomDeSalle);
 		listeSalles.add(nouvelleSDV);
 		return nouvelleSDV.getId();
 	}
