@@ -111,4 +111,24 @@ public class Client extends UnicastRemoteObject {
 		this.hdv = serveur;
 	}
 
+	public void setVue(VueClient vueClient) {
+		vue = vueClient;
+	}
+
+	public EtatClient getEtat() {
+		return this.etat;
+	}
+	
+
+	public void updateChrono(){
+		this.vue.updateChrono(this.chrono.getTemps(), this.chrono.getTempsFin());
+	}
+	
+	public void notifyNouvelleEnchere (float nouveauPrix, String gagnant, UUID idObjet) {
+		
+	}
+	
+	void notifyNouvelleVente (UUID idObjet, UUID idSalle) {
+		
+	}
 }
