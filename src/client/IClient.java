@@ -1,9 +1,11 @@
 package client;
 
+import java.rmi.Naming;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.UUID;
 import commun.*;
+import serveur.IHotelDesVentes;
 
 public interface IClient extends Remote {
 	
@@ -15,4 +17,5 @@ public interface IClient extends Remote {
 	
 	public void nouveauMessage (UUID idSalle, String pseudo, String message) throws RemoteException;
 	
+	void connexionClient();
 }

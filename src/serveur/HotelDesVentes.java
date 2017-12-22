@@ -4,6 +4,7 @@
 
 package serveur;
 
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import client.IClient;
 import commun.ClientInfo;
 import commun.DejaConnecteException;
 import commun.DejaDansLaSalleException;
@@ -47,6 +49,19 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		
 		
 	}
+
+
+public static IClient connexionClient() {
+	try {
+		IClient client = (IClient) Naming.lookup("//" + adresseServeur);
+		System.out.println("Connexion au serveur " + adresseServeur + " reussi.");
+		return hotelDesVentes;
+	} catch (Exception e) {
+		System.out.println("Connexion au serveur " + adresseServeur + " impossible.");
+		e.printStackTrace();
+		return null;
+	}
+}
 
 	//Méthode accessible par le client
 	@Override

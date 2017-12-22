@@ -20,6 +20,12 @@ public class Client extends UnicastRemoteObject implements IClient {
 
 	private static final long serialVersionUID = 1L;
 	private static final String adresseServeur = "localhost:8090/hoteldesventes";
+	
+	private String adresseClient;
+	
+	public String getAdresseClient() {
+		return adresseClient;
+	}
 
 	private String pseudo;
 	private IHotelDesVentes hdv;
@@ -37,6 +43,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 		this.ventesSuivies = new HashMap<UUID, Objet>();
 		this.id = UUID.randomUUID();
 		this.myClientInfos = new ClientInfo(this.id, this.pseudo);
+		this.adresseClient="localhost:8090/"+id.toString();
 	}
 
 	public static IHotelDesVentes connexionServeur() {
