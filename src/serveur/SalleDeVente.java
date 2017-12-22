@@ -30,7 +30,6 @@ public class SalleDeVente extends UnicastRemoteObject {
 		super();
 		objetsEnVente.add(o);
 		debutVente();
-		// TODO Auto-generated constructor stub
 	}
 
 	public void ajouterObjet(Objet objet){
@@ -43,11 +42,6 @@ public class SalleDeVente extends UnicastRemoteObject {
 		}
 		else acheteurs.add(client);
 	}
-
-	public Objet getObjet(){
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	public Objet getObjetCourant() {
 		return objetsEnVente.get(INDEX_PREMIER_OBJET);
@@ -58,12 +52,10 @@ public class SalleDeVente extends UnicastRemoteObject {
 	}
 
 	public List<ClientInfo> getListeAcheteurs(){
-		// TODO Auto-generated method stub
 		return acheteurs;
 	}
 
 	public UUID getId() {
-		// TODO Auto-generated method stub
 		return id;
 	}
 
