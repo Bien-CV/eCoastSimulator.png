@@ -1,16 +1,12 @@
 //Manipulé uniquement par HotelDesVentes.java
 
-package serveur;
+package commun;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import commun.ClientInfo;
-import commun.DejaDansLaSalleException;
-import commun.Objet;
 
 public class SalleDeVente extends UnicastRemoteObject {
 	static final int INDEX_PREMIER_OBJET = 0;
@@ -22,7 +18,7 @@ public class SalleDeVente extends UnicastRemoteObject {
 	private List<Objet> objetsVendus = new ArrayList<Objet>();
 	private String nom;
 	
-	protected SalleDeVente(Objet o,String n) throws RemoteException {
+	public SalleDeVente(Objet o,String n) throws RemoteException {
 		super();
 		this.nom = n;
 		objetsEnVente.add(o);

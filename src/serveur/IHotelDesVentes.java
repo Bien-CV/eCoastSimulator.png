@@ -7,13 +7,13 @@ import java.util.UUID;
 
 import commun.ClientInfo;
 import commun.DejaConnecteException;
-import commun.InfoSalleDeVente;
 import commun.Objet;
 import commun.PseudoDejaUtiliseException;
+import commun.SalleDeVente;
 
 public interface IHotelDesVentes extends Remote {
 	
-	public ArrayList<InfoSalleDeVente> getListeSalles() throws RemoteException;
+	public ArrayList<SalleDeVente> getListeSalles() throws RemoteException;
 
 	UUID creerSalle(ClientInfo client, Objet o, String nomDeSalle) throws RemoteException;
 
@@ -30,4 +30,5 @@ public interface IHotelDesVentes extends Remote {
 	public Objet rejoindreSalle(UUID roomId, ClientInfo clientId) throws RemoteException;
 
 	public SalleDeVente getSalleById(UUID roomId);
+	
 }

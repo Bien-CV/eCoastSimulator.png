@@ -116,4 +116,8 @@ public class Client extends UnicastRemoteObject implements IClient {
 	public void rejoindreSalle(UUID idSalle) {
 
 	}
+	
+	public HashMap<UUID, Objet> getVentesSuivies() {
+		return null;
+	}
 }

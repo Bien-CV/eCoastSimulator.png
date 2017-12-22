@@ -13,9 +13,9 @@ import java.util.UUID;
 import commun.ClientInfo;
 import commun.DejaConnecteException;
 import commun.DejaDansLaSalleException;
-import commun.InfoSalleDeVente;
 import commun.Objet;
 import commun.PseudoDejaUtiliseException;
+import commun.SalleDeVente;
 
 @SuppressWarnings("serial")
 public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVentes {
@@ -118,7 +118,7 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 
 	//Méthode accessible par le client
 	@Override
-	public ArrayList<InfoSalleDeVente> getListeSalles() throws RemoteException {
+	public ArrayList<SalleDeVente> getListeSalles() throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
