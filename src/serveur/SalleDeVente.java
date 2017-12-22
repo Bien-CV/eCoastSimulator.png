@@ -26,6 +26,7 @@ public class SalleDeVente extends UnicastRemoteObject {
 		this.nom = n;
 		objetsEnVente.add(o);
 		debutVente();
+		id = UUID.randomUUID();
 	}
 
 	public void ajouterObjet(Objet objet){
