@@ -32,7 +32,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 		this.hdv = connexionServeur();
 		this.ventesSuivies = new HashMap<UUID, Objet>();
 		this.id = UUID.randomUUID();
-		this.myClientInfos=new ClientInfo(this.id, this.pseudo);
+		this.myClientInfos = new ClientInfo(this.id, this.pseudo);
 	}
 
 	public static IHotelDesVentes connexionServeur() {
