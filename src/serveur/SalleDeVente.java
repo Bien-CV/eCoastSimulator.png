@@ -30,7 +30,6 @@ public class SalleDeVente extends UnicastRemoteObject {
 	protected SalleDeVente(Objet o) throws RemoteException {
 		super();
 		objetsEnVente.add(o);
-		// TODO Auto-generated constructor stub
 	}
 
 	public void ajouterObjet(Objet objet){
@@ -53,12 +52,10 @@ public class SalleDeVente extends UnicastRemoteObject {
 	}
 
 	public List<ClientInfo> getListeAcheteurs(){
-		// TODO Auto-generated method stub
 		return acheteurs;
 	}
 
 	public UUID getId() {
-		// TODO Auto-generated method stub
 		return id;
 	}
 
