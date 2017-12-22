@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import commun.ClientInfo;
 import commun.DejaDansLaSalleException;
 import commun.Objet;
 

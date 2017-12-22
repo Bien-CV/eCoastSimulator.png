@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import commun.ClientInfo;
 import commun.InfoSalleDeVente;
 import commun.Objet;
 

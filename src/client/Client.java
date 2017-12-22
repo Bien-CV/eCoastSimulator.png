@@ -10,8 +10,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.UUID;
 import java.util.HashMap;
 
+import commun.ClientInfo;
 import commun.Objet;
-import serveur.ClientInfo;
 import serveur.IHotelDesVentes;
 
 public class Client extends UnicastRemoteObject implements IClient {
@@ -23,6 +23,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	private IHotelDesVentes hdv;
 	private HashMap<UUID, Objet> ventesSuivies;
 	private UUID id;
+	private ClientInfo myClientInfos;
 	
 
 	public Client(String pseudo) throws RemoteException {
@@ -31,6 +32,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 		this.hdv = connexionServeur();
 		this.ventesSuivies = new HashMap<UUID, Objet>();
 		this.id = UUID.randomUUID();
+		this.myClientInfos=new ClientInfo(this.id, this.pseudo);
 		//this.currentObjet = hdv.getObjetEnVente();
 	}
 
@@ -52,11 +54,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 			this.vue.attente();
 		}
 		*/
-	}
-
-	private ClientInfo getInfos() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	public void nouvelleSoumission(String nom, String description, int prix, UUID idSdv) throws RemoteException {
