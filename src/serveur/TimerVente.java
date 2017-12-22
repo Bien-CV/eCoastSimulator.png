@@ -1,7 +1,9 @@
-package commun;
+package serveur;
 
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 public class TimerVente {
 	private Date dateDeFin;
@@ -12,7 +14,7 @@ public class TimerVente {
 	}
 	
 	public static void main(final String[] args) {
-	    TimerTask timerTask = new TaskObjetSuivant();
+	    TimerTask timerTask = new TaskObjetSuivantClient();
 	    Timer timer = new Timer(true);
 	    timer.schedule(timerTask(idSdv),dateDeFin);
 	  }

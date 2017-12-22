@@ -1,5 +1,6 @@
 //TODO:
 //notifyNouvelleEnchere donne l'idObjet, le nouveau prix et le nouveau gagnant de l'objet au client
+// faire getSalleByID
 
 package serveur;
 
@@ -149,7 +150,7 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	}
 
 
-	private SalleDeVente getSalleById(UUID roomId) {
+	public SalleDeVente getSalleById(UUID roomId) {
 
 		for (SalleDeVente sdv : listeSalles ){
 			if ( sdv.getId()==roomId ) return sdv;
