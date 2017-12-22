@@ -63,6 +63,7 @@ public class Objet implements Serializable{
 	
 	public void miseEnVente () {
 		dateDeMiseEnVente = new Date();
+		dateDeFinDeVente = ajouterSeconde(dateDeMiseEnVente, 30);
 	}
 	
 	public static Date ajouterSeconde(Date date, int nbSeconde) {
