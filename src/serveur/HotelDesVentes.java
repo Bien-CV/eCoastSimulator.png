@@ -113,13 +113,6 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 			}
 		}
 	}
-	
-	//Méthode accessible par le client
-	@Override
-	public void renommerSalle(UUID roomId, ClientInfo client, String nomDeSalle) throws RemoteException{
-		getSalleById(roomId).setNom(nomDeSalle);
-	}
-
 
 	//Méthode accessible par le client
 	@Override
