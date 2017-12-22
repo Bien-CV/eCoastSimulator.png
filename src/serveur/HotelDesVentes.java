@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import commun.DejaDansLaSalleException;
 import commun.InfoSalleDeVente;
 import commun.Objet;
 
@@ -128,9 +129,13 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		return null;
 	}
 	
-	private boolean ajouterClientASalle(ClientInfo client, SalleDeVente room) throws RemoteException {
-		room.ajouterClient(client);
-		return true;
+	private void ajouterClientASalle(ClientInfo client, SalleDeVente room) throws RemoteException {
+		try {
+			room.ajouterClient(client);
+		}
+		catch (DejaDansLaSalleException e) {
+
+		}
 	}
 
 

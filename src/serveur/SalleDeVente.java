@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Date;
 import java.util.UUID;
 
+import commun.DejaDansLaSalleException;
 import commun.Objet;
 
 public class SalleDeVente extends UnicastRemoteObject {
@@ -35,8 +36,11 @@ public class SalleDeVente extends UnicastRemoteObject {
 		objetsEnVente.add(objet);
 	}
 	
-	public void ajouterClient(ClientInfo client) {
-		acheteurs.add(client);
+	public void ajouterClient(ClientInfo client) throws DejaDansLaSalleException {
+		if (acheteurs.contains(client)) {
+			throw new DejaDansLaSalleException();
+		}
+		else acheteurs.add(client);
 	}
 
 	public Objet getObjet(){
