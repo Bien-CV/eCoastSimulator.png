@@ -28,8 +28,11 @@ public class SalleDeVente extends UnicastRemoteObject {
 	}
 
 	public void ajouterObjet(Objet objet){
-		// TODO Auto-generated method stub
-
+		objetsEnVente.add(objet);
+	}
+	
+	public void ajouterClient(ClientInfo client) {
+		acheteurs.add(client);
 	}
 
 	public Objet getObjet(){
@@ -38,8 +41,7 @@ public class SalleDeVente extends UnicastRemoteObject {
 	}
 
 	public ArrayList<Objet> getListeObjets(){
-		// TODO Auto-generated method stub
-		return null;
+		return objetsEnVente;
 	}
 
 	public List<ClientInfo> getListeAcheteurs(){

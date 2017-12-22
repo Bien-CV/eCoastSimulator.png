@@ -126,7 +126,7 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	}
 	
 	private boolean ajouterClientASalle(ClientInfo client, SalleDeVente room) throws RemoteException {
-		room.getListeAcheteurs().add(client);
+		room.ajouterClient(client);
 		return true;
 	}
 
