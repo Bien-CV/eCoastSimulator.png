@@ -86,8 +86,8 @@ public class Client extends UnicastRemoteObject {
 	public void nouvelleSoumission(String nom, String description, int prix, UUID idSdv) throws RemoteException {
 		Objet nouveau = new Objet(nom, description, prix,pseudo);
 		//TODO: ajoute objet par le hdv
-		hdv.ajouterObjet(nouveau, null);//null == sdv
-		System.out.println("Soumission de l'objet " + nom + " au serveur.");
+		hdv.ajouterObjet(nouveau, idSdv);
+		//print des informations sur l'ajout
 	}
 
 	public static void main(String[] argv) {
@@ -98,12 +98,10 @@ public class Client extends UnicastRemoteObject {
 		}
 	}
 
-	// getters and setters
-	public Objet getCurrentObjet() {
-		return currentObjet;
+
+	public Objet notifyVenteSuivante() {
+		//TODO: Doit lancer la vente suivante
 	}
-
-
 
 	public IHotelDesVentes getServeur() {
 		return hdv;
@@ -111,19 +109,6 @@ public class Client extends UnicastRemoteObject {
 
 	public void setServeur(IHotelDesVentes serveur) {
 		this.hdv = serveur;
-	}
-
-	public void setVue(VueClient vueClient) {
-		vue = vueClient;
-	}
-
-	public EtatClient getEtat() {
-		return this.etat;
-	}
-	
-
-	public void updateChrono(){
-		this.vue.updateChrono(this.chrono.getTemps(), this.chrono.getTempsFin());
 	}
 
 }
