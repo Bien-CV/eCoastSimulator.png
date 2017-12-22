@@ -34,6 +34,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 		this.pseudo = pseudo;
 		this.hdv = connexionServeur();
 		this.ventesSuivies = new HashMap<UUID, Objet>();
+		this.id = UUID.randomUUID();
 		//this.currentObjet = hdv.getObjetEnVente();
 	}
 
