@@ -11,7 +11,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Date;
 import java.util.UUID;
 
 import commun.DejaDansLaSalleException;
@@ -30,6 +29,7 @@ public class SalleDeVente extends UnicastRemoteObject {
 	protected SalleDeVente(Objet o) throws RemoteException {
 		super();
 		objetsEnVente.add(o);
+		debutVente();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -78,6 +78,11 @@ public class SalleDeVente extends UnicastRemoteObject {
 	public void venteSuivante() {
 		objetsVendus.add(getObjetCourant());
 		objetsEnVente.remove(INDEX_PREMIER_OBJET);
+		debutVente();
+	}
+	
+	public void debutVente() {
+		getObjetCourant().miseEnVente();
 	}
 
 }

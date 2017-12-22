@@ -60,6 +60,9 @@ public class Objet implements Serializable{
 		this.nomGagnant = nomGagnant;
 	}
 	
+	public void miseEnVente () {
+		dateDeMiseEnVente = new Date();
+	}
 	
 	
 }
