@@ -56,6 +56,15 @@ public class Client extends UnicastRemoteObject implements IClient {
 		}
 	}
 	
+	public void deconnexion () {
+		try {
+			hdv.logout(myClientInfos);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void nouvelleSoumission(String nom, String description, int prix, UUID idSdv) throws RemoteException {
 		Objet nouveau = new Objet(nom, description, prix,pseudo);
 		//TODO: ajoute objet par le hdv

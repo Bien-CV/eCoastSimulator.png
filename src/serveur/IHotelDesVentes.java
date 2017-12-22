@@ -17,7 +17,7 @@ public interface IHotelDesVentes extends Remote {
 
 	boolean login(UUID id, String nomUtilisateur) throws RemoteException;
 
-	void logout(ClientInfo client);
+	void logout(ClientInfo client) throws RemoteException;
 
 	void rencherir(int prix, UUID clientId, UUID idSDV) throws RemoteException;
 
