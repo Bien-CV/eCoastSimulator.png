@@ -113,14 +113,6 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 			}
 		}
 	}
-	
-	//Méthode accessible par le client
-	@Override
-	public boolean renommerSalle(UUID roomId, ClientInfo client) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 
 	//Méthode accessible par le client
 	@Override
