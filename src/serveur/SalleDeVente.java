@@ -4,6 +4,7 @@
 //ajouterObjet
 //getObjet
 //Initialiser la date de mise en vente de l'objet lors de sa mise en vente
+
 package serveur;
 
 import java.rmi.RemoteException;

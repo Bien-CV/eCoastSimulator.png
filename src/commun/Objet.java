@@ -10,21 +10,21 @@ public class Objet implements Serializable{
 	private String description;
 	private float prixBase;
 	private float prixCourant;
-	private boolean disponible;
 	private String nomGagnant;
+	private String nomProprietaire;
 	
 	//Initialisé par la salle de vente lors de la mise en vente de l'objet
 	private Date dateDeMiseEnVente = null;
 	
 	
-	public Objet(String nom, String description, int prixBase) {
+	public Objet(String nom, String description, int prixBase, String nomDuProprietaire) {
 		super();
 		this.nom = nom;
 		this.description = description;
 		this.prixBase = prixBase;
 		this.prixCourant = prixBase;
-		this.disponible = true;
 		this.nomGagnant = "";
+		this.nomProprietaire = nomDuProprietaire;
 	}
 	
 	public String getNom() {
@@ -44,12 +44,6 @@ public class Objet implements Serializable{
 	}
 	public void setPrixBase(int prixBase) {
 		this.prixBase = prixBase;
-	}
-	public boolean isDisponible() {
-		return disponible;
-	}
-	public void setDisponible(boolean disponible) {
-		this.disponible = disponible;
 	}
 	public float getPrixCourant() {
 		return prixCourant;
