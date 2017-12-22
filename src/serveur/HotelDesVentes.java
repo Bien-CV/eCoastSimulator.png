@@ -1,5 +1,5 @@
 //TODO:
-//
+//notifyNouvelleEnchere donne l'idObjet, le nouveau prix et le nouveau gagnant de l'objet au client
 
 package serveur;
 
@@ -154,13 +154,4 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		// TODO Auto-generated method stub
 
 	}
-
-
-
-
-
-
-
-
-
 }

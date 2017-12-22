@@ -1,6 +1,7 @@
 package commun;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Objet implements Serializable{
 
@@ -11,6 +12,9 @@ public class Objet implements Serializable{
 	private float prixCourant;
 	private boolean disponible;
 	private String nomGagnant;
+	
+	//Initialisé par la salle de vente lors de la mise en vente de l'objet
+	private Date dateDeMiseEnVente=null;
 	
 	
 	public Objet(String nom, String description, int prixBase) {

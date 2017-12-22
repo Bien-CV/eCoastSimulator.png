@@ -1,13 +1,16 @@
 //Manipulé uniquement par HotelDesVentes.java
+//Cas non-géré : Un objet invendu à la fin de son timer 
 //Manque :
 //ajouterObjet
 //getObjet
+//Initialiser la date de mise en vente de l'objet lors de sa mise en vente
 package serveur;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 import java.util.UUID;
 
 import commun.Objet;
