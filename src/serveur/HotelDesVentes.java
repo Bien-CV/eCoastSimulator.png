@@ -44,7 +44,7 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 
 	//Méthode accessible par le client
 	@Override
-	public UUID creerSalle(ClientInfo client, Objet o,String nomDeSalle) throws RemoteException {
+	public UUID creerSalle(ClientInfo client, Objet o, String nomDeSalle) throws RemoteException {
 		SalleDeVente nouvelleSDV=new SalleDeVente(o,nomDeSalle);
 		listeSalles.add(nouvelleSDV);
 		return nouvelleSDV.getId();
@@ -158,4 +158,5 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		// TODO Auto-generated method stub
 
 	}
+
 }

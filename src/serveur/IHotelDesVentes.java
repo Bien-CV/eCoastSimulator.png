@@ -12,7 +12,7 @@ public interface IHotelDesVentes extends Remote {
 	
 	public ArrayList<InfoSalleDeVente> getListeSalles() throws RemoteException;
 
-	UUID creerSalle(ClientInfo client, Objet o) throws RemoteException;
+	UUID creerSalle(ClientInfo client, Objet o, String nomDeSalle) throws RemoteException;
 
 	boolean login(UUID id, String nomUtilisateur) throws RemoteException;
 

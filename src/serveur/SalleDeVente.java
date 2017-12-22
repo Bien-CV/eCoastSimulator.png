@@ -23,7 +23,7 @@ public class SalleDeVente extends UnicastRemoteObject {
 	
 	protected SalleDeVente(Objet o,String n) throws RemoteException {
 		super();
-		this.setNom=n;
+		this.nom = n;
 		objetsEnVente.add(o);
 		debutVente();
 	}
