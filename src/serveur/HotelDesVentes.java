@@ -162,4 +162,16 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		mapSalles.remove(roomID);
 	}
 
+
+
+	@Override
+	public void posterMessage(UUID idSalle, String pseudo, String message) throws RemoteException {
+		SalleDeVente SDV = getSalleById(idSalle);
+		SDV.nouveauMessage(pseudo, message);
+		List<ClientInfo> listeDiffusion = SDV.getListeAcheteurs();
+		for (ClientInfo ci : listeDiffusion ) {
+			
+		}
+	}
+
 }

@@ -24,6 +24,8 @@ public class Client extends UnicastRemoteObject implements IClient {
 	private String pseudo;
 	private IHotelDesVentes hdv;
 	private HashMap<UUID, Objet> ventesSuivies;
+	// liste des messages postés dans les différentes salles de ventes suivies
+	private HashMap<UUID, HashMap<String, String>> listesMessages;
 	private UUID id;
 	private ClientInfo myClientInfos;
 	
@@ -119,5 +121,12 @@ public class Client extends UnicastRemoteObject implements IClient {
 	
 	public HashMap<UUID, Objet> getVentesSuivies() {
 		return ventesSuivies;
+	}
+
+	@Override
+	public void nouveauMessage(UUID idSalle, String pseudo, String message) {
+		HashMap<String, String> messages = listesMessages.get(idSalle);
+		messages.put(pseudo, message);
+		listesMessages.put(idSalle, messages);
 	}
 }

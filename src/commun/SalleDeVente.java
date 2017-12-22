@@ -7,6 +7,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.HashMap;
 
 public class SalleDeVente extends UnicastRemoteObject {
 	static final int INDEX_PREMIER_OBJET = 0;
@@ -16,6 +17,7 @@ public class SalleDeVente extends UnicastRemoteObject {
 	private List<ClientInfo> acheteurs = new ArrayList<ClientInfo>();
 	private List<Objet> objetsEnVente = new ArrayList<Objet>();
 	private List<Objet> objetsVendus = new ArrayList<Objet>();
+	private HashMap<String, String> listeMessages = new HashMap<String, String>();
 	private String nom;
 	
 	public SalleDeVente(Objet o,String n) throws RemoteException {
@@ -73,6 +75,14 @@ public class SalleDeVente extends UnicastRemoteObject {
 	
 	public int nombreAcheteurs() {
 		return acheteurs.size();
+	}
+	
+	public void nouveauMessage (String pseudo, String message) {
+		listeMessages.put(pseudo, message);
+	}
+	
+	public HashMap<String, String> getListeMessages() {
+		return listeMessages;
 	}
 
 }
