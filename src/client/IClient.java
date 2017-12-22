@@ -16,6 +16,5 @@ public interface IClient extends Remote {
 	void notifyNouvelleVente (Objet nouvelObjet, UUID idSalle) throws RemoteException;
 	
 	public void nouveauMessage (UUID idSalle, String pseudo, String message) throws RemoteException;
-	
-	void connexionClient();
+
 }

@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.GridLayout;
 
+@SuppressWarnings("unused")
 public class ECoastSimulatorGUI {
 
 	private JFrame frame;
