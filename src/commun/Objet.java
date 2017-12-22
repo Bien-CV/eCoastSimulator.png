@@ -74,6 +74,14 @@ public class Objet implements Serializable{
 		return cal.getTime();
 	}
 
+	public Date getDateDeFinDeVente() {
+		return dateDeFinDeVente;
+	}
+
+	public void setDateDeFinDeVente(Date dateDeFinDeVente) {
+		this.dateDeFinDeVente = dateDeFinDeVente;
+	}
+
 	public String getNomProprietaire() {
 		return nomProprietaire;
 	}
@@ -82,11 +90,13 @@ public class Objet implements Serializable{
 		this.nomProprietaire = nomProprietaire;
 	}
 
-	public Date getDateDeFinDeVente() {
-		return dateDeFinDeVente;
+
+	public Date getDateDeMiseEnVente() {
+		return dateDeMiseEnVente;
 	}
 
-	public void setDateDeFinDeVente(Date dateDeFinDeVente) {
-		this.dateDeFinDeVente = dateDeFinDeVente;
+	public void setDateDeMiseEnVente(Date dateDeMiseEnVente) {
+		this.dateDeMiseEnVente = dateDeMiseEnVente;
+
 	}
 }

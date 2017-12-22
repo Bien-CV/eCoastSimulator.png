@@ -20,17 +20,13 @@ public class Client extends UnicastRemoteObject implements IClient {
 	private static final String adresseServeur = "localhost:8090/hoteldesventes";
 
 	private String pseudo;
-	private VueClient vue;
 	private IHotelDesVentes hdv;
-	private Objet currentObjet;
 	private HashMap<UUID, Objet> ventesSuivies;
 	private UUID id;
 	
-	private Chrono chrono = new Chrono(10000, this); // Chrono de 30sc
 
 	public Client(String pseudo) throws RemoteException {
 		super();
-		this.chrono.start();
 		this.pseudo = pseudo;
 		this.hdv = connexionServeur();
 		this.ventesSuivies = new HashMap<UUID, Objet>();
@@ -62,31 +58,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-//	public void encherir(int prix) throws RemoteException, Exception {		
-//		if (prix <= this.currentObjet.getPrixCourant() && prix != -1) {
-//			System.out.println("Prix trop bas, ne soyez pas radin !");
-//		} else if (etat == EtatClient.RENCHERI) {
-//			chrono.arreter();
-//			vue.attente();
-//			etat = EtatClient.ATTENTE;
-//			//hdv.rencherir(prix, this.getInfos(), null );
-//		}
-//	}
-
-//	public void objetVendu(String gagnant) throws RemoteException {
-//		//this.currentObjet = hdv.getObjet();
-//		this.vue.actualiserObjet();
-//		this.vue.reprise();
-//		
-//		if (gagnant != null) { //Fin de l'objet
-//			this.etat = EtatClient.ATTENTE;
-//		}else{ //inscription & objet suivant
-//			this.etat = EtatClient.RENCHERI;
-//			this.chrono.demarrer();
-//		}
-//	}
-
 	
 	public void nouvelleSoumission(String nom, String description, int prix, UUID idSdv) throws RemoteException {
 		Objet nouveau = new Objet(nom, description, prix,pseudo);
@@ -97,7 +68,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 
 	public static void main(String[] argv) {
 		try {
-			new VueClient();
+			//start IHM
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -115,14 +86,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 
 	public void setServeur(IHotelDesVentes serveur) {
 		this.hdv = serveur;
-	}
-
-	public void setVue(VueClient vueClient) {
-		vue = vueClient;
-	}
-
-	public void updateChrono(){
-		this.vue.updateChrono(this.chrono.getTemps(), this.chrono.getTempsFin());
 	}
 	
 	@Override

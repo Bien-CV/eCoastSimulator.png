@@ -8,7 +8,7 @@ import java.util.UUID;
 public class TimerVente {
 	private static Date dateDeFin;
 	private static UUID idSdv;
-	private HotelDesVentes parent;
+	private static HotelDesVentes parent;
 	
 	public TimerVente(Date d,HotelDesVentes hdv) {
 		dateDeFin=d;
@@ -16,7 +16,7 @@ public class TimerVente {
 	}
 	
 	public static void main(final String[] args) {
-	    TimerTask timerTask = new TaskObjetSuivantClient(null, idSdv);
+	    TimerTask timerTask = new TaskObjetSuivantClient(parent, idSdv);
 	    Timer timer = new Timer(true);
 	    timer.schedule(timerTask,dateDeFin);
 	  }
