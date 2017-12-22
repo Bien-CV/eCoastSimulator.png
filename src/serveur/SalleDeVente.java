@@ -1,6 +1,5 @@
 //Manipulé uniquement par HotelDesVentes.java
 //Manque :
-//Init listes
 //ajouterObjet
 //getObjet
 package serveur;

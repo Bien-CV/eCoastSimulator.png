@@ -1,3 +1,6 @@
+//TODO:
+//
+
 package serveur;
 
 import java.rmi.RemoteException;
@@ -11,7 +14,6 @@ import commun.Objet;
 
 @SuppressWarnings("serial")
 public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVentes {
-	static final int INDEX_PREMIER_OBJET=0;
 	
 	private List<SalleDeVente> listeSalles =new ArrayList<SalleDeVente>();
 	private List<ClientInfo> listeClients =new ArrayList<ClientInfo>();
@@ -23,6 +25,7 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 
 
 	//Méthode accessible par le client
+	//Ajoute le client donné à une certaine salle, et renvoie l'Objet en cours d'enchère
 	//Fonction partiellement implémentée : authentification
 	@Override
 	public Objet rejoindreSalle(UUID roomId, ClientInfo client) throws RemoteException {
@@ -30,7 +33,7 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		SalleDeVente salleRejointe = getSalleById(roomId);
 		if ( fetchedClient == client ){
 			ajouterClientASalle(fetchedClient,salleRejointe);
-			return salleRejointe.getObjet();
+			return salleRejointe.getObjetCourant();
 			
 		}
 		return null;
@@ -92,7 +95,7 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	public Objet getObjetEnVente(UUID idSDV) throws RemoteException {
 		// TODO Auto-generated method stub
 		
-		return getSalleById(idSDV).getListeObjets().get(INDEX_PREMIER_OBJET);
+		return getSalleById(idSDV).getObjetCourant();
 	}
 
 	//Méthode accessible par le client
