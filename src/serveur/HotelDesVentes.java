@@ -7,6 +7,7 @@ package serveur;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,8 +21,9 @@ import commun.SalleDeVente;
 @SuppressWarnings("serial")
 public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVentes {
 	
-	private List<SalleDeVente> listeSalles =new ArrayList<SalleDeVente>();
-	private List<ClientInfo> listeClients =new ArrayList<ClientInfo>();
+	private List<SalleDeVente> listeSalles = new ArrayList<SalleDeVente>();
+	private List<ClientInfo> listeClients = new ArrayList<ClientInfo>();
+	private HashMap<UUID, String> mapSalles = new HashMap<UUID, String>();
 	
 	protected HotelDesVentes() throws RemoteException {
 		super();
@@ -51,6 +53,7 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	public UUID creerSalle(ClientInfo client, Objet o, String nomDeSalle) throws RemoteException {
 		SalleDeVente nouvelleSDV=new SalleDeVente(o,nomDeSalle);
 		listeSalles.add(nouvelleSDV);
+		mapSalles.put(nouvelleSDV.getId(), nomDeSalle);
 		return nouvelleSDV.getId();
 	}
 
@@ -118,9 +121,8 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 
 	//Méthode accessible par le client
 	@Override
-	public ArrayList<SalleDeVente> getListeSalles() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public HashMap<UUID, String> getMapSalles() throws RemoteException {
+		return mapSalles;
 	}
 	
 	private void ajouterClientASalle(ClientInfo client, SalleDeVente room) throws RemoteException {
@@ -152,6 +154,12 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		return null;
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void supprimerSDV(UUID roomID) {
+		listeSalles.remove(getSalleById(roomID));
+		mapSalles.remove(roomID);
 	}
 
 }

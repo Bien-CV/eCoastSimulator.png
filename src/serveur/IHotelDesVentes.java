@@ -2,8 +2,8 @@ package serveur;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.UUID;
+import java.util.HashMap;
 
 import commun.ClientInfo;
 import commun.DejaConnecteException;
@@ -13,7 +13,7 @@ import commun.SalleDeVente;
 
 public interface IHotelDesVentes extends Remote {
 	
-	public ArrayList<SalleDeVente> getListeSalles() throws RemoteException;
+	public HashMap<UUID, String> getMapSalles() throws RemoteException;
 
 	UUID creerSalle(ClientInfo client, Objet o, String nomDeSalle) throws RemoteException;
 
@@ -30,5 +30,7 @@ public interface IHotelDesVentes extends Remote {
 	public Objet rejoindreSalle(UUID roomId, ClientInfo clientId) throws RemoteException;
 
 	public SalleDeVente getSalleById(UUID roomId);
+	
+	public void supprimerSDV (UUID roomID);
 	
 }

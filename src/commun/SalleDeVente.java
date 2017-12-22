@@ -70,5 +70,9 @@ public class SalleDeVente extends UnicastRemoteObject {
 	public void debutVente() {
 		getObjetCourant().miseEnVente();
 	}
+	
+	public int nombreAcheteurs() {
+		return acheteurs.size();
+	}
 
 }
