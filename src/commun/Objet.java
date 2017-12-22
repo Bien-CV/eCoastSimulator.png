@@ -24,7 +24,7 @@ public class Objet implements Serializable{
 		this.description = description;
 		this.prixBase = prixBase;
 		this.prixCourant = prixBase;
-		this.nomGagnant = "";
+		this.nomGagnant = nomDuProprietaire;
 		this.nomProprietaire = nomDuProprietaire;
 	}
 	
