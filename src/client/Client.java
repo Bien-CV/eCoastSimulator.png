@@ -34,7 +34,8 @@ public class Client extends UnicastRemoteObject implements IClient {
 	private HashMap<UUID, HashMap<String, String>> listesMessages;
 	private UUID id;
 	private ClientInfo myClientInfos;
-	
+	private String ipClient;
+	private String portClient;
 
 	public Client(String pseudo) throws RemoteException {
 		super();
@@ -42,8 +43,12 @@ public class Client extends UnicastRemoteObject implements IClient {
 		this.hdv = connexionServeur();
 		this.ventesSuivies = new HashMap<UUID, Objet>();
 		this.id = UUID.randomUUID();
-		this.myClientInfos = new ClientInfo(this.id, this.pseudo);
-		this.adresseClient="localhost:8090/"+id.toString();
+		
+		//TODO: Récupérer la vraie IP du client
+		ipClient="localhost";
+		
+		portClient="8091";
+		this.myClientInfos = new ClientInfo(this.id, this.pseudo, ipClient, portClient);
 	}
 
 	public static IHotelDesVentes connexionServeur() {
@@ -60,7 +65,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	
 	public void connexion () {
 		try {
-			hdv.login(id, pseudo);
+			hdv.login(this.myClientInfos);
 		} catch (RemoteException | PseudoDejaUtiliseException | DejaConnecteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

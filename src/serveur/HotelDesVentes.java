@@ -51,13 +51,13 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	}
 
 
-public static IClient connexionClient() {
+public static IClient connexionClient(UUID idClient,String adresseClient) {
 	try {
-		IClient client = (IClient) Naming.lookup("//" + adresseServeur);
-		System.out.println("Connexion au serveur " + adresseServeur + " reussi.");
-		return hotelDesVentes;
+		IClient client = (IClient) Naming.lookup(adresseClient);
+		System.out.println("Connexion au serveur " + adresseClient + " reussi.");
+		return client;
 	} catch (Exception e) {
-		System.out.println("Connexion au serveur " + adresseServeur + " impossible.");
+		System.out.println("Connexion au serveur " + adresseClient + " impossible.");
 		e.printStackTrace();
 		return null;
 	}
@@ -74,23 +74,23 @@ public static IClient connexionClient() {
 
 	//Méthode accessible par le client
 	@Override
-	public void login(UUID id, String nomUtilisateur) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException{
+	public void login(ClientInfo client) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException{
 		//TODO Récupération de session 
 
 		//Pas d'homonyme
 		for(ClientInfo c : listeClients){
-			if (( c.getNom() == nomUtilisateur ) && ( c.getId()!=id )){
+			if (( c.getNom() == client.getNom() ) && ( c.getId()!=client.getId() )){
 				throw new PseudoDejaUtiliseException();
 			}
 		}
 		//Pas déjà enregistré
 		for(ClientInfo c : listeClients){
-			if (c.getId()==id ){
+			if (c.getId()==client.getId() ){
 				throw new DejaConnecteException();
 			}
 		}
-
-		listeClients.add(new ClientInfo(id,nomUtilisateur));
+		connexionClient(client.getId(), client.getAdresseClient());
+		listeClients.add(client);
 	}
 
 

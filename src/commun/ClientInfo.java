@@ -12,12 +12,20 @@ public class ClientInfo  implements Serializable {
 	private static final long serialVersionUID = 4979345072204388593L;
 	UUID id;
 	String nom;
+	String ip;
+	String port;
+	
+	public String getAdresseClient() {
+		return ip+":"+port+"/"+id;
+	}
 	//Donner une durée de vie à un client avec un Timestamp
 	//List<UUID> currentRooms;
 
-	public ClientInfo(UUID id2, String nomUtilisateur) {
+	public ClientInfo(UUID id2, String nomUtilisateur,String ipClient,String portClient) {
 		id=id2;
 		nom=nomUtilisateur;
+		ip=ipClient;
+		port=portClient;
 	}
 
 	public UUID getId() {
