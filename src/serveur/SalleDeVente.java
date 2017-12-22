@@ -76,5 +76,9 @@ public class SalleDeVente extends UnicastRemoteObject {
 	public void debutVente() {
 		getObjetCourant().miseEnVente();
 	}
+	
+	public void chronoVente() {
+		sleep(30000);
+	}
 
 }
