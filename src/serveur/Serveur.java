@@ -27,7 +27,7 @@ public class Serveur {
 			Naming.bind("//localhost:"+port+"/hoteldesventes", hdv);
 		} catch(RemoteException |  MalformedURLException e){
 			e.printStackTrace();
-		}catch(AlreadyBoundException e)	{
+		} catch(AlreadyBoundException e)	{
 			//Exception ignorée
 		}
 	}
