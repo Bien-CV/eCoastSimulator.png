@@ -18,7 +18,7 @@ public class SalleDeVente extends UnicastRemoteObject {
 	private static final long serialVersionUID = 1L;
 	private UUID id;
 	private List<ClientInfo> acheteurs= new ArrayList<ClientInfo>();
-	private ArrayList<Objet> objetsEnVente= new ArrayList<Objet>();
+	private List<Objet> objetsEnVente= new ArrayList<Objet>();
 	private String nom;
 	
 	protected SalleDeVente(Objet o) throws RemoteException {
@@ -44,7 +44,7 @@ public class SalleDeVente extends UnicastRemoteObject {
 		return objetsEnVente.get(INDEX_PREMIER_OBJET);
 	}
 
-	public ArrayList<Objet> getListeObjets(){
+	public List<Objet> getListeObjets(){
 		return objetsEnVente;
 	}
 
