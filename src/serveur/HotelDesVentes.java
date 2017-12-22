@@ -116,9 +116,8 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	
 	//Méthode accessible par le client
 	@Override
-	public boolean renommerSalle(UUID roomId, ClientInfo client) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+	public void renommerSalle(UUID roomId, ClientInfo client, String nomDeSalle) throws RemoteException{
+		getSalleById(roomId).setNom(nomDeSalle);
 	}
 
 
