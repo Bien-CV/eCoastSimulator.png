@@ -44,13 +44,13 @@ public class Objet implements Serializable{
 	public float getPrixBase() {
 		return prixBase;
 	}
-	public void setPrixBase(int prixBase) {
+	public void setPrixBase(float prixBase) {
 		this.prixBase = prixBase;
 	}
 	public float getPrixCourant() {
 		return prixCourant;
 	}
-	public void setPrixCourant(int prixCourant) {
+	public void setPrixCourant(float prixCourant) {
 		this.prixCourant = prixCourant;
 	}
 

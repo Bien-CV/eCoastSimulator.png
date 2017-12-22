@@ -8,8 +8,8 @@ public interface IClient extends Remote {
 	
 	void fermetureSalle (UUID idSDV);
 	
-	void notifyNouvelleEnchere (float nouveauPrix, String gagnant, UUID idObjet);
+	public void notifyNouvelleEnchere (float nouveauPrix, String gagnant, UUID idObjet);
 	
-	void notifyNouvelleVente (UUID idObjet, UUID idSalle);
+	void notifyNouvelleVente (Objet nouvelObjet, UUID idSalle);
 	
 }

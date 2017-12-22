@@ -8,12 +8,13 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.UUID;
+import java.util.HashMap;
 
 import commun.Objet;
 import serveur.ClientInfo;
 import serveur.IHotelDesVentes;
 
-public class Client extends UnicastRemoteObject {
+public class Client extends UnicastRemoteObject implements IClient {
 
 	private static final long serialVersionUID = 1L;
 	private static final String adresseServeur = "localhost:8090/hoteldesventes";
@@ -22,6 +23,9 @@ public class Client extends UnicastRemoteObject {
 	private VueClient vue;
 	private IHotelDesVentes hdv;
 	private Objet currentObjet;
+	private HashMap<UUID, Objet> ventesSuivies;
+	private UUID id;
+	
 	private Chrono chrono = new Chrono(10000, this); // Chrono de 30sc
 
 	public Client(String pseudo) throws RemoteException {
@@ -29,6 +33,7 @@ public class Client extends UnicastRemoteObject {
 		this.chrono.start();
 		this.pseudo = pseudo;
 		this.hdv = connexionServeur();
+		this.ventesSuivies = new HashMap<UUID, Objet>();
 		//this.currentObjet = hdv.getObjetEnVente();
 	}
 
@@ -119,11 +124,24 @@ public class Client extends UnicastRemoteObject {
 		this.vue.updateChrono(this.chrono.getTemps(), this.chrono.getTempsFin());
 	}
 	
-	public void notifyNouvelleEnchere (float nouveauPrix, String gagnant, UUID idObjet) {
+	@Override
+	public void notifyNouvelleEnchere (float nouveauPrix, String gagnant, UUID idSalle) {
+		ventesSuivies.get(idSalle).setPrixCourant(nouveauPrix);
+		ventesSuivies.get(idSalle).setNomGagnant(gagnant);
+	}
+
+	@Override
+	public void fermetureSalle(UUID idSDV) {
+		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void notifyNouvelleVente(Objet nouvelObjet, UUID idSalle) {
+		ventesSuivies.put(idSalle, nouvelObjet);
+	}
 	
-	void notifyNouvelleVente (UUID idObjet, UUID idSalle) {
-		
+	public void rejoindreSalle(UUID idSalle) {
+
 	}
 }
