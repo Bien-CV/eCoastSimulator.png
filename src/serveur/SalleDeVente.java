@@ -9,14 +9,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
-//import java.util.HashMap;
-//import java.util.Iterator;
-//import java.util.Map;
-//import java.util.Set;
-//import java.util.Stack;
 import java.util.UUID;
 
-import client.Acheteur;
 import commun.Objet;
 
 public class SalleDeVente extends UnicastRemoteObject {
