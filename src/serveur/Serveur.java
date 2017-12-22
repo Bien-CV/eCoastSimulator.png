@@ -1,3 +1,4 @@
+//OK
 package serveur;
 
 import java.net.InetAddress;
@@ -25,7 +26,6 @@ public class Serveur {
 			LocateRegistry.createRegistry(port);
 			Naming.bind("//localhost:"+port+"/hoteldesventes", hdv);
 		} catch(RemoteException |  MalformedURLException e){
-			//TODO
 			e.printStackTrace();
 		}catch(AlreadyBoundException e)	{
 			//Exception ignorée
@@ -34,13 +34,10 @@ public class Serveur {
 
 
 	private static void affichageDeBienvenue() {
-		// TODO Auto-generated method stub
 		try {
 			System.out.println("@ IP : " + InetAddress.getLocalHost());
 		} catch (UnknownHostException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
-
 		}
 		
 	}
