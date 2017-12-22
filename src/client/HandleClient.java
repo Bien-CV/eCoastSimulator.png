@@ -17,7 +17,7 @@ public class HandleClient {
 		Client client= null;
 		affichageDeBienvenue();
 		
-		//lancement interface
+		//TODO:lancement interface
 		
 		//Attendre saisie du pseudo par le client
 		//TODO: Utiliser un nom de client saisi via le GUI
@@ -29,6 +29,10 @@ public class HandleClient {
 		try {	
 			
 			client=new Client(pseudo);
+			
+			//TODO:Connect serveur
+			client.connexionServeur();
+			
 			LocateRegistry.createRegistry(port);
 			Naming.bind(client.getAdresseClient(), client);
 		} catch(RemoteException |  MalformedURLException e){

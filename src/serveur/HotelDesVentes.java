@@ -90,6 +90,9 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 			}
 		}
 		connexionClient(client.getId(), client.getAdresseClient());
+		
+		//TODO: print quel client s'est connecté
+		
 		listeClients.add(client);
 	}
 
