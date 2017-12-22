@@ -10,4 +10,6 @@ public interface IClient extends Remote {
 	
 	void notifyNouvelleEnchere (float nouveauPrix, String gagnant, UUID idObjet);
 	
+	void notifyNouvelleVente (UUID idObjet, UUID idSalle);
+	
 }

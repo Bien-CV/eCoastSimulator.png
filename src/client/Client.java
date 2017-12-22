@@ -1,3 +1,7 @@
+// TODO :
+// notifyNouvelleEnchere
+// notifyNouvelleVente
+
 package client;
 
 import java.rmi.Naming;
