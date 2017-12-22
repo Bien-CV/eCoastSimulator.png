@@ -43,11 +43,6 @@ public class SalleDeVente extends UnicastRemoteObject {
 		}
 		else acheteurs.add(client);
 	}
-
-	public Objet getObjet(){
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	public Objet getObjetCourant() {
 		return objetsEnVente.get(INDEX_PREMIER_OBJET);

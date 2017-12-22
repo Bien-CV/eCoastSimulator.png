@@ -157,12 +157,6 @@ public class VueClient extends JFrame implements ActionListener{
 		lblDescriptionObjet.setText(objet.getDescription());
 		txtEncherir.setText("");
 		
-		if (objet.isDisponible()) {
-			lblNomObjet.setText(objet.getNom() + "(disponible)");
-		}
-		else{
-			lblNomObjet.setText(objet.getNom() + "(vendu)");
-		}
 	}
 	
 	private void setClient(Client client) {
@@ -213,7 +207,7 @@ public class VueClient extends JFrame implements ActionListener{
 		
 		else if(arg0.getSource().equals(btnSoumettreObjet)) {
 			try {
-				currentClient.nouvelleSoumission(txtSoumettreNomObjet.getText(), txtSoumettreDescriptionObjet.getText(), Integer.parseInt(txtSoumettrePrixObjet.getText()));
+				currentClient.nouvelleSoumission(txtSoumettreNomObjet.getText(), txtSoumettreDescriptionObjet.getText(), Integer.parseInt(txtSoumettrePrixObjet.getText()), null);
 			} catch (NumberFormatException | RemoteException e) {
 				System.out.println("Impossible de soumettre cet objet.");
 			}

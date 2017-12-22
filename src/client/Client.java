@@ -3,12 +3,13 @@ package client;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.UUID;
 
 import commun.Objet;
 import serveur.ClientInfo;
 import serveur.IHotelDesVentes;
 
-public class Client extends UnicastRemoteObject implements Acheteur {
+public class Client extends UnicastRemoteObject {
 
 	private static final long serialVersionUID = 1L;
 	private static final String adresseServeur = "localhost:8090/hoteldesventes";
@@ -64,7 +65,6 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 		}
 	}
 
-	@Override
 	public void objetVendu(String gagnant) throws RemoteException {
 		//this.currentObjet = hdv.getObjet();
 		this.vue.actualiserObjet();
@@ -78,30 +78,10 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 		}
 	}
 
-	@Override
-	public void nouveauPrix(int prix, String gagnant) throws RemoteException {
-		try {
-			this.currentObjet.setPrixCourant(prix);
-			this.currentObjet.setNomGagnant(gagnant);
-			this.vue.actualiserPrix();
-			this.vue.reprise();
-			this.etat = EtatClient.RENCHERI;
-			this.chrono.demarrer();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
 	
-	@Override
-	public void finEnchere() throws RemoteException {
-		this.etat = EtatClient.TERMINE;
-		System.exit(0);
-	}
-	
-	public void nouvelleSoumission(String nom, String description, int prix) throws RemoteException {
-		Objet nouveau = new Objet(nom, description, prix);
-		//TODO: Est-ce qu'on ajoute les objets par le hdv ou la salle direct ?
+	public void nouvelleSoumission(String nom, String description, int prix, UUID idSdv) throws RemoteException {
+		Objet nouveau = new Objet(nom, description, prix,pseudo);
+		//TODO: ajoute objet par le hdv
 		hdv.ajouterObjet(nouveau, null);//null == sdv
 		System.out.println("Soumission de l'objet " + nom + " au serveur.");
 	}
@@ -119,10 +99,7 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 		return currentObjet;
 	}
 
-	@Override
-	public long getChrono() {
-		return chrono.getTemps();
-	}
+
 
 	public IHotelDesVentes getServeur() {
 		return hdv;
@@ -140,10 +117,6 @@ public class Client extends UnicastRemoteObject implements Acheteur {
 		return this.etat;
 	}
 	
-	@Override
-	public String getPseudo() throws RemoteException {
-		return pseudo;
-	}
 
 	public void updateChrono(){
 		this.vue.updateChrono(this.chrono.getTemps(), this.chrono.getTempsFin());
