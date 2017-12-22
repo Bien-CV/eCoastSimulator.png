@@ -31,7 +31,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 		this.hdv = connexionServeur();
 		this.ventesSuivies = new HashMap<UUID, Objet>();
 		this.id = UUID.randomUUID();
-		//this.currentObjet = hdv.getObjetEnVente();
+
 	}
 
 	public static IHotelDesVentes connexionServeur() {
@@ -45,13 +45,14 @@ public class Client extends UnicastRemoteObject implements IClient {
 			return null;
 		}
 	}
-
-	public void inscription() throws Exception {
-		/*
-		if(!hdv.inscriptionAcheteur(pseudo, this.getInfos() )){
-			this.vue.attente();
+	
+	public void connexion () {
+		try {
+			hdv.login(id, pseudo);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		*/
 	}
 
 	private ClientInfo getInfos() {
