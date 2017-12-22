@@ -14,7 +14,7 @@ public class Objet implements Serializable{
 	private String nomGagnant;
 	
 	//Initialisé par la salle de vente lors de la mise en vente de l'objet
-	private Date dateDeMiseEnVente=null;
+	private Date dateDeMiseEnVente = null;
 	
 	
 	public Objet(String nom, String description, int prixBase) {
