@@ -30,8 +30,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 		this.pseudo = pseudo;
 		this.hdv = connexionServeur();
 		this.ventesSuivies = new HashMap<UUID, Objet>();
-		//TODO:init id
-		
+		this.id = UUID.randomUUID();
 		//this.currentObjet = hdv.getObjetEnVente();
 	}
 
@@ -59,31 +58,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-//	public void encherir(int prix) throws RemoteException, Exception {		
-//		if (prix <= this.currentObjet.getPrixCourant() && prix != -1) {
-//			System.out.println("Prix trop bas, ne soyez pas radin !");
-//		} else if (etat == EtatClient.RENCHERI) {
-//			chrono.arreter();
-//			vue.attente();
-//			etat = EtatClient.ATTENTE;
-//			//hdv.rencherir(prix, this.getInfos(), null );
-//		}
-//	}
-
-//	public void objetVendu(String gagnant) throws RemoteException {
-//		//this.currentObjet = hdv.getObjet();
-//		this.vue.actualiserObjet();
-//		this.vue.reprise();
-//		
-//		if (gagnant != null) { //Fin de l'objet
-//			this.etat = EtatClient.ATTENTE;
-//		}else{ //inscription & objet suivant
-//			this.etat = EtatClient.RENCHERI;
-//			this.chrono.demarrer();
-//		}
-//	}
-
 	
 	public void nouvelleSoumission(String nom, String description, int prix, UUID idSdv) throws RemoteException {
 		Objet nouveau = new Objet(nom, description, prix,pseudo);

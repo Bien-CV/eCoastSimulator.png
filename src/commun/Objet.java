@@ -90,11 +90,13 @@ public class Objet implements Serializable{
 		this.nomProprietaire = nomProprietaire;
 	}
 
+
 	public Date getDateDeMiseEnVente() {
 		return dateDeMiseEnVente;
 	}
 
 	public void setDateDeMiseEnVente(Date dateDeMiseEnVente) {
 		this.dateDeMiseEnVente = dateDeMiseEnVente;
+
 	}
 }
