@@ -64,7 +64,7 @@ public class Objet implements Serializable{
 	
 	public void miseEnVente () {
 		dateDeMiseEnVente = new Date();
-		dateDeFinDeVente = ajouterSeconde(dateDeMiseEnVente, 30);
+		setDateDeFinDeVente(ajouterSeconde(dateDeMiseEnVente, 30));
 	}
 	
 	public static Date ajouterSeconde(Date date, int nbSeconde) {
@@ -72,5 +72,21 @@ public class Objet implements Serializable{
 		cal.setTime(date);
 		cal.add(Calendar.SECOND, nbSeconde);
 		return cal.getTime();
+	}
+
+	public String getNomProprietaire() {
+		return nomProprietaire;
+	}
+
+	public void setNomProprietaire(String nomProprietaire) {
+		this.nomProprietaire = nomProprietaire;
+	}
+
+	public Date getDateDeFinDeVente() {
+		return dateDeFinDeVente;
+	}
+
+	public void setDateDeFinDeVente(Date dateDeFinDeVente) {
+		this.dateDeFinDeVente = dateDeFinDeVente;
 	}
 }
