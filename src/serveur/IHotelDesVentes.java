@@ -8,6 +8,7 @@ import java.util.HashMap;
 import commun.ClientInfo;
 import commun.DejaConnecteException;
 import commun.Objet;
+import commun.PasCreateurException;
 import commun.PseudoDejaUtiliseException;
 import commun.SalleDeVente;
 import commun.Message;
@@ -35,5 +36,7 @@ public interface IHotelDesVentes extends Remote {
 	public void supprimerSDV (UUID roomID) throws RemoteException;
 	
 	public void posterMessage (UUID idSalle, Message message) throws RemoteException;
+	
+	public void fermerSalle (UUID idSalle, UUID idClient) throws PasCreateurException;
 	
 }

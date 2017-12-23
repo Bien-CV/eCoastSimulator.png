@@ -95,4 +95,8 @@ public class SalleDeVente extends UnicastRemoteObject {
 		return listeMessages;
 	}
 
+	public UUID getIdCreateur() {
+		return idCreateur;
+	}
+
 }

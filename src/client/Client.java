@@ -14,6 +14,7 @@ import java.util.List;
 import commun.ClientInfo;
 import commun.DejaConnecteException;
 import commun.Objet;
+import commun.PasCreateurException;
 import commun.PseudoDejaUtiliseException;
 import commun.Message;
 import serveur.IHotelDesVentes;
@@ -108,12 +109,22 @@ public class Client extends UnicastRemoteObject implements IClient {
 
 	@Override
 	public void fermetureSalle(UUID idSDV) {
-		// TODO Auto-generated method stub
-		
+		try {
+			hdv.fermerSalle(idSDV, this.id);
+		} catch (PasCreateurException e) {
+			// impossible de fermer la salle si on en est pas le créateur
+			e.printStackTrace();
+		}
 	}
 	
 	public void rejoindreSalle(UUID idSalle) {
-
+		try {
+			Objet obj = hdv.rejoindreSalle(idSalle, this.myClientInfos);
+			ventesSuivies.put(idSalle, obj);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public HashMap<UUID, Objet> getVentesSuivies() {

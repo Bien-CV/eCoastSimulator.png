@@ -16,6 +16,7 @@ import commun.ClientInfo;
 import commun.DejaConnecteException;
 import commun.DejaDansLaSalleException;
 import commun.Objet;
+import commun.PasCreateurException;
 import commun.PlusDeVenteException;
 import commun.PseudoDejaUtiliseException;
 import commun.SalleDeVente;
@@ -221,6 +222,18 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 			}
 		}
 		
+	}
+
+	@Override
+	public void fermerSalle(UUID idSalle, UUID idClient) throws PasCreateurException {
+		SalleDeVente SDV = getSalleById(idSalle);
+		List<ClientInfo> listeDiffusion = SDV.getListeAcheteurs();
+		if (SDV.getIdCreateur().equals(idClient)) {
+			for (ClientInfo ci : listeDiffusion ) {
+				listeRefsClient.get(ci.getId()).notifFermetureSalle(idSalle);
+			}
+		}
+		else throw new PasCreateurException();
 	}
 
 }
