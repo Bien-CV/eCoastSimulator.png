@@ -17,7 +17,7 @@ public class SalleDeVente extends UnicastRemoteObject {
 	private List<ClientInfo> acheteurs = new ArrayList<ClientInfo>();
 	private List<Objet> objetsEnVente = new ArrayList<Objet>();
 	private List<Objet> objetsVendus = new ArrayList<Objet>();
-	private HashMap<String, String> listeMessages = new HashMap<String, String>();
+	private List<Message> listeMessages = new ArrayList<Message>();
 	private String nom;
 	
 	public SalleDeVente(Objet o,String n) throws RemoteException {
@@ -81,11 +81,11 @@ public class SalleDeVente extends UnicastRemoteObject {
 		return acheteurs.size();
 	}
 	
-	public void nouveauMessage (String pseudo, String message) {
-		listeMessages.put(pseudo, message);
+	public void nouveauMessage (Message message) {
+		listeMessages.add(message);
 	}
 	
-	public HashMap<String, String> getListeMessages() {
+	public List<Message> getListeMessages() {
 		return listeMessages;
 	}
 

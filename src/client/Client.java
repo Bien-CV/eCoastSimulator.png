@@ -9,11 +9,13 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.UUID;
 import java.util.HashMap;
+import java.util.List;
 
 import commun.ClientInfo;
 import commun.DejaConnecteException;
 import commun.Objet;
 import commun.PseudoDejaUtiliseException;
+import commun.Message;
 import serveur.IHotelDesVentes;
 
 public class Client extends UnicastRemoteObject implements IClient {
@@ -31,7 +33,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	private IHotelDesVentes hdv;
 	private HashMap<UUID, Objet> ventesSuivies;
 	// liste des messages postés dans les différentes salles de ventes suivies
-	private HashMap<UUID, HashMap<String, String>> listesMessages;
+	private HashMap<UUID, List<Message>> listesMessages;
 	private UUID id;
 	private ClientInfo myClientInfos;
 	private String ipClient;
@@ -136,9 +138,8 @@ public class Client extends UnicastRemoteObject implements IClient {
 	}
 
 	@Override
-	public void nouveauMessage(UUID idSalle, String pseudo, String message) {
-		HashMap<String, String> messages = listesMessages.get(idSalle);
-		messages.put(pseudo, message);
-		listesMessages.put(idSalle, messages);
+	public void nouveauMessage(UUID idSalle, Message message) {
+		listesMessages.get(idSalle).add(message);
+		// TODO : éventuellement supprimer les plus anciens messages au dela d'un certain nombre.
 	}
 }

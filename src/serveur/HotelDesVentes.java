@@ -18,6 +18,7 @@ import commun.DejaDansLaSalleException;
 import commun.Objet;
 import commun.PseudoDejaUtiliseException;
 import commun.SalleDeVente;
+import commun.Message;
 
 @SuppressWarnings("serial")
 public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVentes {
@@ -129,7 +130,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	//Méthode accessible par le client
 	// Ajout d'une enchère sur l'objet courant d'une salle donnée.
 	@Override
-	public void rencherir(int prix, UUID clientId, UUID idSDV) throws RemoteException {
+	public void encherir(int prix, UUID clientId, UUID idSDV) throws RemoteException {
 		Objet objEnVente = getObjetEnVente(idSDV);
 
 		if(objEnVente.getPrixCourant()<prix){
@@ -184,15 +185,22 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 
 
 	// diffusion d'un messages aux clients d'une salle dans laquelle il a été posté
-	// TODO : faire la fameuse diffusion
 	@Override
-	public void posterMessage(UUID idSalle, String pseudo, String message) throws RemoteException {
+	public void posterMessage(UUID idSalle, Message message) throws RemoteException {
 		SalleDeVente SDV = getSalleById(idSalle);
-		SDV.nouveauMessage(pseudo, message);
+		SDV.nouveauMessage(message);
 		List<ClientInfo> listeDiffusion = SDV.getListeAcheteurs();
 		for (ClientInfo ci : listeDiffusion ) {
-			
+			listeRefsClient.get(ci.getId()).nouveauMessage(idSalle, message);
 		}
+	}
+	
+	public void nouvelleEnchere () {
+		
+	}
+	
+	public void nouvelleVente () {
+		
 	}
 
 }

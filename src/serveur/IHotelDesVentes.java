@@ -10,6 +10,7 @@ import commun.DejaConnecteException;
 import commun.Objet;
 import commun.PseudoDejaUtiliseException;
 import commun.SalleDeVente;
+import commun.Message;
 
 public interface IHotelDesVentes extends Remote {
 	
@@ -21,7 +22,7 @@ public interface IHotelDesVentes extends Remote {
 
 	void logout(ClientInfo client) throws RemoteException;
 
-	void rencherir(int prix, UUID clientId, UUID idSDV) throws RemoteException;
+	void encherir(int prix, UUID clientId, UUID idSDV) throws RemoteException;
 
 	Objet getObjetEnVente(UUID idSDV) throws RemoteException;
 
@@ -33,6 +34,6 @@ public interface IHotelDesVentes extends Remote {
 	
 	public void supprimerSDV (UUID roomID) throws RemoteException;
 	
-	public void posterMessage (UUID idSalle, String pseudo, String message) throws RemoteException;
+	public void posterMessage (UUID idSalle, Message message) throws RemoteException;
 	
 }
