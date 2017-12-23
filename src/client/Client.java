@@ -33,6 +33,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	private String pseudo;
 	private IHotelDesVentes hdv;
 	private HashMap<UUID, Objet> ventesSuivies;
+	private HashMap<UUID, Objet> ventesExistantes;
 	// liste des messages postés dans les différentes salles de ventes suivies
 	private HashMap<UUID, List<Message>> listesMessages;
 	private UUID id;
@@ -69,9 +70,9 @@ public class Client extends UnicastRemoteObject implements IClient {
 	// notification au serveur de l'arrivée d'un nouveau client
 	public void connexion () {
 		try {
-			hdv.login(this.myClientInfos);
-			// TODO : récupérer la liste des salles dispo ?
+			// login + récupération de la liste des salles existantes.
 			// TODO : mettre a jour l'IHM avec la liste susmentionnée.
+			ventesExistantes = hdv.login(this.myClientInfos);
 		} catch (RemoteException | PseudoDejaUtiliseException | DejaConnecteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -158,5 +159,10 @@ public class Client extends UnicastRemoteObject implements IClient {
 	public void notifFermetureSalle(UUID idSalle) {
 		ventesSuivies.remove(idSalle);
 		// TODO : refresh l'IHM pour prendre en compte les modifs
+	}
+
+	@Override
+	public void notifNouvelleSalle(UUID idSalle, Objet objEnVente) {
+		ventesExistantes.put(idSalle, objEnVente);
 	}
 }

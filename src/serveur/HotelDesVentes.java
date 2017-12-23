@@ -45,8 +45,10 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		SalleDeVente salleRejointe = getSalleById(roomId);
 		if ( fetchedClient == client ){
 			ajouterClientASalle(fetchedClient,salleRejointe);
+			// diffusion de la nouvelle salle aux clients connectés
+			// TODO : a voir si on garde
+			notifCreationSalle(roomId);
 			return salleRejointe.getObjetCourant();
-			
 		}
 		return null;
 		
@@ -77,7 +79,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 
 	//Méthode accessible par le client
 	@Override
-	public void login(ClientInfo client) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException{
+	public HashMap<UUID, Objet> login(ClientInfo client) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException{
 		//TODO Récupération de session 
 
 		//Pas d'homonyme
@@ -99,7 +101,10 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 			System.out.println(client.getNom().toString()+" -> "+client.getAdresseClient().toString());
 			
 			listeClients.add(client);
+			return genererListeSalles();
 		}
+		// TODO : lever une exception plutot que retourner null est préférable.
+		else return null;
 	}
 
 
@@ -234,6 +239,23 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 			}
 		}
 		else throw new PasCreateurException();
+	}
+	
+	// génere une liste des salles de vente avec leur objet courant pour le client.
+	public HashMap<UUID, Objet> genererListeSalles() {
+		HashMap<UUID, Objet> salles = new HashMap<UUID, Objet>();
+		for (SalleDeVente sdv : listeSalles) {
+			salles.put(sdv.getId(), sdv.getObjetCourant());
+		}
+		return salles;
+	}
+	
+	// notification aux clients de la création d'unne salle pour permettre la mise à jour de la liste de son coté
+	// peut être à remplacer par une fonction "refresh" coté client.
+	public void notifCreationSalle (UUID idSalle) {
+		for (ClientInfo ci : listeClients) {
+			listeRefsClient.get(ci.getId()).notifNouvelleSalle(idSalle, getSalleById(idSalle).getObjetCourant());
+		}
 	}
 
 }

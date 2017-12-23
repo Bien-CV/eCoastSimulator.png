@@ -19,7 +19,7 @@ public interface IHotelDesVentes extends Remote {
 
 	UUID creerSalle(ClientInfo client, Objet o, String nomDeSalle) throws RemoteException;
 
-	void login(ClientInfo myClientInfos) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException;
+	HashMap<UUID, Objet> login(ClientInfo myClientInfos) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException;
 
 	void logout(ClientInfo client) throws RemoteException;
 
