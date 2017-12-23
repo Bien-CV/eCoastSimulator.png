@@ -137,7 +137,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 			if( objEnVente.getNomGagnant()!=getClientById(clientId).getNom()){
 				objEnVente.setPrixCourant(prix);
 				objEnVente.setNomGagnant(getClientById(clientId).getNom());
-				notifObjet(idSDV, objEnVente);
+				nouvelleEnchere(idSDV, objEnVente);
 			}
 		}
 	}
@@ -196,7 +196,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		}
 	}
 	
-	public void notifObjet(UUID idSDV, Objet objet) throws RemoteException {
+	public void nouvelleEnchere(UUID idSDV, Objet objet) throws RemoteException {
 		SalleDeVente SDV = getSalleById(idSDV);
 		List<ClientInfo> listeDiffusion = SDV.getListeAcheteurs();
 		for (ClientInfo ci : listeDiffusion ) {
