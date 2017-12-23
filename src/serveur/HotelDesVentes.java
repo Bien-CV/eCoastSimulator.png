@@ -24,6 +24,7 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	
 	private List<SalleDeVente> listeSalles = new ArrayList<SalleDeVente>();
 	private List<ClientInfo> listeClients = new ArrayList<ClientInfo>();
+	private List<IClient> listeRefsClient = new ArrayList<IClient>();
 	private HashMap<UUID, String> mapSalles = new HashMap<UUID, String>();
 	
 	protected HotelDesVentes() throws RemoteException {
@@ -88,12 +89,14 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 				throw new DejaConnecteException();
 			}
 		}
-		connexionClient(client.getId(), client.getAdresseClient());
-		
-		//print quel client s'est connecté
-		System.out.println(client.getNom().toString()+" -> "+client.getAdresseClient().toString());
-		
-		listeClients.add(client);
+		IClient ref = connexionClient(client.getId(), client.getAdresseClient());
+		if (ref != null) {
+			listeRefsClient.add(ref);
+			//print quel client s'est connecté
+			System.out.println(client.getNom().toString()+" -> "+client.getAdresseClient().toString());
+			
+			listeClients.add(client);
+		}
 	}
 
 
