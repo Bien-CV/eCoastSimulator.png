@@ -1,6 +1,5 @@
 //TODO:
 //notifyNouvelleEnchere donne l'idObjet, le nouveau prix et le nouveau gagnant de l'objet au client
-// faire getSalleByID
 
 package serveur;
 
@@ -91,7 +90,8 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		}
 		connexionClient(client.getId(), client.getAdresseClient());
 		
-		//TODO: print quel client s'est connecté
+		//print quel client s'est connecté
+		System.out.println(client.getNom().toString()+" -> "+client.getAdresseClient().toString());
 		
 		listeClients.add(client);
 	}
@@ -102,31 +102,31 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	@Override
 	public void logout(ClientInfo client) {
 		//Enlever client de la liste client de l'hdv 
-		//TODO Enlever client de chaque salle
+		//Enlever client de chaque salle
 		listeClients.remove(client);
+		for (SalleDeVente sdv : listeSalles) {
+			sdv.retirerClient(client);
+		}
 	}
 
 	//Méthode accessible par le client
 	//Met en vente un objet créé par un client
 	@Override
 	public void ajouterObjet(Objet objetAVendre, UUID idSDV ) throws RemoteException {
-		// TODO Auto-generated method stub
 		getSalleById(idSDV).ajouterObjet(objetAVendre);
 	}
 
 	//Méthode accessible par le client
+	// retourne l'objet en vente dans une salle donnée.
 	@Override
 	public Objet getObjetEnVente(UUID idSDV) throws RemoteException {
-		// TODO Auto-generated method stub
-		
 		return getSalleById(idSDV).getObjetCourant();
 	}
 
 	//Méthode accessible par le client
+	// Ajout d'une enchère sur l'objet courant d'une salle donnée.
 	@Override
 	public void rencherir(int prix, UUID clientId, UUID idSDV) throws RemoteException {
-		// TODO Auto-generated method stub
-
 		Objet objEnVente = getObjetEnVente(idSDV);
 
 		if(objEnVente.getPrixCourant()<prix){
@@ -143,6 +143,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		return mapSalles;
 	}
 	
+	// Ajout d'un client à une salle, s'il n'y est pas déja.
 	private void ajouterClientASalle(ClientInfo client, SalleDeVente room) throws RemoteException {
 		try {
 			room.ajouterClient(client);
@@ -152,9 +153,8 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		}
 	}
 
-
+	// Obtention d'un client en fonction de son id.
 	private ClientInfo getClientById(UUID clientId) {
-		// TODO Auto-generated method stub
 		for ( ClientInfo client :listeClients ){
 			if( client.getId()==clientId){
 				return client;
@@ -163,17 +163,16 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		return null;
 	}
 
-
+	// Obtention d'une salle en fonction de son id
 	public SalleDeVente getSalleById(UUID roomId) {
 
 		for (SalleDeVente sdv : listeSalles ){
 			if ( sdv.getId()==roomId ) return sdv;
 		}
 		return null;
-		// TODO Auto-generated method stub
-
 	}
-
+	
+	// suppression salle de vente
 	@Override
 	public void supprimerSDV(UUID roomID) {
 		listeSalles.remove(getSalleById(roomID));
@@ -181,7 +180,8 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	}
 
 
-
+	// diffusion d'un messages aux clients d'une salle dans laquelle il a été posté
+	// TODO : faire la fameuse diffusion
 	@Override
 	public void posterMessage(UUID idSalle, String pseudo, String message) throws RemoteException {
 		SalleDeVente SDV = getSalleById(idSalle);

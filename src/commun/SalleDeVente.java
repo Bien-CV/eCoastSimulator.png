@@ -39,6 +39,10 @@ public class SalleDeVente extends UnicastRemoteObject {
 		else acheteurs.add(client);
 	}
 	
+	public void retirerClient(ClientInfo client) {
+		acheteurs.remove(client);
+	}
+	
 	public Objet getObjetCourant() {
 		return objetsEnVente.get(INDEX_PREMIER_OBJET);
 	}
