@@ -16,6 +16,7 @@ import commun.ClientInfo;
 import commun.DejaConnecteException;
 import commun.DejaDansLaSalleException;
 import commun.Objet;
+import commun.PlusDeVenteException;
 import commun.PseudoDejaUtiliseException;
 import commun.SalleDeVente;
 import commun.Message;
@@ -67,7 +68,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	//Méthode accessible par le client
 	@Override
 	public UUID creerSalle(ClientInfo client, Objet o, String nomDeSalle) throws RemoteException {
-		SalleDeVente nouvelleSDV=new SalleDeVente(o,nomDeSalle);
+		SalleDeVente nouvelleSDV=new SalleDeVente(o, nomDeSalle, client.getId());
 		listeSalles.add(nouvelleSDV);
 		mapSalles.put(nouvelleSDV.getId(), nomDeSalle);
 		return nouvelleSDV.getId();
@@ -196,6 +197,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		}
 	}
 	
+	// diffusion d'une nouvelle enchere aux clients de la salle concernée
 	public void nouvelleEnchere(UUID idSDV, Objet objet) throws RemoteException {
 		SalleDeVente SDV = getSalleById(idSDV);
 		List<ClientInfo> listeDiffusion = SDV.getListeAcheteurs();
@@ -204,13 +206,21 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		}
 	}
 	
+	// notification d'une nouvelle vente ou de la fermeture de la salle le cas échéant.
 	public void nouvelleVente(UUID idSalle) {
 		SalleDeVente SDV = getSalleById(idSalle);
-		SDV.venteSuivante();
 		List<ClientInfo> listeDiffusion = SDV.getListeAcheteurs();
-		for (ClientInfo ci : listeDiffusion ) {
-			listeRefsClient.get(ci.getId()).notifModifObjet(idSalle, SDV.getObjetCourant());
+		try {
+			SDV.venteSuivante();
+			for (ClientInfo ci : listeDiffusion ) {
+				listeRefsClient.get(ci.getId()).notifModifObjet(idSalle, SDV.getObjetCourant());
+			}
+		} catch (PlusDeVenteException e) {
+			for (ClientInfo ci : listeDiffusion ) {
+				listeRefsClient.get(ci.getId()).notifFermetureSalle(idSalle);
+			}
 		}
+		
 	}
 
 }

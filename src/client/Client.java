@@ -132,4 +132,9 @@ public class Client extends UnicastRemoteObject implements IClient {
 		ventesSuivies.put(idSalle, objet);
 		// TODO : refresh l'IHM pour prendre en compte les modifs
 	}
+
+	@Override
+	public void notifFermetureSalle(UUID idSalle) {
+		ventesSuivies.remove(idSalle);
+	}
 }

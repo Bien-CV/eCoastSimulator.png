@@ -12,5 +12,7 @@ public interface IClient extends Remote {
 	public void nouveauMessage (UUID idSalle, Message message) throws RemoteException;
 	
 	public void notifModifObjet (UUID idSalle, Objet objet);
+	
+	public void notifFermetureSalle (UUID idSalle);
 
 }

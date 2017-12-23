@@ -18,10 +18,12 @@ public class SalleDeVente extends UnicastRemoteObject {
 	private List<Objet> objetsVendus = new ArrayList<Objet>();
 	private List<Message> listeMessages = new ArrayList<Message>();
 	private String nom;
+	private UUID idCreateur;
 	
-	public SalleDeVente(Objet o,String n) throws RemoteException {
+	public SalleDeVente(Objet o, String n, UUID createur) throws RemoteException {
 		super();
 		this.nom = n;
+		idCreateur = createur;
 		objetsEnVente.add(o);
 		debutVente();
 		id = UUID.randomUUID();
@@ -66,10 +68,15 @@ public class SalleDeVente extends UnicastRemoteObject {
 		this.nom = nom;
 	}
 	
-	public void venteSuivante() {
+	public void venteSuivante() throws PlusDeVenteException {
 		objetsVendus.add(getObjetCourant());
 		objetsEnVente.remove(INDEX_PREMIER_OBJET);
-		debutVente();
+		if (objetsEnVente.size() > 0) {
+			debutVente();
+		}
+		else {
+			throw new PlusDeVenteException();
+		}
 	}
 	
 	public void debutVente() {
