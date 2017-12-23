@@ -98,12 +98,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 		}
 	}
 
-
-	public Objet notifyVenteSuivante() {
-		//TODO: Doit lancer la vente suivante
-		return null;
-	}
-
 	public IHotelDesVentes getServeur() {
 		return hdv;
 	}
@@ -111,22 +105,11 @@ public class Client extends UnicastRemoteObject implements IClient {
 	public void setServeur(IHotelDesVentes serveur) {
 		this.hdv = serveur;
 	}
-	
-	@Override
-	public void notifyNouvelleEnchere (float nouveauPrix, String gagnant, UUID idSalle) {
-		ventesSuivies.get(idSalle).setPrixCourant(nouveauPrix);
-		ventesSuivies.get(idSalle).setNomGagnant(gagnant);
-	}
 
 	@Override
 	public void fermetureSalle(UUID idSDV) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public void notifyNouvelleVente(Objet nouvelObjet, UUID idSalle) {
-		ventesSuivies.put(idSalle, nouvelObjet);
 	}
 	
 	public void rejoindreSalle(UUID idSalle) {
@@ -140,6 +123,13 @@ public class Client extends UnicastRemoteObject implements IClient {
 	@Override
 	public void nouveauMessage(UUID idSalle, Message message) {
 		listesMessages.get(idSalle).add(message);
+		// TODO : refresh l'IHM pour prendre en compte les modifs
 		// TODO : éventuellement supprimer les plus anciens messages au dela d'un certain nombre.
+	}
+
+	@Override
+	public void notifModifObjet(UUID idSalle, Objet objet) {
+		ventesSuivies.put(idSalle, objet);
+		// TODO : refresh l'IHM pour prendre en compte les modifs
 	}
 }
