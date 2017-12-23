@@ -15,7 +15,8 @@ public class TaskObjetSuivantClient extends TimerTask {
 	@Override
 	  public void run() {
 	    
-		parent.getSalleById(idSdv).venteSuivante();
+		//parent.getSalleById(idSdv).venteSuivante();
+		parent.nouvelleVente(idSdv);
 		
 	  }
 }

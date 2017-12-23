@@ -204,8 +204,13 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		}
 	}
 	
-	public void nouvelleVente () {
-		
+	public void nouvelleVente(UUID idSalle) {
+		SalleDeVente SDV = getSalleById(idSalle);
+		SDV.venteSuivante();
+		List<ClientInfo> listeDiffusion = SDV.getListeAcheteurs();
+		for (ClientInfo ci : listeDiffusion ) {
+			listeRefsClient.get(ci.getId()).notifModifObjet(idSalle, SDV.getObjetCourant());
+		}
 	}
 
 }
