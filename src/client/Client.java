@@ -95,7 +95,12 @@ public class Client extends UnicastRemoteObject implements IClient {
 		Objet nouveau = new Objet(nom, description, prix,pseudo);
 		//ajout de l'objet par le hdv
 		// TODO : peut etre autoriser l'ajout seulement pour le créateur de la salle
-		hdv.ajouterObjet(nouveau, idSdv);
+		try {
+			hdv.ajouterObjet(nouveau, idSdv, this.id);
+		} catch (PasCreateurException e) {
+			// TODO affichage utilisateur en cas d'ajout dans une salle qu'il a pas créé ?
+			e.printStackTrace();
+		}
 		//print des informations sur l'ajout
 	}
 

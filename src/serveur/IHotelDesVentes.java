@@ -27,7 +27,7 @@ public interface IHotelDesVentes extends Remote {
 
 	Objet getObjetEnVente(UUID idSDV) throws RemoteException;
 
-	void ajouterObjet(Objet objetAVendre, UUID idSDV) throws RemoteException;
+	void ajouterObjet(Objet objetAVendre, UUID idSDV, UUID client) throws RemoteException, PasCreateurException;
 
 	public Objet rejoindreSalle(UUID roomId, ClientInfo clientId) throws RemoteException;
 

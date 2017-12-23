@@ -123,8 +123,11 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	//Méthode accessible par le client
 	//Met en vente un objet créé par un client
 	@Override
-	public void ajouterObjet(Objet objetAVendre, UUID idSDV ) throws RemoteException {
-		getSalleById(idSDV).ajouterObjet(objetAVendre);
+	public void ajouterObjet(Objet objetAVendre, UUID idSDV, UUID client ) throws RemoteException, PasCreateurException {
+		SalleDeVente sdv = getSalleById(idSDV);
+		if (sdv.getIdCreateur().equals(client)) 
+			sdv.ajouterObjet(objetAVendre);
+		else throw new PasCreateurException();
 	}
 
 	//Méthode accessible par le client
