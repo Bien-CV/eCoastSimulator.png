@@ -7,7 +7,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.HashMap;
 
 public class SalleDeVente extends UnicastRemoteObject {
 	static final int INDEX_PREMIER_OBJET = 0;

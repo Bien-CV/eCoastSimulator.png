@@ -1,11 +1,9 @@
 package client;
 
-import java.rmi.Naming;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.UUID;
 import commun.*;
-import serveur.IHotelDesVentes;
 
 public interface IClient extends Remote {
 	
