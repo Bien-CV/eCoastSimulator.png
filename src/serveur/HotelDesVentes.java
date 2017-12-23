@@ -228,6 +228,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 			for (ClientInfo ci : listeDiffusion ) {
 				listeRefsClient.get(ci.getId()).notifFermetureSalle(idSalle);
 			}
+			supprimerSDV(idSalle);
 		}
 		
 	}
@@ -240,6 +241,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 			for (ClientInfo ci : listeDiffusion ) {
 				listeRefsClient.get(ci.getId()).notifFermetureSalle(idSalle);
 			}
+			supprimerSDV(idSalle);
 		}
 		else throw new PasCreateurException();
 	}
