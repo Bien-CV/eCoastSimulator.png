@@ -5,6 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
+// Lancement automatique d'une nouvelle vente lorsque la précédente est arrivée à expiration.
 public class TimerVente {
 	private static Date dateDeFin;
 	private static UUID idSdv;

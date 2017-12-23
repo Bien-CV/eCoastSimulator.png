@@ -66,15 +66,19 @@ public class Client extends UnicastRemoteObject implements IClient {
 		}
 	}
 	
+	// notification au serveur de l'arrivée d'un nouveau client
 	public void connexion () {
 		try {
 			hdv.login(this.myClientInfos);
+			// TODO : récupérer la liste des salles dispo ?
+			// TODO : mettre a jour l'IHM avec la liste susmentionnée.
 		} catch (RemoteException | PseudoDejaUtiliseException | DejaConnecteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	// notification au serveur du départ d'un client
 	public void deconnexion () {
 		try {
 			hdv.logout(myClientInfos);
@@ -82,11 +86,14 @@ public class Client extends UnicastRemoteObject implements IClient {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		// TODO : fermeture de l'application ?
 	}
 	
+	// notification au serveur de l'ajout d'un nouvel objet a vendre dans une salle donnée.
 	public void nouvelleSoumission(String nom, String description, int prix, UUID idSdv) throws RemoteException {
 		Objet nouveau = new Objet(nom, description, prix,pseudo);
-		//TODO: ajoute objet par le hdv
+		//ajout de l'objet par le hdv
+		// TODO : peut etre autoriser l'ajout seulement pour le créateur de la salle
 		hdv.ajouterObjet(nouveau, idSdv);
 		//print des informations sur l'ajout
 	}
@@ -106,8 +113,8 @@ public class Client extends UnicastRemoteObject implements IClient {
 	public void setServeur(IHotelDesVentes serveur) {
 		this.hdv = serveur;
 	}
-
-	@Override
+	
+	// notification au serveur de la fermeture d'une salle par le client
 	public void fermetureSalle(UUID idSDV) {
 		try {
 			hdv.fermerSalle(idSDV, this.id);
@@ -117,13 +124,16 @@ public class Client extends UnicastRemoteObject implements IClient {
 		}
 	}
 	
+	// notification au serveur de la volonté de rejoindre unje nouvelle salle de vente.
+	// ajout du nouvel objet suivit en cas de réussite.
 	public void rejoindreSalle(UUID idSalle) {
 		try {
 			Objet obj = hdv.rejoindreSalle(idSalle, this.myClientInfos);
 			ventesSuivies.put(idSalle, obj);
+			// TODO : refresh l'IHM pour prendre en compte les modifs
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			// TODO : affichage d'un message d'erreur par l'IHM
 		}
 	}
 	
@@ -147,5 +157,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 	@Override
 	public void notifFermetureSalle(UUID idSalle) {
 		ventesSuivies.remove(idSalle);
+		// TODO : refresh l'IHM pour prendre en compte les modifs
 	}
 }
