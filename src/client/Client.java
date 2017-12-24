@@ -22,8 +22,8 @@ import serveur.IHotelDesVentes;
 public class Client extends UnicastRemoteObject implements IClient {
 
 	private static final long serialVersionUID = 1L;
-	private static final String adresseServeur = "localhost:8090/hoteldesventes";
-	
+	private String urlEtPortServeur;
+	private String adresseServeur;
 	private String adresseClient;
 	
 	public String getAdresseClient() {
@@ -31,6 +31,14 @@ public class Client extends UnicastRemoteObject implements IClient {
 	}
 
 	private String pseudo;
+	public String getPseudo() {
+		return pseudo;
+	}
+
+	public void setPseudo(String pseudo) {
+		this.pseudo = pseudo;
+	}
+
 	private IHotelDesVentes hdv;
 	private HashMap<UUID, Objet> ventesSuivies;
 	private HashMap<UUID, Objet> ventesExistantes;
@@ -41,12 +49,16 @@ public class Client extends UnicastRemoteObject implements IClient {
 	private String ipClient;
 	private String portClient;
 
-	public Client(String pseudo) throws RemoteException {
+	public Client(String pseudo,String urlEtPortDuServeur) throws RemoteException {
 		super();
 		this.pseudo = pseudo;
 		this.hdv = connexionServeur();
 		this.ventesSuivies = new HashMap<UUID, Objet>();
 		this.id = UUID.randomUUID();
+		
+		urlEtPortServeur = urlEtPortDuServeur;
+		adresseServeur = urlEtPortServeur + "/hoteldesventes";
+		
 		
 		//TODO: Récupérer la vraie IP du client
 		ipClient="localhost";
@@ -57,11 +69,11 @@ public class Client extends UnicastRemoteObject implements IClient {
 
 	public static IHotelDesVentes connexionServeur() {
 		try {
-			IHotelDesVentes hotelDesVentes = (IHotelDesVentes) Naming.lookup("//" + adresseServeur);
-			System.out.println("Connexion au serveur " + adresseServeur + " reussi.");
+			IHotelDesVentes hotelDesVentes = (IHotelDesVentes) Naming.lookup("//" + this.adresseServeur);
+			System.out.println("Connexion au serveur " + this.adresseServeur + " reussi.");
 			return hotelDesVentes;
 		} catch (Exception e) {
-			System.out.println("Connexion au serveur " + adresseServeur + " impossible.");
+			System.out.println("Connexion au serveur " + this.adresseServeur + " impossible.");
 			e.printStackTrace();
 			return null;
 		}

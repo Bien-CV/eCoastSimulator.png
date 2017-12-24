@@ -37,6 +37,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.rmi.RemoteException;
 
 @SuppressWarnings("unused")
 public class ECoastSimulatorGUI {
@@ -49,7 +50,7 @@ public class ECoastSimulatorGUI {
 	private JTextField txtNomDeLobjet;
 	private JTextField txtDescriptionDeLobjet;
 	private JTextField txtPrixDeBase;
-
+	public Client client;
 	/**
 	 * Launch the application.
 	 */
@@ -72,7 +73,12 @@ public class ECoastSimulatorGUI {
 	public ECoastSimulatorGUI() {
 		initialize();
 	}
-
+	
+	public void mettreAJourTouteLInterface() {
+		updateListeDesSalles();
+		updateListeDesSallesSuivies();
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -243,11 +249,20 @@ public class ECoastSimulatorGUI {
 		btnSeConnecter_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//TODO:Demande à se connecter au serveur avec le pseudo entré dans pseudonymeConnexion.getText()
+				//Demande à se connecter au serveur avec le pseudo entré dans pseudonymeConnexion.getText()
 				//Si la connexion a réussi, on masque le panel panelConnexion et affiche panelDeconnexion
 				//On refresh un peu toute la GUI.
 				
+				try {
+					client = new Client(pseudonymeConnexion.getText(),saisieAdresseServeur.getText());
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
+				panelConnexion.setVisible(false);
+				panelDeconnexion.setVisible(true);
+				lblPseudoDeConnexion.setText(client.getPseudo());
 				
+				//TODO:Refresh toute la GUI
 			}
 		});
 		GridBagConstraints gbc_btnSeConnecter_1 = new GridBagConstraints();
