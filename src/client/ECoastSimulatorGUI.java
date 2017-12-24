@@ -46,6 +46,9 @@ public class ECoastSimulatorGUI {
 	private JTextField saisieAdresseServeur;
 	private JTextField pseudonymeConnexion;
 	private JTextField saisieEnchere;
+	private JTextField txtNomDeLobjet;
+	private JTextField txtDescriptionDeLobjet;
+	private JTextField txtPrixDeBase;
 
 	/**
 	 * Launch the application.
@@ -126,9 +129,9 @@ public class ECoastSimulatorGUI {
 		commandesProfil.add(panelDeconnexion, gbc_panelDeconnexion);
 		GridBagLayout gbl_panelDeconnexion = new GridBagLayout();
 		gbl_panelDeconnexion.columnWidths = new int[] {174};
-		gbl_panelDeconnexion.rowHeights = new int[]{29, 0, 0, 0, 0};
-		gbl_panelDeconnexion.columnWeights = new double[]{0.0};
-		gbl_panelDeconnexion.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelDeconnexion.rowHeights = new int[]{29, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panelDeconnexion.columnWeights = new double[]{1.0};
+		gbl_panelDeconnexion.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelDeconnexion.setLayout(gbl_panelDeconnexion);
 		
 		JLabel lblConnectEnTemps = new JLabel("Connecté en tant que :");
@@ -148,6 +151,12 @@ public class ECoastSimulatorGUI {
 		panelDeconnexion.add(lblPseudoDeConnexion, gbc_lblPseudoDeConnexion);
 		
 		JButton btnSeDconnecter = new JButton("Se déconnecter");
+		btnSeDconnecter.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//TODO: Déconnexion du serveur, si okay, rendre panelDeconnexion invisible et panelConnexion visible
+			}
+		});
 		GridBagConstraints gbc_btnSeDconnecter = new GridBagConstraints();
 		gbc_btnSeDconnecter.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSeDconnecter.gridx = 0;
@@ -155,10 +164,50 @@ public class ECoastSimulatorGUI {
 		panelDeconnexion.add(btnSeDconnecter, gbc_btnSeDconnecter);
 		
 		JButton btnNouvelleEnchre = new JButton("Nouvelle enchère");
+		btnNouvelleEnchre.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//TODO:Envoie une nouvelle enchère avec les informations des champs, l'observation passe à la salle créée
+				//txtNomDeLobjet
+				//txtDescriptionDeLobjet
+				//txtPrixDeBase
+				
+			}
+		});
 		GridBagConstraints gbc_btnNouvelleEnchre = new GridBagConstraints();
+		gbc_btnNouvelleEnchre.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNouvelleEnchre.gridx = 0;
 		gbc_btnNouvelleEnchre.gridy = 3;
 		panelDeconnexion.add(btnNouvelleEnchre, gbc_btnNouvelleEnchre);
+		
+		txtNomDeLobjet = new JTextField();
+		txtNomDeLobjet.setText("Nom de l'objet");
+		GridBagConstraints gbc_txtNomDeLobjet = new GridBagConstraints();
+		gbc_txtNomDeLobjet.insets = new Insets(0, 0, 5, 0);
+		gbc_txtNomDeLobjet.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtNomDeLobjet.gridx = 0;
+		gbc_txtNomDeLobjet.gridy = 4;
+		panelDeconnexion.add(txtNomDeLobjet, gbc_txtNomDeLobjet);
+		txtNomDeLobjet.setColumns(10);
+		
+		txtDescriptionDeLobjet = new JTextField();
+		txtDescriptionDeLobjet.setText("Description de l'objet");
+		GridBagConstraints gbc_txtDescriptionDeLobjet = new GridBagConstraints();
+		gbc_txtDescriptionDeLobjet.insets = new Insets(0, 0, 5, 0);
+		gbc_txtDescriptionDeLobjet.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtDescriptionDeLobjet.gridx = 0;
+		gbc_txtDescriptionDeLobjet.gridy = 5;
+		panelDeconnexion.add(txtDescriptionDeLobjet, gbc_txtDescriptionDeLobjet);
+		txtDescriptionDeLobjet.setColumns(10);
+		
+		txtPrixDeBase = new JTextField();
+		txtPrixDeBase.setText("Prix de base de l'objet");
+		GridBagConstraints gbc_txtPrixDeBase = new GridBagConstraints();
+		gbc_txtPrixDeBase.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPrixDeBase.gridx = 0;
+		gbc_txtPrixDeBase.gridy = 6;
+		panelDeconnexion.add(txtPrixDeBase, gbc_txtPrixDeBase);
+		txtPrixDeBase.setColumns(10);
 		
 		JPanel panelConnexion = new JPanel();
 		GridBagConstraints gbc_panelConnexion = new GridBagConstraints();
