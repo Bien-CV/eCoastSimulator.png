@@ -25,6 +25,9 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.AbstractListModel;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+
+import commun.Objet;
+
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -37,7 +40,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.MalformedURLException;
+import java.rmi.AlreadyBoundException;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 
 @SuppressWarnings("unused")
 public class ECoastSimulatorGUI {
@@ -50,7 +57,7 @@ public class ECoastSimulatorGUI {
 	private JTextField txtNomDeLobjet;
 	private JTextField txtDescriptionDeLobjet;
 	private JTextField txtPrixDeBase;
-	public Client client;
+	public static Client client;
 	/**
 	 * Launch the application.
 	 */
@@ -79,6 +86,16 @@ public class ECoastSimulatorGUI {
 		updateListeDesSallesSuivies();
 	}
 	
+	private void updateListeDesSallesSuivies() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void updateListeDesSalles() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -252,11 +269,15 @@ public class ECoastSimulatorGUI {
 				//Demande à se connecter au serveur avec le pseudo entré dans pseudonymeConnexion.getText()
 				//Si la connexion a réussi, on masque le panel panelConnexion et affiche panelDeconnexion
 				//On refresh un peu toute la GUI.
-				
 				try {
 					client = new Client(pseudonymeConnexion.getText(),saisieAdresseServeur.getText());
-				} catch (RemoteException e1) {
-					e1.printStackTrace();
+					client.connexionServeur();
+					LocateRegistry.createRegistry(Integer.parseInt(client.getPortClient()));
+					Naming.bind(client.getAdresseClient(), client);
+				} catch(RemoteException |  MalformedURLException exception){
+					exception.printStackTrace();
+				} catch(AlreadyBoundException alreadyBoundException)	{
+					//Exception ignorée
 				}
 				panelConnexion.setVisible(false);
 				panelDeconnexion.setVisible(true);
@@ -276,13 +297,17 @@ public class ECoastSimulatorGUI {
 		sideBar.add(listeDesObjetsSuivis, BorderLayout.SOUTH);
 		listeDesObjetsSuivis.setLayout(new BorderLayout(0, 0));
 		
-		JList listObjetsSuivis = new JList();
-		listObjetsSuivis.setModel(new AbstractListModel() {
+		JList<String> listObjetsSuivis = new JList<String>();
+		listObjetsSuivis.setModel(new AbstractListModel<String>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 6110811681481178698L;
 			String[] values = new String[] {"Parapluie", "Parapente", "Pardon"};
 			public int getSize() {
 				return values.length;
 			}
-			public Object getElementAt(int index) {
+			public String getElementAt(int index) {
 				return values[index];
 			}
 		});
@@ -367,13 +392,17 @@ public class ECoastSimulatorGUI {
 		panelGlobalListeSalle.add(panelListeSalle, BorderLayout.CENTER);
 		panelListeSalle.setLayout(new BorderLayout(0, 0));
 		
-		JList listeDesSalles = new JList();
-		listeDesSalles.setModel(new AbstractListModel() {
+		JList<String> listeDesSalles = new JList<String>();
+		listeDesSalles.setModel(new AbstractListModel<String>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -6762872273592088709L;
 			String[] values = new String[] {"Salle 1", "Salle 2", "Salle 3", "Salle 4", "Salle 5", "Salle 6", "Salle 7"};
 			public int getSize() {
 				return values.length;
 			}
-			public Object getElementAt(int index) {
+			public String getElementAt(int index) {
 				return values[index];
 			}
 		});

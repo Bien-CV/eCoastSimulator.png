@@ -49,6 +49,10 @@ public class Client extends UnicastRemoteObject implements IClient {
 	private String ipClient;
 	private String portClient;
 
+	public String getPortClient() {
+		return portClient;
+	}
+
 	public Client(String pseudo,String urlEtPortDuServeur) throws RemoteException {
 		super();
 		this.pseudo = pseudo;
@@ -67,7 +71,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 		this.myClientInfos = new ClientInfo(this.id, this.pseudo, ipClient, portClient);
 	}
 
-	public static IHotelDesVentes connexionServeur() {
+	public IHotelDesVentes connexionServeur() {
 		try {
 			IHotelDesVentes hotelDesVentes = (IHotelDesVentes) Naming.lookup("//" + this.adresseServeur);
 			System.out.println("Connexion au serveur " + this.adresseServeur + " reussi.");
