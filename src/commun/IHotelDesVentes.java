@@ -1,17 +1,9 @@
-package serveur;
+package commun;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.UUID;
 import java.util.HashMap;
-
-import commun.ClientInfo;
-import commun.DejaConnecteException;
-import commun.Objet;
-import commun.PasCreateurException;
-import commun.PseudoDejaUtiliseException;
-import commun.SalleDeVente;
-import commun.Message;
 
 public interface IHotelDesVentes extends Remote {
 	

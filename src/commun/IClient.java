@@ -1,9 +1,8 @@
-package client;
+package commun;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.UUID;
-import commun.*;
 
 public interface IClient extends Remote {
 	

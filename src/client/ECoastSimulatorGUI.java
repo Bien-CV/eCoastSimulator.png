@@ -26,7 +26,9 @@ import java.awt.Font;
 import javax.swing.AbstractListModel;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
+import commun.Message;
 import commun.Objet;
+import commun.IHotelDesVentes;
 
 import java.awt.Component;
 import java.awt.event.ActionListener;
@@ -128,7 +130,7 @@ public class ECoastSimulatorGUI {
 		globalLowPanel.setLayout(new BorderLayout(0, 0));
 		
 		JPanel sideBar = new JPanel();
-		sideBar.setBorder(new LineBorder(new Color(0, 0, 0)));
+		sideBar.setBorder(null);
 		globalLowPanel.add(sideBar, BorderLayout.WEST);
 		sideBar.setLayout(new BorderLayout(0, 0));
 		
@@ -299,9 +301,7 @@ public class ECoastSimulatorGUI {
 		
 		JList<String> listObjetsSuivis = new JList<String>();
 		listObjetsSuivis.setModel(new AbstractListModel<String>() {
-			/**
-			 * 
-			 */
+
 			private static final long serialVersionUID = 6110811681481178698L;
 			String[] values = new String[] {"Parapluie", "Parapente", "Pardon"};
 			public int getSize() {
@@ -388,7 +388,6 @@ public class ECoastSimulatorGUI {
 		panelGlobalListeSalle.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelListeSalle = new JPanel();
-		panelListeSalle.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelGlobalListeSalle.add(panelListeSalle, BorderLayout.CENTER);
 		panelListeSalle.setLayout(new BorderLayout(0, 0));
 		
@@ -413,7 +412,6 @@ public class ECoastSimulatorGUI {
 		panelListeSalle.add(lblSallesDenchres, BorderLayout.NORTH);
 		
 		JPanel panelBoutonsPourListeSalles = new JPanel();
-		panelBoutonsPourListeSalles.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelGlobalListeSalle.add(panelBoutonsPourListeSalles, BorderLayout.EAST);
 		GridBagLayout gbl_panelBoutonsPourListeSalles = new GridBagLayout();
 		gbl_panelBoutonsPourListeSalles.columnWidths = new int[]{0, 0};
@@ -620,7 +618,6 @@ public class ECoastSimulatorGUI {
 		panel_7.add(lblSecondes);
 		
 		JPanel panelGlobalChat = new JPanel();
-		panelGlobalChat.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagConstraints gbc_panelGlobalChat = new GridBagConstraints();
 		gbc_panelGlobalChat.fill = GridBagConstraints.BOTH;
 		gbc_panelGlobalChat.anchor = GridBagConstraints.NORTHWEST;
@@ -668,7 +665,14 @@ public class ECoastSimulatorGUI {
 		saisieChat.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
-				//TODO: Si on appuie sur entrée, envoyer saisie et vider le champ
+				//TODO: Chat : Si on appuie sur entrée, envoyer saisie et vider le champ
+				Message messageAEnvoyer=new Message(client.getPseudo(),saisieChat.getText());
+				try {
+					client.getServeur().posterMessage(client.getIdSalleObservee(),messageAEnvoyer);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				//saisieChat.getText()
 				//saisieChat.setText("");
 			}

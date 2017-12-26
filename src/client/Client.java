@@ -13,11 +13,12 @@ import java.util.List;
 
 import commun.ClientInfo;
 import commun.DejaConnecteException;
+import commun.IClient;
+import commun.IHotelDesVentes;
 import commun.Objet;
 import commun.PasCreateurException;
 import commun.PseudoDejaUtiliseException;
 import commun.Message;
-import serveur.IHotelDesVentes;
 
 public class Client extends UnicastRemoteObject implements IClient {
 
@@ -48,6 +49,15 @@ public class Client extends UnicastRemoteObject implements IClient {
 	private ClientInfo myClientInfos;
 	private String ipClient;
 	private String portClient;
+	
+	private UUID idSalleObservee;
+	private String nomSalleObservee;
+	private UUID idObjetObserve;
+	private String nomObjetObserve;
+
+	public void setIdSalleObservee(UUID idSalleObservee) {
+		this.idSalleObservee = idSalleObservee;
+	}
 
 	public String getPortClient() {
 		return portClient;
@@ -89,6 +99,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 			// login + récupération de la liste des salles existantes.
 			// TODO : mettre a jour l'IHM avec la liste susmentionnée.
 			ventesExistantes = hdv.login(this.myClientInfos);
+			
 		} catch (RemoteException | PseudoDejaUtiliseException | DejaConnecteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -185,5 +196,9 @@ public class Client extends UnicastRemoteObject implements IClient {
 	@Override
 	public void notifNouvelleSalle(UUID idSalle, Objet objEnVente) {
 		ventesExistantes.put(idSalle, objEnVente);
+	}
+
+	public UUID getIdSalleObservee() {
+		return this.idSalleObservee;
 	}
 }

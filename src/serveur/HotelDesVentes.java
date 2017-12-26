@@ -11,10 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import client.IClient;
 import commun.ClientInfo;
 import commun.DejaConnecteException;
 import commun.DejaDansLaSalleException;
+import commun.IClient;
+import commun.IHotelDesVentes;
 import commun.Objet;
 import commun.PasCreateurException;
 import commun.PlusDeVenteException;
