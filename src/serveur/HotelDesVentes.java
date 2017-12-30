@@ -283,4 +283,10 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		}
 	}
 
+
+	@Override
+	public void quitterSalle(UUID idClient, UUID idSalleAQuitter) throws RemoteException {
+		getSalleById(idSalleAQuitter).retirerClient(getClientById(idClient));
+	}
+
 }
