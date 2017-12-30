@@ -9,6 +9,7 @@ import java.util.UUID;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import commun.ClientInfo;
 import commun.DejaConnecteException;
@@ -219,6 +220,17 @@ public class Client extends UnicastRemoteObject implements IClient {
 		Collection<SalleDeVenteInfo> vals = mapInfosSalles.values();
 		// TODO : verifier que ce cast n'est pas trop foireux.
 		return (SalleDeVenteInfo[]) vals.toArray();
+	}
+	
+	public SalleDeVenteInfo[] getTabVentesSuivies() {
+		Set<UUID> keys = ventesSuivies.keySet();
+		SalleDeVenteInfo[] tab = new SalleDeVenteInfo[keys.size()];
+		int i = 0;
+		for (UUID idSalle : keys) {
+			tab[i] = mapInfosSalles.get(idSalle);
+			++i;
+		}
+		return tab;
 	}
 
 	public void quitterSalle(UUID idSalleAQuitter) {
