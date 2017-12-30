@@ -1,5 +1,4 @@
 //TODO:
-// virer le code commenté inutile
 
 package serveur;
 
@@ -52,7 +51,6 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		if ( fetchedClient == client ){
 			ajouterClientASalle(fetchedClient,salleRejointe);
 			// diffusion de la nouvelle salle aux clients connectés
-			// TODO : a voir si on garde
 			notifCreationSalle(roomId);
 			return salleRejointe.getObjetCourant();
 		}
@@ -194,7 +192,6 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	}
 	
 	// suppression salle de vente
-	@Override
 	public void supprimerSDV(UUID roomID) {
 		listeSalles.remove(getSalleById(roomID));
 		mapSalles.remove(roomID);
@@ -235,13 +232,11 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 				try {
 					listeRefsClient.get(ci.getId()).notifFermetureSalle(idSalle);
 				} catch (RemoteException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 			supprimerSDV(idSalle);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -256,7 +251,6 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 				try {
 					listeRefsClient.get(ci.getId()).notifFermetureSalle(idSalle);
 				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -274,14 +268,6 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		}
 		return salles;
 	}
-//	public List<SalleDeVenteInfo> genererListeSalles() {
-//		List<SalleDeVenteInfo> salles = new ArrayList<SalleDeVenteInfo>();
-//		for (SalleDeVente sdv : listeSalles) {
-//			SalleDeVenteInfo sdvi = new SalleDeVenteInfo(sdv.getNom(), sdv.getId(), sdv.getObjetCourant());
-//			salles.add(sdvi);
-//		}
-//		return salles;
-//	}
 	
 	// notification aux clients de la création d'unne salle pour permettre la mise à jour de la liste de son coté
 	// peut être à remplacer par une fonction "refresh" coté client.
@@ -292,7 +278,6 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 			try {
 				listeRefsClient.get(ci.getId()).notifNouvelleSalle(idSalle, sdvi);
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
