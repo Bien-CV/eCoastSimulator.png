@@ -206,4 +206,12 @@ public class Client extends UnicastRemoteObject implements IClient {
 		return this.idSalleObservee;
 	}
 
+	public HashMap<UUID, SalleDeVenteInfo> getMapInfosSalles() {
+		return mapInfosSalles;
+	}
+
+	public void setMapInfosSalles(HashMap<UUID, SalleDeVenteInfo> mapInfosSalles) {
+		this.mapInfosSalles = mapInfosSalles;
+	}
+
 }
