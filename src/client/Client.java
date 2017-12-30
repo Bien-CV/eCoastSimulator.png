@@ -207,4 +207,5 @@ public class Client extends UnicastRemoteObject implements IClient {
 	public UUID getIdSalleObservee() {
 		return this.idSalleObservee;
 	}
+
 }
