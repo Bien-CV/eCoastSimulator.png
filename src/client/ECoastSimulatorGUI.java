@@ -110,7 +110,7 @@ public class ECoastSimulatorGUI {
 		listeDesSallesSuivies.setModel(new AbstractListModel<SalleDeVenteInfo>() {
 
 			private static final long serialVersionUID = 6110811681481178698L;
-			SalleDeVenteInfo[] values = {client.getTabVentesSuivies()};
+			SalleDeVenteInfo[] values = client.getTabVentesSuivies();
 			public int getSize() {
 				return values.length;
 			}
@@ -138,7 +138,7 @@ public class ECoastSimulatorGUI {
 
 			private static final long serialVersionUID = -6762872273592088709L;
 
-
+			
 			SalleDeVenteInfo[] values=client.getTabInfosSalles();
 			public int getSize() {
 				return values.length;
@@ -161,7 +161,7 @@ public class ECoastSimulatorGUI {
 		frmEcoastsimulatorpng.setBounds(100, 100, 924, 700);
 		frmEcoastsimulatorpng.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmEcoastsimulatorpng.getContentPane().setLayout(new BorderLayout(0, 0));
-
+		JPanel panelConnexion = new JPanel();
 
 		JPanel topBar = new JPanel();
 		topBar.setBorder(null);
@@ -233,7 +233,11 @@ public class ECoastSimulatorGUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				d("TODO:Click se déconnecter");
-				//TODO: Déconnexion du serveur, si okay, rendre panelDeconnexion invisible et panelConnexion visible
+				client.deconnexion();
+				
+				//TODO: si ok rendre panelDeconnexion invisible et panelConnexion visible
+				panelDeconnexion.setVisible(false);
+				panelConnexion.setVisible(false);
 			}
 		});
 		GridBagConstraints gbc_btnSeDconnecter = new GridBagConstraints();
@@ -251,7 +255,7 @@ public class ECoastSimulatorGUI {
 				//txtNomDeLobjet
 				//txtDescriptionDeLobjet
 				//txtPrixDeBase
-
+				
 			}
 		});
 		GridBagConstraints gbc_btnNouvelleEnchre = new GridBagConstraints();
@@ -289,7 +293,7 @@ public class ECoastSimulatorGUI {
 		panelDeconnexion.add(txtPrixDeBase, gbc_txtPrixDeBase);
 		txtPrixDeBase.setColumns(10);
 
-		JPanel panelConnexion = new JPanel();
+		
 		GridBagConstraints gbc_panelConnexion = new GridBagConstraints();
 		gbc_panelConnexion.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panelConnexion.gridx = 0;
