@@ -110,7 +110,7 @@ public class ECoastSimulatorGUI {
 		listeDesSallesSuivies.setModel(new AbstractListModel<SalleDeVenteInfo>() {
 
 			private static final long serialVersionUID = 6110811681481178698L;
-			SalleDeVenteInfo[] values = {null};
+			SalleDeVenteInfo[] values = {client.getTabVentesSuivies()};
 			public int getSize() {
 				return values.length;
 			}
@@ -118,7 +118,6 @@ public class ECoastSimulatorGUI {
 				return values[index];
 			}
 		});
-		// TODO Auto-generated method stub
 
 
 	}
@@ -139,8 +138,8 @@ public class ECoastSimulatorGUI {
 
 			private static final long serialVersionUID = -6762872273592088709L;
 
-			//TODO: values=getTabInfosSalles
-			SalleDeVenteInfo[] values=null;
+
+			SalleDeVenteInfo[] values=client.getTabInfosSalles();
 			public int getSize() {
 				return values.length;
 			}
@@ -148,9 +147,6 @@ public class ECoastSimulatorGUI {
 				return values[index];
 			}
 		});
-
-
-		// TODO Auto-generated method stub
 
 	}
 
@@ -550,11 +546,6 @@ public class ECoastSimulatorGUI {
 		btnRejoindreSalleListe.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//TODO: Cliquer ici récupère l'id de la salle sélectionnée par listeDesSalles,
-				//la rejoint, et affiche l'objet courant de celle-ci.
-				//Object salle=listeDesSalles.getSelectedValue();
-				//if (salle)
-				//	Envoyer demande de rejoindre la salle
 				idSalleCourante=listeDesSalles.getSelectedValue().getId();
 				client.rejoindreSalle(idSalleCourante);
 				updateObjetSalleCourante();
@@ -616,7 +607,6 @@ public class ECoastSimulatorGUI {
 						d("Réussi.");
 						saisieEnchere.setText("");
 					} catch (RemoteException re) {
-						// TODO Auto-generated catch block
 						re.printStackTrace();
 					}
 				}
@@ -645,8 +635,16 @@ public class ECoastSimulatorGUI {
 		btnEnchrir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//TODO:Cliquer sur enchérir déclenche cette méthode, qui enchérit sur l'objet courant et réinitialise le champ d'enchère
-				//Envoyer saisieEnchere.getText() comme nouvelle enchère sur l'objet courant
+				IHotelDesVentes serveur=client.getServeur();
+				d("Serveur récupéré du client.");
+				float enchere=Float.parseFloat(saisieEnchere.getText());
+				try {
+					serveur.encherir(enchere, client.getId(), client.getIdSalleObservee());
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
+
+				d("Réussi.");
 				saisieEnchere.setText("");
 			}
 		});
@@ -755,7 +753,22 @@ public class ECoastSimulatorGUI {
 		panelSaisieChat.setLayout(new BorderLayout(0, 0));
 
 		saisieChat = new JTextField();
-		
+		saisieChat.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent key) {
+				//TODO: Chat : Si on appuie sur entrée, envoyer saisie et vider le champ
+				if (key.getKeyChar()=='\n') {
+					Message messageAEnvoyer=new Message(client.getPseudo(),saisieChat.getText());
+					try {
+						client.getServeur().posterMessage(client.getIdSalleObservee(),messageAEnvoyer);
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				saisieChat.setText("");
+			}
+		});
 		panelSaisieChat.add(saisieChat);
 		saisieChat.setColumns(10);
 
