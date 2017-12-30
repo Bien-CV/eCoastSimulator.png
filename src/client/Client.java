@@ -26,6 +26,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	private String urlEtPortServeur;
 	private String adresseServeur;
 	private String adresseClient="localhost";
+	private UUID id;
 	
 	public String getAdresseClient() {
 		return adresseClient;
@@ -45,7 +46,10 @@ public class Client extends UnicastRemoteObject implements IClient {
 	private HashMap<UUID, Objet> ventesExistantes;
 	// liste des messages postés dans les différentes salles de ventes suivies
 	private HashMap<UUID, List<Message>> listesMessages;
-	private UUID id;
+	public UUID getId() {
+		return id;
+	}
+
 	private ClientInfo myClientInfos;
 	private String ipClient;
 	private String portClient="8091";

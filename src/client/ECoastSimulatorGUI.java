@@ -49,7 +49,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
-@SuppressWarnings("unused")
+
 public class ECoastSimulatorGUI {
 
 	private JFrame frmEcoastsimulatorpng;
@@ -118,6 +118,7 @@ public class ECoastSimulatorGUI {
 		frmEcoastsimulatorpng.setBounds(100, 100, 924, 700);
 		frmEcoastsimulatorpng.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmEcoastsimulatorpng.getContentPane().setLayout(new BorderLayout(0, 0));
+		JList<SalleDeVente> listeDesSalles = new JList<SalleDeVente>();
 		
 		JPanel topBar = new JPanel();
 		topBar.setBorder(null);
@@ -355,6 +356,8 @@ public class ECoastSimulatorGUI {
 		btnRejoindreSalleDeLObjet.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
+				client.setIdSalleObservee(listeDesSalles.getSelectedValue().getId());
 				//TODO:Déclenche l'observation de la salle sélectionnée
 				
 			}
@@ -416,20 +419,26 @@ public class ECoastSimulatorGUI {
 		panelGlobalListeSalle.add(panelListeSalle, BorderLayout.CENTER);
 		panelListeSalle.setLayout(new BorderLayout(0, 0));
 		
-		JList<SalleDeVente> listeDesSalles = new JList<SalleDeVente>();
-		listeDesSalles.setModel(new AbstractListModel<SalleDeVente>() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -6762872273592088709L;
-			SalleDeVente[] values={null};
-			public int getSize() {
-				return values.length;
-			}
-			public SalleDeVente getElementAt(int index) {
-				return values[index];
-			}
-		});
+		
+		try {
+			listeDesSalles.setModel(new AbstractListModel<SalleDeVente>() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -6762872273592088709L;
+				SalleDeVente[] values={new SalleDeVente(new Objet("nom","desc",10,"propriétaire"),"salle1",client.getId())};
+				public int getSize() {
+					return values.length;
+				}
+				public SalleDeVente getElementAt(int index) {
+					return values[index];
+				}
+			});
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			d("Remote Exception liste des salles");
+			e1.printStackTrace();
+		}
 		panelListeSalle.add(listeDesSalles);
 		
 		JLabel lblSallesDenchres = new JLabel("Salles d'enchères :");
@@ -694,7 +703,12 @@ public class ECoastSimulatorGUI {
 				if (key.getKeyChar()=='\n') {
 					Message messageAEnvoyer=new Message(client.getPseudo(),saisieChat.getText());
 					try {
-						client.getServeur().posterMessage(client.getIdSalleObservee(),messageAEnvoyer);
+						d("Touche entrée saisie, envoi du message");
+						IHotelDesVentes serveur=client.getServeur();
+						d("Serveur récupéré du client.");
+						d("Envoi en tant que "+messageAEnvoyer.getAuteur()+" à la salle "+client.getIdSalleObservee()+" du message :"+messageAEnvoyer.getContenu());
+						serveur.posterMessage(client.getIdSalleObservee(),messageAEnvoyer);
+						d("Réussi.");
 					} catch (RemoteException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
