@@ -6,6 +6,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.UUID;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -212,6 +213,12 @@ public class Client extends UnicastRemoteObject implements IClient {
 
 	public void setMapInfosSalles(HashMap<UUID, SalleDeVenteInfo> mapInfosSalles) {
 		this.mapInfosSalles = mapInfosSalles;
+	}
+	
+	public SalleDeVenteInfo[] getTabInfosSalles() {
+		Collection<SalleDeVenteInfo> vals = mapInfosSalles.values();
+		// TODO : verifier que ce cast n'est pas trop foireux.
+		return (SalleDeVenteInfo[]) vals.toArray();
 	}
 
 	public void quitterSalle(UUID idSalleAQuitter) {
