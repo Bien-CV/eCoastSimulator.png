@@ -25,7 +25,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	private static final long serialVersionUID = 1L;
 	private String urlEtPortServeur;
 	private String adresseServeur;
-	private String adresseClient;
+	private String adresseClient="localhost";
 	
 	public String getAdresseClient() {
 		return adresseClient;

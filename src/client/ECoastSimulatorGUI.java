@@ -289,6 +289,7 @@ public class ECoastSimulatorGUI {
 					d("Connexion serveur");
 					LocateRegistry.createRegistry(Integer.parseInt(client.getPortClient()));
 					d("Registre créé");
+					d("Tentative de bind à "+client.getAdresseClient());
 					Naming.bind(client.getAdresseClient(), client);
 					d("bind effectué");
 				} catch(RemoteException |  MalformedURLException exception){
