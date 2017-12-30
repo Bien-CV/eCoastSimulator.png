@@ -218,8 +218,15 @@ public class Client extends UnicastRemoteObject implements IClient {
 	
 	public SalleDeVenteInfo[] getTabInfosSalles() {
 		Collection<SalleDeVenteInfo> vals = mapInfosSalles.values();
+		SalleDeVenteInfo[] tab = new SalleDeVenteInfo[vals.size()];
+		int i = 0;
+		for (SalleDeVenteInfo sdvi : vals) {
+			tab[i] = sdvi;
+			++i;
+		}
+		return tab;
 		// TODO : verifier que ce n'est pas trop foireux.
-		return vals.toArray(new SalleDeVenteInfo[vals.size()]);
+		//return vals.toArray(new SalleDeVenteInfo[vals.size()]);
 	}
 	
 	public SalleDeVenteInfo[] getTabVentesSuivies() {
