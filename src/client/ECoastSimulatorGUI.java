@@ -122,11 +122,11 @@ public class ECoastSimulatorGUI {
 	private void updateListeDesSallesServeur() {
 		d("Actualisation des salles du serveur");
 		
-		listeDesSalles.setModel(new AbstractListModel<SalleDeVente>() {
+		listeDesSalles.setModel(new AbstractListModel<SalleDeVenteInfo>() {
 
 			private static final long serialVersionUID = -6762872273592088709L;
 
-			SalleDeVente[] values={};
+			SalleDeVenteInfo[] values=client.get;
 			public int getSize() {
 				return values.length;
 			}
