@@ -21,6 +21,7 @@ import commun.PasCreateurException;
 import commun.PlusDeVenteException;
 import commun.PseudoDejaUtiliseException;
 import commun.SalleDeVente;
+import commun.SalleDeVenteInfo;
 import commun.Message;
 
 
@@ -84,7 +85,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 
 	//Méthode accessible par le client
 	@Override
-	public HashMap<UUID, Objet> login(ClientInfo client) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException{
+	public List<SalleDeVenteInfo> login(ClientInfo client) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException{
 		//TODO Récupération de session 
 
 		//Pas d'homonyme
@@ -265,10 +266,18 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	}
 	
 	// génere une liste des salles de vente avec leur objet courant pour le client.
-	public HashMap<UUID, Objet> genererListeSalles() {
-		HashMap<UUID, Objet> salles = new HashMap<UUID, Objet>();
+//	public HashMap<UUID, Objet> genererListeSalles() {
+//		HashMap<UUID, Objet> salles = new HashMap<UUID, Objet>();
+//		for (SalleDeVente sdv : listeSalles) {
+//			salles.put(sdv.getId(), sdv.getObjetCourant());
+//		}
+//		return salles;
+//	}
+	public List<SalleDeVenteInfo> genererListeSalles() {
+		List<SalleDeVenteInfo> salles = new ArrayList<SalleDeVenteInfo>();
 		for (SalleDeVente sdv : listeSalles) {
-			salles.put(sdv.getId(), sdv.getObjetCourant());
+			SalleDeVenteInfo sdvi = new SalleDeVenteInfo(sdv.getNom(), sdv.getId(), sdv.getObjetCourant());
+			salles.add(sdvi);
 		}
 		return salles;
 	}
@@ -276,9 +285,11 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	// notification aux clients de la création d'unne salle pour permettre la mise à jour de la liste de son coté
 	// peut être à remplacer par une fonction "refresh" coté client.
 	public void notifCreationSalle (UUID idSalle) {
+		SalleDeVente sdv = getSalleById(idSalle);
+		SalleDeVenteInfo sdvi = new SalleDeVenteInfo(sdv.getNom(), sdv.getId(), sdv.getObjetCourant());
 		for (ClientInfo ci : listeClients) {
 			try {
-				listeRefsClient.get(ci.getId()).notifNouvelleSalle(idSalle, getSalleById(idSalle).getObjetCourant());
+				listeRefsClient.get(ci.getId()).notifNouvelleSalle(sdvi);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

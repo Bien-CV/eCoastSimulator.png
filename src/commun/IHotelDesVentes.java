@@ -4,6 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.UUID;
 import java.util.HashMap;
+import java.util.List;
 
 public interface IHotelDesVentes extends Remote {
 	
@@ -11,7 +12,8 @@ public interface IHotelDesVentes extends Remote {
 
 	UUID creerSalle(ClientInfo client, Objet o, String nomDeSalle) throws RemoteException;
 
-	HashMap<UUID, Objet> login(ClientInfo myClientInfos) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException;
+	//HashMap<UUID, Objet> login(ClientInfo myClientInfos) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException;
+	List<SalleDeVenteInfo> login(ClientInfo myClientInfos) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException;
 
 	void logout(ClientInfo client) throws RemoteException;
 
