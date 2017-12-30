@@ -217,27 +217,33 @@ public class Client extends UnicastRemoteObject implements IClient {
 	}
 	
 	public SalleDeVenteInfo[] getTabInfosSalles() {
-		Collection<SalleDeVenteInfo> vals = mapInfosSalles.values();
-		SalleDeVenteInfo[] tab = new SalleDeVenteInfo[vals.size()];
-		int i = 0;
-		for (SalleDeVenteInfo sdvi : vals) {
-			tab[i] = sdvi;
-			++i;
+		if (mapInfosSalles != null) {
+			Collection<SalleDeVenteInfo> vals = mapInfosSalles.values();
+			SalleDeVenteInfo[] tab = new SalleDeVenteInfo[vals.size()];
+			int i = 0;
+			for (SalleDeVenteInfo sdvi : vals) {
+				tab[i] = sdvi;
+				++i;
+			}
+			return tab;
 		}
-		return tab;
-		// TODO : verifier que ce n'est pas trop foireux.
-		//return vals.toArray(new SalleDeVenteInfo[vals.size()]);
+		// TODO : lever une exception ?
+		else return new SalleDeVenteInfo[0];
 	}
 	
 	public SalleDeVenteInfo[] getTabVentesSuivies() {
-		Set<UUID> keys = ventesSuivies.keySet();
-		SalleDeVenteInfo[] tab = new SalleDeVenteInfo[keys.size()];
-		int i = 0;
-		for (UUID idSalle : keys) {
-			tab[i] = mapInfosSalles.get(idSalle);
-			++i;
+		if (ventesSuivies != null) {
+			Set<UUID> keys = ventesSuivies.keySet();
+			SalleDeVenteInfo[] tab = new SalleDeVenteInfo[keys.size()];
+			int i = 0;
+			for (UUID idSalle : keys) {
+				tab[i] = mapInfosSalles.get(idSalle);
+				++i;
+			}
+			return tab;
 		}
-		return tab;
+		// TODO : lever une exception ?
+		else return new SalleDeVenteInfo[0];
 	}
 
 	public void quitterSalle(UUID idSalleAQuitter) {
