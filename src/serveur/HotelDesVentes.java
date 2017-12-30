@@ -1,5 +1,5 @@
 //TODO:
-//notifyNouvelleEnchere donne l'idObjet, le nouveau prix et le nouveau gagnant de l'objet au client
+// virer le code commenté inutile
 
 package serveur;
 

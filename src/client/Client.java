@@ -1,6 +1,5 @@
 // TODO :
-// notifyNouvelleEnchere
-// notifyNouvelleVente
+// virer le code commenté inutile
 
 package client;
 
