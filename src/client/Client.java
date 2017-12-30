@@ -48,7 +48,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	private UUID id;
 	private ClientInfo myClientInfos;
 	private String ipClient;
-	private String portClient;
+	private String portClient="8091";
 	
 	private UUID idSalleObservee;
 	private String nomSalleObservee;
@@ -77,7 +77,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 		//TODO: Récupérer la vraie IP du client
 		ipClient="localhost";
 		
-		portClient="8091";
 		this.myClientInfos = new ClientInfo(this.id, this.pseudo, ipClient, portClient);
 	}
 
@@ -153,6 +152,9 @@ public class Client extends UnicastRemoteObject implements IClient {
 			hdv.fermerSalle(idSDV, this.id);
 		} catch (PasCreateurException e) {
 			// impossible de fermer la salle si on en est pas le créateur
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

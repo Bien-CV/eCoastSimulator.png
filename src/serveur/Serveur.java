@@ -9,6 +9,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
+import commun.IHotelDesVentes;
 
 public class Serveur {
 
@@ -22,6 +23,7 @@ public class Serveur {
 		
 		//Mise en réseau
 		try {	
+			//hdv est l'objet à rendre disponible au client
 			hdv=new HotelDesVentes();
 			LocateRegistry.createRegistry(port);
 			Naming.bind("//localhost:"+port+"/hoteldesventes", hdv);

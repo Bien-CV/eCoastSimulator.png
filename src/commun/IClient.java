@@ -8,10 +8,10 @@ public interface IClient extends Remote {
 	
 	public void nouveauMessage (UUID idSalle, Message message) throws RemoteException;
 	
-	public void notifModifObjet (UUID idSalle, Objet objet);
+	public void notifModifObjet (UUID idSalle, Objet objet) throws RemoteException;
 	
-	public void notifFermetureSalle (UUID idSalle);
+	public void notifFermetureSalle (UUID idSalle) throws RemoteException;
 	
-	public void notifNouvelleSalle (UUID idSalle, Objet objEnVente);
+	public void notifNouvelleSalle (UUID idSalle, Objet objEnVente) throws RemoteException;
 
 }

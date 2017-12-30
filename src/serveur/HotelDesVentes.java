@@ -23,7 +23,7 @@ import commun.PseudoDejaUtiliseException;
 import commun.SalleDeVente;
 import commun.Message;
 
-@SuppressWarnings("serial")
+
 public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVentes {
 	
 	private List<SalleDeVente> listeSalles = new ArrayList<SalleDeVente>();
@@ -227,9 +227,17 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 			}
 		} catch (PlusDeVenteException e) {
 			for (ClientInfo ci : listeDiffusion ) {
-				listeRefsClient.get(ci.getId()).notifFermetureSalle(idSalle);
+				try {
+					listeRefsClient.get(ci.getId()).notifFermetureSalle(idSalle);
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			supprimerSDV(idSalle);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
@@ -240,7 +248,12 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		List<ClientInfo> listeDiffusion = SDV.getListeAcheteurs();
 		if (SDV.getIdCreateur().equals(idClient)) {
 			for (ClientInfo ci : listeDiffusion ) {
-				listeRefsClient.get(ci.getId()).notifFermetureSalle(idSalle);
+				try {
+					listeRefsClient.get(ci.getId()).notifFermetureSalle(idSalle);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			supprimerSDV(idSalle);
 		}
@@ -260,7 +273,12 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	// peut être à remplacer par une fonction "refresh" coté client.
 	public void notifCreationSalle (UUID idSalle) {
 		for (ClientInfo ci : listeClients) {
-			listeRefsClient.get(ci.getId()).notifNouvelleSalle(idSalle, getSalleById(idSalle).getObjetCourant());
+			try {
+				listeRefsClient.get(ci.getId()).notifNouvelleSalle(idSalle, getSalleById(idSalle).getObjetCourant());
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

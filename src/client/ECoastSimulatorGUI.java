@@ -5,7 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import net.miginfocom.swing.MigLayout;
+//import net.miginfocom.swing.MigLayout;
 import javax.swing.JSeparator;
 import javax.swing.BoxLayout;
 import java.awt.GridBagLayout;
@@ -60,15 +60,23 @@ public class ECoastSimulatorGUI {
 	private JTextField txtDescriptionDeLobjet;
 	private JTextField txtPrixDeBase;
 	public static Client client;
+	
+	public static void d(String msg) {
+		System.out.println(msg+"\n");
+	}
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		d("Lancement du client.");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					d("Run");
 					ECoastSimulatorGUI window = new ECoastSimulatorGUI();
+					d("GUI initialized");
 					window.frmEcoastsimulatorpng.setVisible(true);
+					d("GUI visible");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -83,7 +91,7 @@ public class ECoastSimulatorGUI {
 		initialize();
 	}
 	
-	public void mettreAJourTouteLInterface() {
+	public void actualiserInterface() {
 		updateListeDesSalles();
 		updateListeDesSallesSuivies();
 	}
@@ -179,6 +187,7 @@ public class ECoastSimulatorGUI {
 		btnSeDconnecter.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				d("TODO:Click se déconnecter");
 				//TODO: Déconnexion du serveur, si okay, rendre panelDeconnexion invisible et panelConnexion visible
 			}
 		});
@@ -192,6 +201,7 @@ public class ECoastSimulatorGUI {
 		btnNouvelleEnchre.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				d("TODO:CLick nouvelle enchère");
 				//TODO:Envoie une nouvelle enchère avec les informations des champs, l'observation passe à la salle créée
 				//txtNomDeLobjet
 				//txtDescriptionDeLobjet
@@ -268,23 +278,36 @@ public class ECoastSimulatorGUI {
 		btnSeConnecter_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				d("Click se connecter");
 				//Demande à se connecter au serveur avec le pseudo entré dans pseudonymeConnexion.getText()
 				//Si la connexion a réussi, on masque le panel panelConnexion et affiche panelDeconnexion
 				//On refresh un peu toute la GUI.
 				try {
 					client = new Client(pseudonymeConnexion.getText(),saisieAdresseServeur.getText());
+					d("Init client");
 					client.connexionServeur();
+					d("Connexion serveur");
 					LocateRegistry.createRegistry(Integer.parseInt(client.getPortClient()));
+					d("Registre créé");
 					Naming.bind(client.getAdresseClient(), client);
+					d("bind effectué");
 				} catch(RemoteException |  MalformedURLException exception){
 					exception.printStackTrace();
 				} catch(AlreadyBoundException alreadyBoundException)	{
+					d("LOL:AlreadyBound");
 					//Exception ignorée
 				}
 				panelConnexion.setVisible(false);
+				d("Panel de connexion caché");
 				panelDeconnexion.setVisible(true);
+				d("Panel de déconnexion rendu visible");
+				client.setPseudo(pseudonymeConnexion.getText());
+				d("Pseudonyme client actualisé selon saisie");
 				lblPseudoDeConnexion.setText(client.getPseudo());
+				d("Pseudonyme du client affiché en haut à gauche");
 				
+				actualiserInterface();
+				d("Actualisation de l'interface");
 				//TODO:Refresh toute la GUI
 			}
 		});

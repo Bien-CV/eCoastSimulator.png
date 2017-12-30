@@ -29,6 +29,6 @@ public interface IHotelDesVentes extends Remote {
 	
 	public void posterMessage (UUID idSalle, Message message) throws RemoteException;
 	
-	public void fermerSalle (UUID idSalle, UUID idClient) throws PasCreateurException;
+	public void fermerSalle (UUID idSalle, UUID idClient) throws RemoteException,PasCreateurException;
 	
 }
