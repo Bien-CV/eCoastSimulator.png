@@ -1,5 +1,4 @@
-// TODO :
-// virer le code commenté inutile
+// TODO : les todos
 
 package client;
 
@@ -43,8 +42,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 
 	private IHotelDesVentes hdv;
 	private HashMap<UUID, Objet> ventesSuivies;
-	//private HashMap<UUID, Objet> ventesExistantes;
-	//private List<SalleDeVenteInfo> listeInfosSalles;
 	private HashMap<UUID, SalleDeVenteInfo> mapInfosSalles;
 	// liste des messages postés dans les différentes salles de ventes suivies
 	private HashMap<UUID, List<Message>> listesMessages;
@@ -103,11 +100,9 @@ public class Client extends UnicastRemoteObject implements IClient {
 		try {
 			// login + récupération de la liste des salles existantes.
 			// TODO : mettre a jour l'IHM avec la liste susmentionnée.
-			// ventesExistantes = hdv.login(this.myClientInfos);
 			mapInfosSalles = hdv.login(this.myClientInfos);
 			
 		} catch (RemoteException | PseudoDejaUtiliseException | DejaConnecteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -117,7 +112,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 		try {
 			hdv.logout(myClientInfos);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// TODO : fermeture de l'application ?
@@ -161,7 +155,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 			// impossible de fermer la salle si on en est pas le créateur
 			e.printStackTrace();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -206,8 +199,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 
 	@Override
 	public void notifNouvelleSalle(UUID idsdv, SalleDeVenteInfo sdvi) {
-		//ventesExistantes.put(sdvi.getId(), sdvi.getObjCourrant());
-		//listeInfosSalles.add(sdvi);
 		mapInfosSalles.put(idsdv, sdvi);
 	}
 
