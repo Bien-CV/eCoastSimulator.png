@@ -45,7 +45,8 @@ public class Client extends UnicastRemoteObject implements IClient {
 	private IHotelDesVentes hdv;
 	private HashMap<UUID, Objet> ventesSuivies;
 	//private HashMap<UUID, Objet> ventesExistantes;
-	private List<SalleDeVenteInfo> listeInfosSalles;
+	//private List<SalleDeVenteInfo> listeInfosSalles;
+	private HashMap<UUID, SalleDeVenteInfo> mapInfosSalles;
 	// liste des messages postés dans les différentes salles de ventes suivies
 	private HashMap<UUID, List<Message>> listesMessages;
 	public UUID getId() {
@@ -104,7 +105,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 			// login + récupération de la liste des salles existantes.
 			// TODO : mettre a jour l'IHM avec la liste susmentionnée.
 			// ventesExistantes = hdv.login(this.myClientInfos);
-			listeInfosSalles = hdv.login(this.myClientInfos);
+			mapInfosSalles = hdv.login(this.myClientInfos);
 			
 		} catch (RemoteException | PseudoDejaUtiliseException | DejaConnecteException e) {
 			// TODO Auto-generated catch block
@@ -193,19 +194,22 @@ public class Client extends UnicastRemoteObject implements IClient {
 	@Override
 	public void notifModifObjet(UUID idSalle, Objet objet) {
 		ventesSuivies.put(idSalle, objet);
+		mapInfosSalles.get(idSalle).setObjCourrant(objet);
 		// TODO : refresh l'IHM pour prendre en compte les modifs
 	}
 
 	@Override
 	public void notifFermetureSalle(UUID idSalle) {
 		ventesSuivies.remove(idSalle);
+		mapInfosSalles.remove(idSalle);
 		// TODO : refresh l'IHM pour prendre en compte les modifs
 	}
 
 	@Override
-	public void notifNouvelleSalle(SalleDeVenteInfo sdvi) {
+	public void notifNouvelleSalle(UUID idsdv, SalleDeVenteInfo sdvi) {
 		//ventesExistantes.put(sdvi.getId(), sdvi.getObjCourrant());
-		listeInfosSalles.add(sdvi);
+		//listeInfosSalles.add(sdvi);
+		mapInfosSalles.put(idsdv, sdvi);
 	}
 
 	public UUID getIdSalleObservee() {

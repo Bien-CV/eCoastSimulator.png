@@ -1,17 +1,15 @@
 package commun;
 
-import java.util.UUID;
-
 public class SalleDeVenteInfo {
 	
 	private String nom;
-	private UUID id;
+	//private UUID id;
 	private Objet objCourrant;
 	
-	public SalleDeVenteInfo(String nom, UUID id, Objet objCourrant) {
+	public SalleDeVenteInfo(String nom, Objet objCourrant) {
 		super();
 		this.nom = nom;
-		this.id = id;
+		//this.id = id;
 		this.objCourrant = objCourrant;
 	}
 	
@@ -23,13 +21,13 @@ public class SalleDeVenteInfo {
 		this.nom = nom;
 	}
 	
-	public UUID getId() {
-		return id;
-	}
-	
-	public void setId(UUID id) {
-		this.id = id;
-	}
+//	public UUID getId() {
+//		return id;
+//	}
+//	
+//	public void setId(UUID id) {
+//		this.id = id;
+//	}
 	
 	public Objet getObjCourrant() {
 		return objCourrant;

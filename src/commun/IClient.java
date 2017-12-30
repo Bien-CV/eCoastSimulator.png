@@ -12,6 +12,6 @@ public interface IClient extends Remote {
 	
 	public void notifFermetureSalle (UUID idSalle) throws RemoteException;
 	
-	public void notifNouvelleSalle (SalleDeVenteInfo sdvi) throws RemoteException;
+	public void notifNouvelleSalle (UUID idsdv, SalleDeVenteInfo sdvi) throws RemoteException;
 
 }
