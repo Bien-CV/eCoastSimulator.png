@@ -65,6 +65,7 @@ public class ECoastSimulatorGUI {
 	public static Client client;
 	private UUID idSalleCourante;
 	private JList<SalleDeVenteInfo> listeDesSalles = new JList<SalleDeVenteInfo>();
+	private JList<SalleDeVenteInfo> listeDesSallesSuivies = new JList<SalleDeVenteInfo>();
 	
 	public static void d(String msg) {
 		System.out.println(msg+"\n");
@@ -105,6 +106,18 @@ public class ECoastSimulatorGUI {
 	
 	private void updateListeDesSallesSuivies() {
 		d("Actualisation des salles suivies");
+		
+		listeDesSallesSuivies.setModel(new AbstractListModel<SalleDeVenteInfo>() {
+
+			private static final long serialVersionUID = 6110811681481178698L;
+			SalleDeVenteInfo[] values = {null};
+			public int getSize() {
+				return values.length;
+			}
+			public SalleDeVenteInfo getElementAt(int index) {
+				return values[index];
+			}
+		});
 		// TODO Auto-generated method stub
 		
 		
@@ -126,11 +139,12 @@ public class ECoastSimulatorGUI {
 
 			private static final long serialVersionUID = -6762872273592088709L;
 
-			SalleDeVenteInfo[] values=client.get;
+			//TODO: values=getTabInfosSalles
+			SalleDeVenteInfo[] values=null;
 			public int getSize() {
 				return values.length;
 			}
-			public SalleDeVente getElementAt(int index) {
+			public SalleDeVenteInfo getElementAt(int index) {
 				return values[index];
 			}
 		});
@@ -352,31 +366,30 @@ public class ECoastSimulatorGUI {
 		panelConnexion.add(btnSeConnecter_1, gbc_btnSeConnecter_1);
 		commandesProfil.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{panelDeconnexion, lblConnectEnTemps, lblPseudoDeConnexion, btnSeDconnecter, panelConnexion, lblPseudonyme, pseudonymeConnexion, btnSeConnecter_1}));
 		
-		JPanel listeDesObjetsSuivis = new JPanel();
-		listeDesObjetsSuivis.setBorder(new LineBorder(new Color(0, 0, 0)));
-		sideBar.add(listeDesObjetsSuivis, BorderLayout.SOUTH);
-		listeDesObjetsSuivis.setLayout(new BorderLayout(0, 0));
+		JPanel panelListeDesSallesSuivies = new JPanel();
+		panelListeDesSallesSuivies.setBorder(new LineBorder(new Color(0, 0, 0)));
+		sideBar.add(panelListeDesSallesSuivies, BorderLayout.SOUTH);
+		panelListeDesSallesSuivies.setLayout(new BorderLayout(0, 0));
 		
-		JList<String> listObjetsSuivis = new JList<String>();
-		listObjetsSuivis.setModel(new AbstractListModel<String>() {
+		listeDesSallesSuivies.setModel(new AbstractListModel<SalleDeVenteInfo>() {
 
 			private static final long serialVersionUID = 6110811681481178698L;
-			String[] values = new String[] {"Parapluie", "Parapente", "Partouz"};
+			SalleDeVenteInfo[] values = {null};
 			public int getSize() {
 				return values.length;
 			}
-			public String getElementAt(int index) {
+			public SalleDeVenteInfo getElementAt(int index) {
 				return values[index];
 			}
 		});
-		listObjetsSuivis.setSelectedIndex(0);
-		listeDesObjetsSuivis.add(listObjetsSuivis);
+		listeDesSallesSuivies.setSelectedIndex(0);
+		panelListeDesSallesSuivies.add(listeDesSallesSuivies);
 		
 		JLabel lblSallesSuivies = new JLabel("Salles suivies");
-		listeDesObjetsSuivis.add(lblSallesSuivies, BorderLayout.NORTH);
+		panelListeDesSallesSuivies.add(lblSallesSuivies, BorderLayout.NORTH);
 		
 		JPanel panelBoutonsObjetsSuivis = new JPanel();
-		listeDesObjetsSuivis.add(panelBoutonsObjetsSuivis, BorderLayout.SOUTH);
+		panelListeDesSallesSuivies.add(panelBoutonsObjetsSuivis, BorderLayout.SOUTH);
 		GridBagLayout gbl_panelBoutonsObjetsSuivis = new GridBagLayout();
 		gbl_panelBoutonsObjetsSuivis.columnWidths = new int[]{207, 0};
 		gbl_panelBoutonsObjetsSuivis.rowHeights = new int[]{29, 0, 0};
@@ -389,9 +402,9 @@ public class ECoastSimulatorGUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				client.setIdSalleObservee(listeDesSalles.getSelectedValue());
-				//TODO:Déclenche l'observation de la salle sélectionnée
-				
+				client.setIdSalleObservee(listeDesSalles.getSelectedValue().getId());
+				updateObjetSalleCourante();
+				updateListeDesSallesSuivies();
 			}
 		});
 		GridBagConstraints gbc_btnRejoindreSalleDeLObjet = new GridBagConstraints();
@@ -405,6 +418,9 @@ public class ECoastSimulatorGUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//TODO: Demande à quitter la salle suivie sélectionnée
+				UUID idSalleAQuitter = listeDesSallesSuivies.getSelectedValue().getId();
+				client.getVentesSuivies().remove(idSalleAQuitter);
+				client.quitterSalle(idSalleAQuitter);
 			}
 		});
 		GridBagConstraints gbc_btnQuitterSalleDe = new GridBagConstraints();
@@ -452,18 +468,15 @@ public class ECoastSimulatorGUI {
 		panelListeSalle.setLayout(new BorderLayout(0, 0));
 		
 		
-		listeDesSalles.setModel(new AbstractListModel<SalleDeVente>() {
-			/**
-			 * 
-			 */
+		listeDesSalles.setModel(new AbstractListModel<SalleDeVenteInfo>() {
 			private static final long serialVersionUID = -6762872273592088709L;
 
 
-			SalleDeVente[] values={};
+			SalleDeVenteInfo[] values={};
 			public int getSize() {
 				return values.length;
 			}
-			public SalleDeVente getElementAt(int index) {
+			public SalleDeVenteInfo getElementAt(int index) {
 				return values[index];
 			}
 		});

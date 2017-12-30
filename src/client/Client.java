@@ -214,4 +214,9 @@ public class Client extends UnicastRemoteObject implements IClient {
 		this.mapInfosSalles = mapInfosSalles;
 	}
 
+	public void quitterSalle(UUID idSalleAQuitter) {
+		// TODO Auto-generated method stub
+		hdv.quitterSalle( this.id,idSalleAQuitter);
+	}
+
 }
