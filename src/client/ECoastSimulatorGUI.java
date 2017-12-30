@@ -29,6 +29,7 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 import commun.Message;
 import commun.Objet;
 import commun.SalleDeVente;
+import commun.SalleDeVenteInfo;
 import commun.IHotelDesVentes;
 
 import java.awt.Component;
@@ -63,6 +64,7 @@ public class ECoastSimulatorGUI {
 	private JTextField txtPrixDeBase;
 	public static Client client;
 	private UUID idSalleCourante;
+	private JList<SalleDeVenteInfo> listeDesSalles = new JList<SalleDeVenteInfo>();
 	
 	public static void d(String msg) {
 		System.out.println(msg+"\n");
@@ -95,7 +97,7 @@ public class ECoastSimulatorGUI {
 	}
 	
 	public void actualiserInterface() {
-		updateListeDesSalles();
+		updateListeDesSallesServeur();
 		updateListeDesSallesSuivies();
 		updateObjetSalleCourante();
 		d("Actualisation de toute l'interface");
@@ -114,15 +116,26 @@ public class ECoastSimulatorGUI {
 		txtNomDeLobjet.setText(objCourant.getNom());
 		txtDescriptionDeLobjet.setText(objCourant.getDescription());
 		String prixCourant=Float.toString(objCourant.getPrixCourant());
-		txtPrixDeBase.setText(prixCourant);
-		
-		// TODO Auto-generated method stub
-		
-		
+		txtPrixDeBase.setText(prixCourant);		
 	}
 
-	private void updateListeDesSalles() {
+	private void updateListeDesSallesServeur() {
 		d("Actualisation des salles du serveur");
+		
+		listeDesSalles.setModel(new AbstractListModel<SalleDeVente>() {
+
+			private static final long serialVersionUID = -6762872273592088709L;
+
+			SalleDeVente[] values={};
+			public int getSize() {
+				return values.length;
+			}
+			public SalleDeVente getElementAt(int index) {
+				return values[index];
+			}
+		});
+		
+		
 		// TODO Auto-generated method stub
 		
 	}
@@ -138,7 +151,7 @@ public class ECoastSimulatorGUI {
 		frmEcoastsimulatorpng.setBounds(100, 100, 924, 700);
 		frmEcoastsimulatorpng.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmEcoastsimulatorpng.getContentPane().setLayout(new BorderLayout(0, 0));
-		JList<SalleDeVente> listeDesSalles = new JList<SalleDeVente>();
+		
 		
 		JPanel topBar = new JPanel();
 		topBar.setBorder(null);
@@ -376,7 +389,7 @@ public class ECoastSimulatorGUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				client.setIdSalleObservee(listeDesSalles.getSelectedValue().getId());
+				client.setIdSalleObservee(listeDesSalles.getSelectedValue());
 				//TODO:Déclenche l'observation de la salle sélectionnée
 				
 			}
