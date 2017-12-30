@@ -286,9 +286,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 
 	@Override
 	public void quitterSalle(UUID idClient, UUID idSalleAQuitter) throws RemoteException {
-		// TODO Auto-generated method stub
-		SalleDeVente sdv = getSalleById(idSalleAQuitter);
-		sdv.retirerClient(getClientById(idClient));
+		getSalleById(idSalleAQuitter).retirerClient(getClientById(idClient));
 	}
 
 }
