@@ -328,7 +328,7 @@ public class ECoastSimulatorGUI {
 		listObjetsSuivis.setModel(new AbstractListModel<String>() {
 
 			private static final long serialVersionUID = 6110811681481178698L;
-			String[] values = new String[] {"Parapluie", "Parapente", "Pardon"};
+			String[] values = new String[] {"Parapluie", "Parapente", "Partouz"};
 			public int getSize() {
 				return values.length;
 			}
