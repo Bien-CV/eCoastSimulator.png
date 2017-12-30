@@ -15,7 +15,7 @@ public interface IHotelDesVentes extends Remote {
 
 	void logout(ClientInfo client) throws RemoteException;
 
-	void encherir(int prix, UUID clientId, UUID idSDV) throws RemoteException;
+	void encherir(float prix, UUID clientId, UUID idSDV) throws RemoteException;
 
 	Objet getObjetEnVente(UUID idSDV) throws RemoteException;
 

@@ -66,7 +66,7 @@ public class ECoastSimulatorGUI {
 	private UUID idSalleCourante;
 	private JList<SalleDeVenteInfo> listeDesSalles = new JList<SalleDeVenteInfo>();
 	private JList<SalleDeVenteInfo> listeDesSallesSuivies = new JList<SalleDeVenteInfo>();
-	
+
 	public static void d(String msg) {
 		System.out.println(msg+"\n");
 	}
@@ -96,17 +96,17 @@ public class ECoastSimulatorGUI {
 	public ECoastSimulatorGUI() {
 		initialize();
 	}
-	
+
 	public void actualiserInterface() {
 		updateListeDesSallesServeur();
 		updateListeDesSallesSuivies();
 		updateObjetSalleCourante();
 		d("Actualisation de toute l'interface");
 	}
-	
+
 	private void updateListeDesSallesSuivies() {
 		d("Actualisation des salles suivies");
-		
+
 		listeDesSallesSuivies.setModel(new AbstractListModel<SalleDeVenteInfo>() {
 
 			private static final long serialVersionUID = 6110811681481178698L;
@@ -119,8 +119,8 @@ public class ECoastSimulatorGUI {
 			}
 		});
 		// TODO Auto-generated method stub
-		
-		
+
+
 	}
 	private void updateObjetSalleCourante() {
 		d("Actualisation de l'objet courant");
@@ -134,7 +134,7 @@ public class ECoastSimulatorGUI {
 
 	private void updateListeDesSallesServeur() {
 		d("Actualisation des salles du serveur");
-		
+
 		listeDesSalles.setModel(new AbstractListModel<SalleDeVenteInfo>() {
 
 			private static final long serialVersionUID = -6762872273592088709L;
@@ -148,10 +148,10 @@ public class ECoastSimulatorGUI {
 				return values[index];
 			}
 		});
-		
-		
+
+
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
@@ -165,32 +165,32 @@ public class ECoastSimulatorGUI {
 		frmEcoastsimulatorpng.setBounds(100, 100, 924, 700);
 		frmEcoastsimulatorpng.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmEcoastsimulatorpng.getContentPane().setLayout(new BorderLayout(0, 0));
-		
-		
+
+
 		JPanel topBar = new JPanel();
 		topBar.setBorder(null);
 		frmEcoastsimulatorpng.getContentPane().add(topBar, BorderLayout.NORTH);
-		
+
 		JLabel lblAdresse = new JLabel("Adresse du serveur : ");
 		topBar.add(lblAdresse);
-		
+
 		saisieAdresseServeur = new JTextField();
 		saisieAdresseServeur.setText("localhost:8090");
 		topBar.add(saisieAdresseServeur);
 		saisieAdresseServeur.setColumns(10);
-		
+
 		JButton btnSeConnecter = new JButton("se connecter");
 		topBar.add(btnSeConnecter);
-		
+
 		JPanel globalLowPanel = new JPanel();
 		frmEcoastsimulatorpng.getContentPane().add(globalLowPanel);
 		globalLowPanel.setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel sideBar = new JPanel();
 		sideBar.setBorder(null);
 		globalLowPanel.add(sideBar, BorderLayout.WEST);
 		sideBar.setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel commandesProfil = new JPanel();
 		commandesProfil.setBorder(new LineBorder(new Color(0, 0, 0)));
 		sideBar.add(commandesProfil, BorderLayout.NORTH);
@@ -200,7 +200,7 @@ public class ECoastSimulatorGUI {
 		gbl_commandesProfil.columnWeights = new double[]{1.0};
 		gbl_commandesProfil.rowWeights = new double[]{1.0, 0.0};
 		commandesProfil.setLayout(gbl_commandesProfil);
-		
+
 		JPanel panelDeconnexion = new JPanel();
 		GridBagConstraints gbc_panelDeconnexion = new GridBagConstraints();
 		gbc_panelDeconnexion.fill = GridBagConstraints.HORIZONTAL;
@@ -215,7 +215,7 @@ public class ECoastSimulatorGUI {
 		gbl_panelDeconnexion.columnWeights = new double[]{1.0};
 		gbl_panelDeconnexion.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelDeconnexion.setLayout(gbl_panelDeconnexion);
-		
+
 		JLabel lblConnectEnTemps = new JLabel("Connecté en tant que :");
 		GridBagConstraints gbc_lblConnectEnTemps = new GridBagConstraints();
 		gbc_lblConnectEnTemps.insets = new Insets(0, 0, 5, 0);
@@ -223,7 +223,7 @@ public class ECoastSimulatorGUI {
 		gbc_lblConnectEnTemps.gridx = 0;
 		gbc_lblConnectEnTemps.gridy = 0;
 		panelDeconnexion.add(lblConnectEnTemps, gbc_lblConnectEnTemps);
-		
+
 		JLabel lblPseudoDeConnexion = new JLabel("Baptiste");
 		lblPseudoDeConnexion.setFont(new Font("Tahoma", Font.BOLD, 16));
 		GridBagConstraints gbc_lblPseudoDeConnexion = new GridBagConstraints();
@@ -231,7 +231,7 @@ public class ECoastSimulatorGUI {
 		gbc_lblPseudoDeConnexion.gridx = 0;
 		gbc_lblPseudoDeConnexion.gridy = 1;
 		panelDeconnexion.add(lblPseudoDeConnexion, gbc_lblPseudoDeConnexion);
-		
+
 		JButton btnSeDconnecter = new JButton("Se déconnecter");
 		btnSeDconnecter.addMouseListener(new MouseAdapter() {
 			@Override
@@ -245,7 +245,7 @@ public class ECoastSimulatorGUI {
 		gbc_btnSeDconnecter.gridx = 0;
 		gbc_btnSeDconnecter.gridy = 2;
 		panelDeconnexion.add(btnSeDconnecter, gbc_btnSeDconnecter);
-		
+
 		JButton btnNouvelleEnchre = new JButton("Nouvelle enchère");
 		btnNouvelleEnchre.addMouseListener(new MouseAdapter() {
 			@Override
@@ -255,7 +255,7 @@ public class ECoastSimulatorGUI {
 				//txtNomDeLobjet
 				//txtDescriptionDeLobjet
 				//txtPrixDeBase
-				
+
 			}
 		});
 		GridBagConstraints gbc_btnNouvelleEnchre = new GridBagConstraints();
@@ -263,7 +263,7 @@ public class ECoastSimulatorGUI {
 		gbc_btnNouvelleEnchre.gridx = 0;
 		gbc_btnNouvelleEnchre.gridy = 3;
 		panelDeconnexion.add(btnNouvelleEnchre, gbc_btnNouvelleEnchre);
-		
+
 		txtNomDeLobjet = new JTextField();
 		txtNomDeLobjet.setText("Nom de l'objet");
 		GridBagConstraints gbc_txtNomDeLobjet = new GridBagConstraints();
@@ -273,7 +273,7 @@ public class ECoastSimulatorGUI {
 		gbc_txtNomDeLobjet.gridy = 4;
 		panelDeconnexion.add(txtNomDeLobjet, gbc_txtNomDeLobjet);
 		txtNomDeLobjet.setColumns(10);
-		
+
 		txtDescriptionDeLobjet = new JTextField();
 		txtDescriptionDeLobjet.setText("Description de l'objet");
 		GridBagConstraints gbc_txtDescriptionDeLobjet = new GridBagConstraints();
@@ -283,7 +283,7 @@ public class ECoastSimulatorGUI {
 		gbc_txtDescriptionDeLobjet.gridy = 5;
 		panelDeconnexion.add(txtDescriptionDeLobjet, gbc_txtDescriptionDeLobjet);
 		txtDescriptionDeLobjet.setColumns(10);
-		
+
 		txtPrixDeBase = new JTextField();
 		txtPrixDeBase.setText("Prix de base de l'objet");
 		GridBagConstraints gbc_txtPrixDeBase = new GridBagConstraints();
@@ -292,7 +292,7 @@ public class ECoastSimulatorGUI {
 		gbc_txtPrixDeBase.gridy = 6;
 		panelDeconnexion.add(txtPrixDeBase, gbc_txtPrixDeBase);
 		txtPrixDeBase.setColumns(10);
-		
+
 		JPanel panelConnexion = new JPanel();
 		GridBagConstraints gbc_panelConnexion = new GridBagConstraints();
 		gbc_panelConnexion.fill = GridBagConstraints.HORIZONTAL;
@@ -305,14 +305,14 @@ public class ECoastSimulatorGUI {
 		gbl_panelConnexion.columnWeights = new double[]{0.0};
 		gbl_panelConnexion.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelConnexion.setLayout(gbl_panelConnexion);
-		
+
 		JLabel lblPseudonyme = new JLabel("Pseudonyme : ");
 		GridBagConstraints gbc_lblPseudonyme = new GridBagConstraints();
 		gbc_lblPseudonyme.insets = new Insets(0, 0, 0, 5);
 		gbc_lblPseudonyme.gridx = 0;
 		gbc_lblPseudonyme.gridy = 0;
 		panelConnexion.add(lblPseudonyme, gbc_lblPseudonyme);
-		
+
 		pseudonymeConnexion = new JTextField();
 		pseudonymeConnexion.setText("Entrez votre nom");
 		GridBagConstraints gbc_pseudonymeConnexion = new GridBagConstraints();
@@ -322,7 +322,7 @@ public class ECoastSimulatorGUI {
 		gbc_pseudonymeConnexion.gridy = 1;
 		panelConnexion.add(pseudonymeConnexion, gbc_pseudonymeConnexion);
 		pseudonymeConnexion.setColumns(10);
-		
+
 		JButton btnSeConnecter_1 = new JButton("Se connecter");
 		btnSeConnecter_1.addMouseListener(new MouseAdapter() {
 			@Override
@@ -355,7 +355,7 @@ public class ECoastSimulatorGUI {
 				d("Pseudonyme client actualisé selon saisie");
 				lblPseudoDeConnexion.setText(client.getPseudo());
 				d("Pseudonyme du client affiché en haut à gauche");
-				
+
 				actualiserInterface();
 				d("Actualisation de l'interface");
 			}
@@ -365,12 +365,12 @@ public class ECoastSimulatorGUI {
 		gbc_btnSeConnecter_1.gridy = 2;
 		panelConnexion.add(btnSeConnecter_1, gbc_btnSeConnecter_1);
 		commandesProfil.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{panelDeconnexion, lblConnectEnTemps, lblPseudoDeConnexion, btnSeDconnecter, panelConnexion, lblPseudonyme, pseudonymeConnexion, btnSeConnecter_1}));
-		
+
 		JPanel panelListeDesSallesSuivies = new JPanel();
 		panelListeDesSallesSuivies.setBorder(new LineBorder(new Color(0, 0, 0)));
 		sideBar.add(panelListeDesSallesSuivies, BorderLayout.SOUTH);
 		panelListeDesSallesSuivies.setLayout(new BorderLayout(0, 0));
-		
+
 		listeDesSallesSuivies.setModel(new AbstractListModel<SalleDeVenteInfo>() {
 
 			private static final long serialVersionUID = 6110811681481178698L;
@@ -384,10 +384,10 @@ public class ECoastSimulatorGUI {
 		});
 		listeDesSallesSuivies.setSelectedIndex(0);
 		panelListeDesSallesSuivies.add(listeDesSallesSuivies);
-		
+
 		JLabel lblSallesSuivies = new JLabel("Salles suivies");
 		panelListeDesSallesSuivies.add(lblSallesSuivies, BorderLayout.NORTH);
-		
+
 		JPanel panelBoutonsObjetsSuivis = new JPanel();
 		panelListeDesSallesSuivies.add(panelBoutonsObjetsSuivis, BorderLayout.SOUTH);
 		GridBagLayout gbl_panelBoutonsObjetsSuivis = new GridBagLayout();
@@ -396,12 +396,12 @@ public class ECoastSimulatorGUI {
 		gbl_panelBoutonsObjetsSuivis.columnWeights = new double[]{0.0, Double.MIN_VALUE};
 		gbl_panelBoutonsObjetsSuivis.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		panelBoutonsObjetsSuivis.setLayout(gbl_panelBoutonsObjetsSuivis);
-		
+
 		JButton btnRejoindreSalleDeLObjet = new JButton("Rejoindre salle de l'objet");
 		btnRejoindreSalleDeLObjet.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+
 				client.setIdSalleObservee(listeDesSalles.getSelectedValue().getId());
 				updateObjetSalleCourante();
 				updateListeDesSallesSuivies();
@@ -412,12 +412,11 @@ public class ECoastSimulatorGUI {
 		gbc_btnRejoindreSalleDeLObjet.gridx = 0;
 		gbc_btnRejoindreSalleDeLObjet.gridy = 0;
 		panelBoutonsObjetsSuivis.add(btnRejoindreSalleDeLObjet, gbc_btnRejoindreSalleDeLObjet);
-		
+
 		JButton btnQuitterSalleDe = new JButton("Quitter salle de l'objet");
 		btnQuitterSalleDe.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//TODO: Demande à quitter la salle suivie sélectionnée
 				UUID idSalleAQuitter = listeDesSallesSuivies.getSelectedValue().getId();
 				client.getVentesSuivies().remove(idSalleAQuitter);
 				client.quitterSalle(idSalleAQuitter);
@@ -427,7 +426,7 @@ public class ECoastSimulatorGUI {
 		gbc_btnQuitterSalleDe.gridx = 0;
 		gbc_btnQuitterSalleDe.gridy = 1;
 		panelBoutonsObjetsSuivis.add(btnQuitterSalleDe, gbc_btnQuitterSalleDe);
-		
+
 		JPanel mainPanel = new JPanel();
 		mainPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		globalLowPanel.add(mainPanel, BorderLayout.CENTER);
@@ -437,7 +436,7 @@ public class ECoastSimulatorGUI {
 		gbl_mainPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gbl_mainPanel.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		mainPanel.setLayout(gbl_mainPanel);
-		
+
 		JPanel panelCentreEcran = new JPanel();
 		GridBagConstraints gbc_panelCentreEcran = new GridBagConstraints();
 		gbc_panelCentreEcran.anchor = GridBagConstraints.NORTH;
@@ -452,7 +451,7 @@ public class ECoastSimulatorGUI {
 		gbl_panelCentreEcran.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		gbl_panelCentreEcran.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panelCentreEcran.setLayout(gbl_panelCentreEcran);
-		
+
 		JPanel panelGlobalListeSalle = new JPanel();
 		GridBagConstraints gbc_panelGlobalListeSalle = new GridBagConstraints();
 		gbc_panelGlobalListeSalle.anchor = GridBagConstraints.WEST;
@@ -462,12 +461,12 @@ public class ECoastSimulatorGUI {
 		gbc_panelGlobalListeSalle.gridy = 0;
 		panelCentreEcran.add(panelGlobalListeSalle, gbc_panelGlobalListeSalle);
 		panelGlobalListeSalle.setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panelListeSalle = new JPanel();
 		panelGlobalListeSalle.add(panelListeSalle, BorderLayout.CENTER);
 		panelListeSalle.setLayout(new BorderLayout(0, 0));
-		
-		
+
+
 		listeDesSalles.setModel(new AbstractListModel<SalleDeVenteInfo>() {
 			private static final long serialVersionUID = -6762872273592088709L;
 
@@ -481,11 +480,11 @@ public class ECoastSimulatorGUI {
 			}
 		});
 		panelListeSalle.add(listeDesSalles);
-		
+
 		JLabel lblSallesDenchres = new JLabel("Salles d'enchères :");
 		lblSallesDenchres.setHorizontalAlignment(SwingConstants.CENTER);
 		panelListeSalle.add(lblSallesDenchres, BorderLayout.NORTH);
-		
+
 		JPanel panelBoutonsPourListeSalles = new JPanel();
 		panelGlobalListeSalle.add(panelBoutonsPourListeSalles, BorderLayout.EAST);
 		GridBagLayout gbl_panelBoutonsPourListeSalles = new GridBagLayout();
@@ -494,7 +493,7 @@ public class ECoastSimulatorGUI {
 		gbl_panelBoutonsPourListeSalles.columnWeights = new double[]{0.0, Double.MIN_VALUE};
 		gbl_panelBoutonsPourListeSalles.rowWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
 		panelBoutonsPourListeSalles.setLayout(gbl_panelBoutonsPourListeSalles);
-		
+
 		JPanel panelNombrePersonnesDansSalle = new JPanel();
 		@SuppressWarnings("unused")
 		FlowLayout flowLayout = (FlowLayout) panelNombrePersonnesDansSalle.getLayout();
@@ -505,16 +504,16 @@ public class ECoastSimulatorGUI {
 		gbc_panelNombrePersonnesDansSalle.gridx = 0;
 		gbc_panelNombrePersonnesDansSalle.gridy = 0;
 		panelBoutonsPourListeSalles.add(panelNombrePersonnesDansSalle, gbc_panelNombrePersonnesDansSalle);
-		
+
 		JLabel lblPersonnesDansLa = new JLabel("Connectés : ");
 		panelNombrePersonnesDansSalle.add(lblPersonnesDansLa);
-		
+
 		JLabel labelNombreConnectesParSalle = new JLabel("3");
 		panelNombrePersonnesDansSalle.add(labelNombreConnectesParSalle);
-		
+
 		JLabel lblPersonnes = new JLabel("personnes");
 		panelNombrePersonnesDansSalle.add(lblPersonnes);
-		
+
 		JPanel panelPlusHauteEnchere = new JPanel();
 		GridBagConstraints gbc_panelPlusHauteEnchere = new GridBagConstraints();
 		gbc_panelPlusHauteEnchere.anchor = GridBagConstraints.NORTH;
@@ -523,16 +522,16 @@ public class ECoastSimulatorGUI {
 		gbc_panelPlusHauteEnchere.gridx = 0;
 		gbc_panelPlusHauteEnchere.gridy = 1;
 		panelBoutonsPourListeSalles.add(panelPlusHauteEnchere, gbc_panelPlusHauteEnchere);
-		
+
 		JLabel lblEnchre = new JLabel("Enchère : ");
 		panelPlusHauteEnchere.add(lblEnchre);
-		
+
 		JLabel labelPrixObjetSalle = new JLabel("500");
 		panelPlusHauteEnchere.add(labelPrixObjetSalle);
-		
+
 		JLabel label_euro = new JLabel("€");
 		panelPlusHauteEnchere.add(label_euro);
-		
+
 		JPanel panelRejoidreOuQuitterSalle = new JPanel();
 		GridBagConstraints gbc_panelRejoidreOuQuitterSalle = new GridBagConstraints();
 		gbc_panelRejoidreOuQuitterSalle.anchor = GridBagConstraints.SOUTH;
@@ -546,7 +545,7 @@ public class ECoastSimulatorGUI {
 		gbl_panelRejoidreOuQuitterSalle.columnWeights = new double[]{0.0, Double.MIN_VALUE};
 		gbl_panelRejoidreOuQuitterSalle.rowWeights = new double[]{0.0};
 		panelRejoidreOuQuitterSalle.setLayout(gbl_panelRejoidreOuQuitterSalle);
-		
+
 		JButton btnRejoindreSalleListe = new JButton("Rejoindre salle");
 		btnRejoindreSalleListe.addMouseListener(new MouseAdapter() {
 			@Override
@@ -559,8 +558,8 @@ public class ECoastSimulatorGUI {
 				idSalleCourante=listeDesSalles.getSelectedValue().getId();
 				client.rejoindreSalle(idSalleCourante);
 				updateObjetSalleCourante();
-				
-				
+
+
 			}
 		});
 		GridBagConstraints gbc_btnRejoindreSalleListe = new GridBagConstraints();
@@ -568,7 +567,7 @@ public class ECoastSimulatorGUI {
 		gbc_btnRejoindreSalleListe.gridx = 0;
 		gbc_btnRejoindreSalleListe.gridy = 0;
 		panelRejoidreOuQuitterSalle.add(btnRejoindreSalleListe, gbc_btnRejoindreSalleListe);
-		
+
 		JPanel panelGlobalObjet = new JPanel();
 		panelGlobalObjet.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagConstraints gbc_panelGlobalObjet = new GridBagConstraints();
@@ -577,7 +576,7 @@ public class ECoastSimulatorGUI {
 		gbc_panelGlobalObjet.gridy = 0;
 		panelCentreEcran.add(panelGlobalObjet, gbc_panelGlobalObjet);
 		panelGlobalObjet.setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panelBoutonsObjet = new JPanel();
 		panelGlobalObjet.add(panelBoutonsObjet, BorderLayout.SOUTH);
 		GridBagLayout gbl_panelBoutonsObjet = new GridBagLayout();
@@ -586,7 +585,7 @@ public class ECoastSimulatorGUI {
 		gbl_panelBoutonsObjet.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		gbl_panelBoutonsObjet.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panelBoutonsObjet.setLayout(gbl_panelBoutonsObjet);
-		
+
 		JPanel panel_2 = new JPanel();
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
 		gbc_panel_2.anchor = GridBagConstraints.NORTHWEST;
@@ -600,14 +599,27 @@ public class ECoastSimulatorGUI {
 		gbl_panel_2.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_2.rowWeights = new double[]{0.0};
 		panel_2.setLayout(gbl_panel_2);
-		
+
 		saisieEnchere = new JTextField();
 		saisieEnchere.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-				//TODO: Si on appuie sur entrée, envoyer la proposition d'enchère dans la salle de l'objet décrit
-				//if (e.getKeyCode() ) 
-				//saisieEnchere.setText("");
+				if (e.getKeyChar()=='\n') {
+
+					try {
+						d("Touche entrée saisie, envoi de l'enchère de : "+saisieEnchere.getText());
+						IHotelDesVentes serveur=client.getServeur();
+						d("Serveur récupéré du client.");
+						float enchere=Float.parseFloat(saisieEnchere.getText());
+						serveur.encherir(enchere, client.getId(), client.getIdSalleObservee());
+
+						d("Réussi.");
+						saisieEnchere.setText("");
+					} catch (RemoteException re) {
+						// TODO Auto-generated catch block
+						re.printStackTrace();
+					}
+				}
 			}
 		});
 		saisieEnchere.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -619,7 +631,8 @@ public class ECoastSimulatorGUI {
 		gbc_saisieEnchere.gridy = 0;
 		panel_2.add(saisieEnchere, gbc_saisieEnchere);
 		saisieEnchere.setColumns(10);
-		
+
+
 		JLabel label = new JLabel("€");
 		label.setHorizontalAlignment(SwingConstants.RIGHT);
 		GridBagConstraints gbc_label = new GridBagConstraints();
@@ -627,7 +640,7 @@ public class ECoastSimulatorGUI {
 		gbc_label.gridx = 1;
 		gbc_label.gridy = 0;
 		panel_2.add(label, gbc_label);
-		
+
 		JButton btnEnchrir = new JButton("Enchérir");
 		btnEnchrir.addMouseListener(new MouseAdapter() {
 			@Override
@@ -643,7 +656,7 @@ public class ECoastSimulatorGUI {
 		gbc_btnEnchrir.gridx = 1;
 		gbc_btnEnchrir.gridy = 0;
 		panelBoutonsObjet.add(btnEnchrir, gbc_btnEnchrir);
-		
+
 		JPanel panel_4 = new JPanel();
 		panelGlobalObjet.add(panel_4, BorderLayout.CENTER);
 		GridBagLayout gbl_panel_4 = new GridBagLayout();
@@ -652,7 +665,7 @@ public class ECoastSimulatorGUI {
 		gbl_panel_4.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gbl_panel_4.rowWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
 		panel_4.setLayout(gbl_panel_4);
-		
+
 		JPanel panel_5 = new JPanel();
 		GridBagConstraints gbc_panel_5 = new GridBagConstraints();
 		gbc_panel_5.insets = new Insets(0, 0, 5, 0);
@@ -660,13 +673,13 @@ public class ECoastSimulatorGUI {
 		gbc_panel_5.gridx = 0;
 		gbc_panel_5.gridy = 0;
 		panel_4.add(panel_5, gbc_panel_5);
-		
+
 		JLabel lblNomDeLobjet = new JLabel("Nom de l'objet : ");
 		panel_5.add(lblNomDeLobjet);
-		
+
 		JLabel lblPatate = new JLabel("patate");
 		panel_5.add(lblPatate);
-		
+
 		JPanel panel_6 = new JPanel();
 		GridBagConstraints gbc_panel_6 = new GridBagConstraints();
 		gbc_panel_6.insets = new Insets(0, 0, 5, 0);
@@ -674,29 +687,29 @@ public class ECoastSimulatorGUI {
 		gbc_panel_6.gridx = 0;
 		gbc_panel_6.gridy = 1;
 		panel_4.add(panel_6, gbc_panel_6);
-		
+
 		JLabel lblEchreCourante = new JLabel("Echère courante : ");
 		panel_6.add(lblEchreCourante);
-		
+
 		JLabel label_1 = new JLabel("240");
 		panel_6.add(label_1);
-		
+
 		JLabel label_2 = new JLabel("€");
 		panel_6.add(label_2);
-		
+
 		JPanel panel_7 = new JPanel();
 		GridBagConstraints gbc_panel_7 = new GridBagConstraints();
 		gbc_panel_7.fill = GridBagConstraints.BOTH;
 		gbc_panel_7.gridx = 0;
 		gbc_panel_7.gridy = 2;
 		panel_4.add(panel_7, gbc_panel_7);
-		
+
 		JLabel lblTempsRestantAvant = new JLabel("Fin dans : ");
 		panel_7.add(lblTempsRestantAvant);
-		
+
 		JLabel lblSecondes = new JLabel("7 secondes");
 		panel_7.add(lblSecondes);
-		
+
 		JPanel panelGlobalChat = new JPanel();
 		GridBagConstraints gbc_panelGlobalChat = new GridBagConstraints();
 		gbc_panelGlobalChat.fill = GridBagConstraints.BOTH;
@@ -710,7 +723,7 @@ public class ECoastSimulatorGUI {
 		gbl_panelGlobalChat.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gbl_panelGlobalChat.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		panelGlobalChat.setLayout(gbl_panelGlobalChat);
-		
+
 		JLabel lblDiscussionsDansLa = new JLabel("Discussions dans la salle : ");
 		lblDiscussionsDansLa.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblDiscussionsDansLa = new GridBagConstraints();
@@ -720,7 +733,7 @@ public class ECoastSimulatorGUI {
 		gbc_lblDiscussionsDansLa.gridx = 0;
 		gbc_lblDiscussionsDansLa.gridy = 0;
 		panelGlobalChat.add(lblDiscussionsDansLa, gbc_lblDiscussionsDansLa);
-		
+
 		JTextArea affichageChat = new JTextArea();
 		affichageChat.setLineWrap(true);
 		affichageChat.setText("Mario: Je t'aime Baptiste\r\nJoachim: Je t'aime Baptiste omg\r\nBaptiste: Les gars stop c'est embarrassant *blush*");
@@ -730,7 +743,7 @@ public class ECoastSimulatorGUI {
 		gbc_affichageChat.gridx = 0;
 		gbc_affichageChat.gridy = 1;
 		panelGlobalChat.add(affichageChat, gbc_affichageChat);
-		
+
 		JPanel panelSaisieChat = new JPanel();
 		panelSaisieChat.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagConstraints gbc_panelSaisieChat = new GridBagConstraints();
@@ -740,34 +753,12 @@ public class ECoastSimulatorGUI {
 		gbc_panelSaisieChat.gridy = 2;
 		panelGlobalChat.add(panelSaisieChat, gbc_panelSaisieChat);
 		panelSaisieChat.setLayout(new BorderLayout(0, 0));
-		
+
 		saisieChat = new JTextField();
-		saisieChat.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent key) {
-				//TODO: Chat : Si on appuie sur entrée, envoyer saisie et vider le champ
-				if (key.getKeyChar()=='\n') {
-					Message messageAEnvoyer=new Message(client.getPseudo(),saisieChat.getText());
-					try {
-						d("Touche entrée saisie, envoi du message");
-						IHotelDesVentes serveur=client.getServeur();
-						d("Serveur récupéré du client.");
-						d("Envoi en tant que "+messageAEnvoyer.getAuteur()+" à la salle "+client.getIdSalleObservee()+" du message :"+messageAEnvoyer.getContenu());
-						serveur.posterMessage(client.getIdSalleObservee(),messageAEnvoyer);
-						d("Réussi.");
-					} catch (RemoteException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
-				//saisieChat.getText()
-				//saisieChat.setText("");
-			}
-		});
+		
 		panelSaisieChat.add(saisieChat);
 		saisieChat.setColumns(10);
-		
+
 		JButton btnEnvoyer = new JButton("Envoyer");
 		btnEnvoyer.addMouseListener(new MouseAdapter() {
 			@Override

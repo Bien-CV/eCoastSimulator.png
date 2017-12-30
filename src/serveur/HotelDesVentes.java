@@ -144,7 +144,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	//Méthode accessible par le client
 	// Ajout d'une enchère sur l'objet courant d'une salle donnée.
 	@Override
-	public void encherir(int prix, UUID clientId, UUID idSDV) throws RemoteException {
+	public void encherir(float prix, UUID clientId, UUID idSDV) throws RemoteException {
 		Objet objEnVente = getObjetEnVente(idSDV);
 
 		if(objEnVente.getPrixCourant()<prix){
