@@ -194,7 +194,6 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	}
 	
 	// suppression salle de vente
-	@Override
 	public void supprimerSDV(UUID roomID) {
 		listeSalles.remove(getSalleById(roomID));
 		mapSalles.remove(roomID);

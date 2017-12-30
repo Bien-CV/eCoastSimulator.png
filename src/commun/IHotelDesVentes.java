@@ -27,7 +27,7 @@ public interface IHotelDesVentes extends Remote {
 
 	public SalleDeVente getSalleById(UUID roomId) throws RemoteException;
 	
-	public void supprimerSDV (UUID roomID) throws RemoteException;
+	//public void supprimerSDV (UUID roomID) throws RemoteException;
 	
 	public void posterMessage (UUID idSalle, Message message) throws RemoteException;
 	
