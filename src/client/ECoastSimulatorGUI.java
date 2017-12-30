@@ -110,7 +110,7 @@ public class ECoastSimulatorGUI {
 		listeDesSallesSuivies.setModel(new AbstractListModel<SalleDeVenteInfo>() {
 
 			private static final long serialVersionUID = 6110811681481178698L;
-			SalleDeVenteInfo[] values = {client.getTabVentesSuivies()};
+			SalleDeVenteInfo[] values = client.getTabVentesSuivies();
 			public int getSize() {
 				return values.length;
 			}
