@@ -263,7 +263,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	public HashMap<UUID, SalleDeVenteInfo> genererListeSalles() {
 		HashMap<UUID, SalleDeVenteInfo> salles = new HashMap<UUID, SalleDeVenteInfo>();
 		for (SalleDeVente sdv : listeSalles) {
-			SalleDeVenteInfo sdvi = new SalleDeVenteInfo(sdv.getNom(), sdv.getObjetCourant());
+			SalleDeVenteInfo sdvi = new SalleDeVenteInfo(sdv.getNom(), sdv.getId(), sdv.getObjetCourant());
 			salles.put(sdv.getId(), sdvi);
 		}
 		return salles;
@@ -273,7 +273,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	// peut être à remplacer par une fonction "refresh" coté client.
 	public void notifCreationSalle (UUID idSalle) {
 		SalleDeVente sdv = getSalleById(idSalle);
-		SalleDeVenteInfo sdvi = new SalleDeVenteInfo(sdv.getNom(), sdv.getObjetCourant());
+		SalleDeVenteInfo sdvi = new SalleDeVenteInfo(sdv.getNom(), sdv.getId(), sdv.getObjetCourant());
 		for (ClientInfo ci : listeClients) {
 			try {
 				listeRefsClient.get(ci.getId()).notifNouvelleSalle(idSalle, sdvi);
