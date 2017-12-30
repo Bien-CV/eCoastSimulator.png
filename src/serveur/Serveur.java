@@ -1,6 +1,7 @@
 //OK
 package serveur;
 
+import java.net.BindException;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
@@ -8,8 +9,7 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-
-import commun.IHotelDesVentes;
+import java.rmi.server.ExportException;
 
 public class Serveur {
 
@@ -27,10 +27,10 @@ public class Serveur {
 			hdv=new HotelDesVentes();
 			LocateRegistry.createRegistry(port);
 			Naming.bind("//localhost:"+port+"/hoteldesventes", hdv);
+		} catch(AlreadyBoundException | ExportException e )	{
+			//Exception ignorée
 		} catch(RemoteException |  MalformedURLException e){
 			e.printStackTrace();
-		} catch(AlreadyBoundException e)	{
-			//Exception ignorée
 		}
 	}
 

@@ -28,6 +28,7 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 import commun.Message;
 import commun.Objet;
+import commun.SalleDeVente;
 import commun.IHotelDesVentes;
 
 import java.awt.Component;
@@ -415,17 +416,17 @@ public class ECoastSimulatorGUI {
 		panelGlobalListeSalle.add(panelListeSalle, BorderLayout.CENTER);
 		panelListeSalle.setLayout(new BorderLayout(0, 0));
 		
-		JList<String> listeDesSalles = new JList<String>();
-		listeDesSalles.setModel(new AbstractListModel<String>() {
+		JList<SalleDeVente> listeDesSalles = new JList<SalleDeVente>();
+		listeDesSalles.setModel(new AbstractListModel<SalleDeVente>() {
 			/**
 			 * 
 			 */
 			private static final long serialVersionUID = -6762872273592088709L;
-			String[] values = new String[] {"Salle 1", "Salle 2", "Salle 3", "Salle 4", "Salle 5", "Salle 6", "Salle 7"};
+			SalleDeVente[] values={null};
 			public int getSize() {
 				return values.length;
 			}
-			public String getElementAt(int index) {
+			public SalleDeVente getElementAt(int index) {
 				return values[index];
 			}
 		});
@@ -688,15 +689,18 @@ public class ECoastSimulatorGUI {
 		saisieChat = new JTextField();
 		saisieChat.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyTyped(KeyEvent arg0) {
+			public void keyTyped(KeyEvent key) {
 				//TODO: Chat : Si on appuie sur entrée, envoyer saisie et vider le champ
-				Message messageAEnvoyer=new Message(client.getPseudo(),saisieChat.getText());
-				try {
-					client.getServeur().posterMessage(client.getIdSalleObservee(),messageAEnvoyer);
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if (key.getKeyChar()=='\n') {
+					Message messageAEnvoyer=new Message(client.getPseudo(),saisieChat.getText());
+					try {
+						client.getServeur().posterMessage(client.getIdSalleObservee(),messageAEnvoyer);
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
+				
 				//saisieChat.getText()
 				//saisieChat.setText("");
 			}

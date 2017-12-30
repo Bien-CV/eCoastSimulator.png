@@ -26,6 +26,10 @@ import commun.Message;
 
 public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVentes {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5790188780288793715L;
 	private List<SalleDeVente> listeSalles = new ArrayList<SalleDeVente>();
 	private List<ClientInfo> listeClients = new ArrayList<ClientInfo>();
 	private HashMap<UUID, IClient> listeRefsClient = new HashMap<UUID, IClient>();
