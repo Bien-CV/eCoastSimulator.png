@@ -48,6 +48,7 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.util.UUID;
 
 
 public class ECoastSimulatorGUI {
@@ -61,6 +62,7 @@ public class ECoastSimulatorGUI {
 	private JTextField txtDescriptionDeLobjet;
 	private JTextField txtPrixDeBase;
 	public static Client client;
+	private UUID idSalleCourante;
 	
 	public static void d(String msg) {
 		System.out.println(msg+"\n");
@@ -95,14 +97,32 @@ public class ECoastSimulatorGUI {
 	public void actualiserInterface() {
 		updateListeDesSalles();
 		updateListeDesSallesSuivies();
+		updateObjetSalleCourante();
+		d("Actualisation de toute l'interface");
 	}
 	
 	private void updateListeDesSallesSuivies() {
+		d("Actualisation des salles suivies");
 		// TODO Auto-generated method stub
+		
+		
+	}
+	private void updateObjetSalleCourante() {
+		d("Actualisation de l'objet courant");
+
+		Objet objCourant=client.getVentesSuivies().get(this.idSalleCourante);
+		txtNomDeLobjet.setText(objCourant.getNom());
+		txtDescriptionDeLobjet.setText(objCourant.getDescription());
+		String prixCourant=Float.toString(objCourant.getPrixCourant());
+		txtPrixDeBase.setText(prixCourant);
+		
+		// TODO Auto-generated method stub
+		
 		
 	}
 
 	private void updateListeDesSalles() {
+		d("Actualisation des salles du serveur");
 		// TODO Auto-generated method stub
 		
 	}
@@ -311,7 +331,6 @@ public class ECoastSimulatorGUI {
 				
 				actualiserInterface();
 				d("Actualisation de l'interface");
-				//TODO:Refresh toute la GUI
 			}
 		});
 		GridBagConstraints gbc_btnSeConnecter_1 = new GridBagConstraints();
@@ -420,25 +439,21 @@ public class ECoastSimulatorGUI {
 		panelListeSalle.setLayout(new BorderLayout(0, 0));
 		
 		
-		try {
-			listeDesSalles.setModel(new AbstractListModel<SalleDeVente>() {
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = -6762872273592088709L;
-				SalleDeVente[] values={new SalleDeVente(new Objet("nom","desc",10,"propriétaire"),"salle1",client.getId())};
-				public int getSize() {
-					return values.length;
-				}
-				public SalleDeVente getElementAt(int index) {
-					return values[index];
-				}
-			});
-		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
-			d("Remote Exception liste des salles");
-			e1.printStackTrace();
-		}
+		listeDesSalles.setModel(new AbstractListModel<SalleDeVente>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -6762872273592088709L;
+
+
+			SalleDeVente[] values={};
+			public int getSize() {
+				return values.length;
+			}
+			public SalleDeVente getElementAt(int index) {
+				return values[index];
+			}
+		});
 		panelListeSalle.add(listeDesSalles);
 		
 		JLabel lblSallesDenchres = new JLabel("Salles d'enchères :");
@@ -455,6 +470,7 @@ public class ECoastSimulatorGUI {
 		panelBoutonsPourListeSalles.setLayout(gbl_panelBoutonsPourListeSalles);
 		
 		JPanel panelNombrePersonnesDansSalle = new JPanel();
+		@SuppressWarnings("unused")
 		FlowLayout flowLayout = (FlowLayout) panelNombrePersonnesDansSalle.getLayout();
 		GridBagConstraints gbc_panelNombrePersonnesDansSalle = new GridBagConstraints();
 		gbc_panelNombrePersonnesDansSalle.anchor = GridBagConstraints.NORTH;
@@ -514,6 +530,10 @@ public class ECoastSimulatorGUI {
 				//Object salle=listeDesSalles.getSelectedValue();
 				//if (salle)
 				//	Envoyer demande de rejoindre la salle
+				idSalleCourante=listeDesSalles.getSelectedValue().getId();
+				client.rejoindreSalle(idSalleCourante);
+				updateObjetSalleCourante();
+				
 				
 			}
 		});
