@@ -1,12 +1,14 @@
 package commun;
 
+import java.util.UUID;
+
 public class SalleDeVenteInfo {
 	
 	private String nom;
 	private UUID id;
 	private Objet objCourrant;
 	
-	public SalleDeVenteInfo(String nom, Objet objCourrant) {
+	public SalleDeVenteInfo(String nom, UUID id, Objet objCourrant) {
 		super();
 		this.nom = nom;
 		this.id = id;
