@@ -222,8 +222,11 @@ public class Client extends UnicastRemoteObject implements IClient {
 	}
 
 	public void quitterSalle(UUID idSalleAQuitter) {
-		// TODO Auto-generated method stub
-		hdv.quitterSalle( this.id,idSalleAQuitter);
+		try {
+			hdv.quitterSalle( this.id,idSalleAQuitter);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
