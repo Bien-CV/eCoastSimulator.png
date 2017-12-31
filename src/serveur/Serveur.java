@@ -31,9 +31,7 @@ public class Serveur {
 				r=LocateRegistry.createRegistry(port);
 			}
 			System.out.println("Serveur: Registre créé au port "+port+"\n");
-			Naming.bind("//127.0.0.1:"+port+"/hoteldesventes", hdv);
-		} catch(AlreadyBoundException | ExportException e )	{
-			//Exception ignorée
+			Naming.rebind("//127.0.0.1:"+port+"/hoteldesventes", hdv);
 		} catch(RemoteException |  MalformedURLException e){
 			e.printStackTrace();
 		}

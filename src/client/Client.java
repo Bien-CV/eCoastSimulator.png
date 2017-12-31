@@ -273,15 +273,17 @@ public class Client extends UnicastRemoteObject implements IClient {
 
 	public void bindClient() {
 		Boolean flagRegistreOkay=false;
+		Registry r=null;
 		while(!flagRegistreOkay) {
 			try {
-				Registry r = LocateRegistry.getRegistry(Integer.parseInt(serveur.getPort()));
+				r = LocateRegistry.getRegistry(Integer.parseInt(myClientInfos.getPort()));
+				
 				if (r==null) {
 					
-					r=LocateRegistry.createRegistry(Integer.parseInt(serveur.getPort()));
-					d("Registre créé au port "+serveur.getPort());
+					r=LocateRegistry.createRegistry(Integer.parseInt(myClientInfos.getPort()));
+					d("Registre créé au port "+Integer.parseInt(myClientInfos.getPort()));
 				}else {
-					d("Registre trouvé au port "+serveur.getPort());
+					d("Registre trouvé au port "+Integer.parseInt(myClientInfos.getPort()));
 				}
 				flagRegistreOkay=true;
 				
@@ -297,18 +299,15 @@ public class Client extends UnicastRemoteObject implements IClient {
 		d("Tentative de bind à "+getAdresseClient());
 		
 		try {
-			Naming.bind(getAdresseClient(), this);
-		} catch(AlreadyBoundException alreadyBoundException)	{
-			d("LOL:AlreadyBound");
-			//Exception ignorée
-		} catch (MalformedURLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			r.rebind(getAdresseClient(), this);
+			d("bind effectué");
 		} catch (RemoteException e1) {
+			d("bind échoué");
 			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}
-		d("bind effectué");
+		
 		
 	}
 
