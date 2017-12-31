@@ -75,6 +75,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	//Méthode accessible par le client
 	@Override
 	public UUID creerSalle(ClientInfo client, Objet o, String nomDeSalle) throws RemoteException {
+		System.out.println("Serveur: le client "+client.getId()+" demande à créer une salle "+nomDeSalle+" avec objet "+o);
 		SalleDeVente nouvelleSDV=new SalleDeVente(o, nomDeSalle, client.getId());
 		listeSalles.add(nouvelleSDV);
 		mapSalles.put(nouvelleSDV.getId(), nomDeSalle);
@@ -287,6 +288,14 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	@Override
 	public void quitterSalle(UUID idClient, UUID idSalleAQuitter) throws RemoteException {
 		getSalleById(idSalleAQuitter).retirerClient(getClientById(idClient));
+	}
+
+
+
+	@Override
+	public void ping() throws RemoteException {
+		System.out.println("Serveur: je reçois un ping");
+		
 	}
 
 }

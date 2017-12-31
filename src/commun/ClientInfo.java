@@ -35,4 +35,32 @@ public class ClientInfo  implements Serializable {
 	public String getNom() {
 		return nom;
 	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public String getPort() {
+		return port;
+	}
+
+	public void setPort(String port) {
+		this.port = port;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
 }

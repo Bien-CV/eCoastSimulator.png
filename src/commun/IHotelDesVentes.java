@@ -31,4 +31,6 @@ public interface IHotelDesVentes extends Remote {
 
 	public void quitterSalle(UUID idClient, UUID idSalleAQuitter) throws RemoteException;
 	
+	public void ping() throws RemoteException;
+	
 }

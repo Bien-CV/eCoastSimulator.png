@@ -2,8 +2,11 @@
 
 package client;
 
+import java.net.MalformedURLException;
+import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.UUID;
 import java.util.Collection;
@@ -19,6 +22,7 @@ import commun.Objet;
 import commun.PasCreateurException;
 import commun.PseudoDejaUtiliseException;
 import commun.SalleDeVenteInfo;
+import commun.ServeurInfo;
 import commun.Message;
 
 public class Client extends UnicastRemoteObject implements IClient {
@@ -26,34 +30,19 @@ public class Client extends UnicastRemoteObject implements IClient {
 	private static final long serialVersionUID = 1L;
 	private String urlEtPortServeur;
 	private String adresseServeur;
-	private String adresseClient="localhost";
-	private UUID id;
+	public ServeurInfo serveur;
 	
 	public String getAdresseClient() {
-		return adresseClient;
+		return myClientInfos.getAdresseClient();
 	}
 
-	private String pseudo;
-	public String getPseudo() {
-		return pseudo;
-	}
-
-	public void setPseudo(String pseudo) {
-		this.pseudo = pseudo;
-	}
-
-	private IHotelDesVentes hdv;
+	private IHotelDesVentes hdv=null;
 	private HashMap<UUID, Objet> ventesSuivies;
 	private HashMap<UUID, SalleDeVenteInfo> mapInfosSalles;
 	// liste des messages postés dans les différentes salles de ventes suivies
 	private HashMap<UUID, List<Message>> listesMessages;
-	public UUID getId() {
-		return id;
-	}
 
-	private ClientInfo myClientInfos;
-	private String ipClient;
-	private String portClient="8091";
+	public ClientInfo myClientInfos;
 	
 	private UUID idSalleObservee;
 	private String nomSalleObservee;
@@ -64,36 +53,34 @@ public class Client extends UnicastRemoteObject implements IClient {
 		this.idSalleObservee = idSalleObservee;
 	}
 
-	public String getPortClient() {
-		return portClient;
-	}
 
-	public Client(String pseudo,String urlEtPortDuServeur) throws RemoteException {
+	public Client(String nom,String ipServeurSaisi, String portServeurSaisi) throws RemoteException {
 		super();
-		this.pseudo = pseudo;
-		this.hdv = connexionServeur();
-		this.ventesSuivies = new HashMap<UUID, Objet>();
-		this.id = UUID.randomUUID();
-		
-		urlEtPortServeur = urlEtPortDuServeur;
-		adresseServeur = urlEtPortServeur + "/hoteldesventes";
-		
-		
 		//TODO: Récupérer la vraie IP du client
-		ipClient="localhost";
+		this.myClientInfos = new ClientInfo(UUID.randomUUID(),nom, "//localhost", "8092");
+		serveur= new ServeurInfo(ipServeurSaisi,portServeurSaisi);
+		d(serveur.getAdresseServeur());
+		connexionServeur();
+		this.ventesSuivies = new HashMap<UUID, Objet>();
 		
-		this.myClientInfos = new ClientInfo(this.id, this.pseudo, ipClient, portClient);
+		
 	}
 
-	public IHotelDesVentes connexionServeur() {
-		try {
-			IHotelDesVentes hotelDesVentes = (IHotelDesVentes) Naming.lookup("//" + this.adresseServeur);
-			System.out.println("Connexion au serveur " + this.adresseServeur + " reussi.");
-			return hotelDesVentes;
-		} catch (Exception e) {
-			System.out.println("Connexion au serveur " + this.adresseServeur + " impossible.");
-			e.printStackTrace();
-			return null;
+	public void connexionServeur() {
+		d("Tentative d'initialisation de hdv à l'adresse:"+serveur.getAdresseServeur());
+		while(hdv==null) {
+			try {
+				hdv = (IHotelDesVentes) Naming.lookup(serveur.getAdresseServeur());
+				System.out.println("Connexion au serveur " + serveur.getAdresseServeur() + " reussi.");
+			} catch (Exception e) {
+				System.out.println("Connexion au serveur " + serveur.getAdresseServeur() + " impossible.");
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -121,16 +108,27 @@ public class Client extends UnicastRemoteObject implements IClient {
 	
 	// notification au serveur de l'ajout d'un nouvel objet a vendre dans une salle donnée.
 	public void nouvelleSoumission(String nom, String description, int prix, UUID idSdv) throws RemoteException {
-		Objet nouveau = new Objet(nom, description, prix,pseudo);
+		Objet nouveau = new Objet(nom, description, prix,myClientInfos.getNom());
 		//ajout de l'objet par le hdv
 		// TODO : peut etre autoriser l'ajout seulement pour le créateur de la salle
 		try {
-			hdv.ajouterObjet(nouveau, idSdv, this.id);
+			hdv.ajouterObjet(nouveau, idSdv, getId());
 		} catch (PasCreateurException e) {
 			// TODO affichage utilisateur en cas d'ajout dans une salle qu'il a pas créé ?
 			e.printStackTrace();
 		}
 		//print des informations sur l'ajout
+	}
+	// notification au serveur de l'ajout d'un nouvel objet a vendre dans une salle donnée.
+	public void nouvelleSalle(String nom, String description, float f) throws RemoteException {
+		Objet nouveau = new Objet(nom, description, f,myClientInfos.getNom());
+		System.out.println(""+myClientInfos.getAdresseClient()+" "+myClientInfos.getNom()+" "+getId()+" "+nouveau+" "+myClientInfos.getNom()+" \n");
+		hdv.creerSalle(myClientInfos, nouveau, "Salle de "+myClientInfos.getNom());
+	}
+	// notification au serveur de l'ajout d'un nouvel objet a vendre dans une salle donnée.
+	public void pingServeur() throws RemoteException {
+		if ( hdv==null) System.out.print("Hdv null : connexion pas effectué\n");
+		hdv.ping();
 	}
 
 	public static void main(String[] argv) {
@@ -152,7 +150,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	// notification au serveur de la fermeture d'une salle par le client
 	public void fermetureSalle(UUID idSDV) {
 		try {
-			hdv.fermerSalle(idSDV, this.id);
+			hdv.fermerSalle(idSDV, getId());
 		} catch (PasCreateurException e) {
 			// impossible de fermer la salle si on en est pas le créateur
 			e.printStackTrace();
@@ -248,10 +246,68 @@ public class Client extends UnicastRemoteObject implements IClient {
 
 	public void quitterSalle(UUID idSalleAQuitter) {
 		try {
-			hdv.quitterSalle( this.id,idSalleAQuitter);
+			hdv.quitterSalle( getId(),idSalleAQuitter);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
+
+
+	public UUID getId() {
+		 
+		return myClientInfos.getId();
+	}
+
+
+	public String getPortClient() {
+		return myClientInfos.getPort();
+	}
+
+
+	public void setPortClient(String portClient) {
+		myClientInfos.setPort(portClient);
+		
+	}
+
+
+	public void bindClient() {
+		Boolean flagRegistreOkay=false;
+		while(!flagRegistreOkay) {
+			try {
+				LocateRegistry.createRegistry(Integer.parseInt(getPortClient()));
+				flagRegistreOkay=true;
+				d("Registre créé au port "+getPortClient());
+			} catch (NumberFormatException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (RemoteException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			setPortClient( Integer.toString(Integer.parseInt(getPortClient())+1) );
+		}
+		d("Tentative de bind à "+getAdresseClient());
+		
+		try {
+			Naming.bind(getAdresseClient(), this);
+		} catch(AlreadyBoundException alreadyBoundException)	{
+			d("LOL:AlreadyBound");
+			//Exception ignorée
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		d("bind effectué");
+		
+	}
+
+
+	public static void d(String msg) {
+		System.out.println(msg+"\n");
+	}
+
 
 }

@@ -56,17 +56,20 @@ public class ECoastSimulatorGUI {
 
 	private JFrame frmEcoastsimulatorpng;
 	private JTextField saisieChat;
-	private JTextField saisieAdresseServeur;
+	private JTextField saisieIpServeur;
+	
 	private JTextField pseudonymeConnexion;
 	private JTextField saisieEnchere;
 	private JTextField txtNomDeLobjet;
 	private JTextField txtDescriptionDeLobjet;
 	private JTextField txtPrixDeBase;
 	public static Client client;
-	private UUID idSalleCourante;
+	private UUID idSalleCourante=null;
 	private JList<SalleDeVenteInfo> listeDesSalles = new JList<SalleDeVenteInfo>();
 	private JList<SalleDeVenteInfo> listeDesSallesSuivies = new JList<SalleDeVenteInfo>();
-
+	private JTextField saisiePortServeur;
+	
+	
 	public static void d(String msg) {
 		System.out.println(msg+"\n");
 	}
@@ -123,12 +126,14 @@ public class ECoastSimulatorGUI {
 	}
 	private void updateObjetSalleCourante() {
 		d("Actualisation de l'objet courant");
-
-		Objet objCourant=client.getVentesSuivies().get(this.idSalleCourante);
-		txtNomDeLobjet.setText(objCourant.getNom());
-		txtDescriptionDeLobjet.setText(objCourant.getDescription());
-		String prixCourant=Float.toString(objCourant.getPrixCourant());
-		txtPrixDeBase.setText(prixCourant);		
+		
+		if (this.idSalleCourante!=null) {
+			Objet objCourant=client.getVentesSuivies().get(this.idSalleCourante);
+			txtNomDeLobjet.setText(objCourant.getNom());
+			txtDescriptionDeLobjet.setText(objCourant.getDescription());
+			String prixCourant=Float.toString(objCourant.getPrixCourant());
+			txtPrixDeBase.setText(prixCourant);	
+		}
 	}
 
 	private void updateListeDesSallesServeur() {
@@ -154,6 +159,10 @@ public class ECoastSimulatorGUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		saisieIpServeur = new JTextField();
+		saisieIpServeur.setText("localhost");
+		saisiePortServeur = new JTextField();
+		saisiePortServeur.setText("8090");
 		frmEcoastsimulatorpng = new JFrame();
 		frmEcoastsimulatorpng.setIconImage(Toolkit.getDefaultToolkit().getImage(ECoastSimulatorGUI.class.getResource("/com/sun/javafx/scene/control/skin/caspian/images/vk-light.png")));
 		frmEcoastsimulatorpng.setTitle("eCoastSimulator.png");
@@ -170,13 +179,31 @@ public class ECoastSimulatorGUI {
 		JLabel lblAdresse = new JLabel("Adresse du serveur : ");
 		topBar.add(lblAdresse);
 
-		saisieAdresseServeur = new JTextField();
-		saisieAdresseServeur.setText("localhost:8090");
-		topBar.add(saisieAdresseServeur);
-		saisieAdresseServeur.setColumns(10);
+		
+		topBar.add(saisieIpServeur);
+		saisieIpServeur.setColumns(10);
+		
+		
+		topBar.add(saisiePortServeur);
+		saisiePortServeur.setColumns(10);
 
 		JButton btnSeConnecter = new JButton("se connecter");
 		topBar.add(btnSeConnecter);
+		
+		JButton btnPing = new JButton("ping");
+		btnPing.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+					d("Envoi d'un ping au serveur");
+					client.pingServeur();
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		topBar.add(btnPing);
 
 		JPanel globalLowPanel = new JPanel();
 		frmEcoastsimulatorpng.getContentPane().add(globalLowPanel);
@@ -246,16 +273,17 @@ public class ECoastSimulatorGUI {
 		gbc_btnSeDconnecter.gridy = 2;
 		panelDeconnexion.add(btnSeDconnecter, gbc_btnSeDconnecter);
 
-		JButton btnNouvelleEnchre = new JButton("Nouvelle enchère");
+		JButton btnNouvelleEnchre = new JButton("Nouvelle vente");
 		btnNouvelleEnchre.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				d("TODO:CLick nouvelle enchère");
-				//TODO:Envoie une nouvelle enchère avec les informations des champs, l'observation passe à la salle créée
-				//txtNomDeLobjet
-				//txtDescriptionDeLobjet
-				//txtPrixDeBase
-				
+				try {
+					client.nouvelleSalle(txtNomDeLobjet.getText(), txtDescriptionDeLobjet.getText(), Float.parseFloat(txtPrixDeBase.getText()));
+				} catch (NumberFormatException | RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}				
 			}
 		});
 		GridBagConstraints gbc_btnNouvelleEnchre = new GridBagConstraints();
@@ -332,28 +360,22 @@ public class ECoastSimulatorGUI {
 				//Si la connexion a réussi, on masque le panel panelConnexion et affiche panelDeconnexion
 				//On refresh un peu toute la GUI.
 				try {
-					client = new Client(pseudonymeConnexion.getText(),saisieAdresseServeur.getText());
-					d("Init client");
-					client.connexionServeur();
-					d("Connexion serveur");
-					LocateRegistry.createRegistry(Integer.parseInt(client.getPortClient()));
-					d("Registre créé");
-					d("Tentative de bind à "+client.getAdresseClient());
-					Naming.bind(client.getAdresseClient(), client);
-					d("bind effectué");
-				} catch(RemoteException |  MalformedURLException exception){
-					exception.printStackTrace();
-				} catch(AlreadyBoundException alreadyBoundException)	{
-					d("LOL:AlreadyBound");
-					//Exception ignorée
+					client = new Client(pseudonymeConnexion.getText(),saisieIpServeur.getText(),saisiePortServeur.getText());
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
+				d("Client créé");
+				
+				client.connexionServeur();
+				client.bindClient();
 				panelConnexion.setVisible(false);
 				d("Panel de connexion caché");
 				panelDeconnexion.setVisible(true);
 				d("Panel de déconnexion rendu visible");
-				client.setPseudo(pseudonymeConnexion.getText());
+				client.myClientInfos.setNom(pseudonymeConnexion.getText());
 				d("Pseudonyme client actualisé selon saisie");
-				lblPseudoDeConnexion.setText(client.getPseudo());
+				lblPseudoDeConnexion.setText(client.myClientInfos.getNom());
 				d("Pseudonyme du client affiché en haut à gauche");
 
 				actualiserInterface();
@@ -599,19 +621,24 @@ public class ECoastSimulatorGUI {
 		saisieEnchere.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-				if (e.getKeyChar()=='\n') {
-
-					try {
-						d("Touche entrée saisie, envoi de l'enchère de : "+saisieEnchere.getText());
-						IHotelDesVentes serveur=client.getServeur();
-						d("Serveur récupéré du client.");
-						float enchere=Float.parseFloat(saisieEnchere.getText());
-						serveur.encherir(enchere, client.getId(), client.getIdSalleObservee());
-
-						d("Réussi.");
-						saisieEnchere.setText("");
-					} catch (RemoteException re) {
-						re.printStackTrace();
+				if(client.getIdSalleObservee()!=null) {
+					
+					if (e.getKeyChar()=='\n') {
+	
+						try {
+							d("Touche entrée saisie, envoi de l'enchère de : "+saisieEnchere.getText());
+							IHotelDesVentes serveur=client.getServeur();
+							d("Serveur récupéré du client.");
+							if( saisieEnchere.getText() != "") {
+								float enchere=Float.parseFloat(saisieEnchere.getText());
+								serveur.encherir(enchere, client.getId(), client.getIdSalleObservee());
+		
+								d("Réussi.");
+								saisieEnchere.setText("");
+							}
+						} catch (RemoteException re) {
+							re.printStackTrace();
+						}
 					}
 				}
 			}
@@ -639,17 +666,24 @@ public class ECoastSimulatorGUI {
 		btnEnchrir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				IHotelDesVentes serveur=client.getServeur();
-				d("Serveur récupéré du client.");
-				float enchere=Float.parseFloat(saisieEnchere.getText());
-				try {
-					serveur.encherir(enchere, client.getId(), client.getIdSalleObservee());
-				} catch (RemoteException e1) {
-					e1.printStackTrace();
+				if(client.getIdSalleObservee()!=null) {
+					IHotelDesVentes serveur=client.getServeur();
+					d("Serveur récupéré du client.");
+					if( saisieEnchere.getText() != "") {
+						float enchere=Float.parseFloat(saisieEnchere.getText());
+						try {
+							serveur.encherir(enchere, client.getId(), client.getIdSalleObservee());
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+						d("Réussi.");
+						saisieEnchere.setText("");
+					}else {
+						d("Saisie vide");
+					}
+				}else {
+					d("Aucune salle n'est sélectionnée comme salle courante");
 				}
-
-				d("Réussi.");
-				saisieEnchere.setText("");
 			}
 		});
 		GridBagConstraints gbc_btnEnchrir = new GridBagConstraints();
@@ -761,16 +795,23 @@ public class ECoastSimulatorGUI {
 			@Override
 			public void keyTyped(KeyEvent key) {
 				//TODO: Chat : Si on appuie sur entrée, envoyer saisie et vider le champ
-				if (key.getKeyChar()=='\n') {
-					Message messageAEnvoyer=new Message(client.getPseudo(),saisieChat.getText());
-					try {
-						client.getServeur().posterMessage(client.getIdSalleObservee(),messageAEnvoyer);
-					} catch (RemoteException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+				if(idSalleCourante!=null && saisieChat.getText()!="") {
+					if (key.getKeyChar()=='\n') {
+						Message messageAEnvoyer=new Message(client.myClientInfos.getNom(),saisieChat.getText());
+						d("saisieChat déclenchée");
+						d("message formulé par "+client.myClientInfos.getNom()+" : "+saisieChat.getText());
+						try {
+							client.getServeur().posterMessage(client.getIdSalleObservee(),messageAEnvoyer);
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						saisieChat.setText("");
 					}
+				}else {
+					d("Envoi de message non déclenché car aucune salle n'a été choisie ou le message est vide");
 				}
-				saisieChat.setText("");
+				
 			}
 		});
 		panelSaisieChat.add(saisieChat);
@@ -780,9 +821,22 @@ public class ECoastSimulatorGUI {
 		btnEnvoyer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				//TODO: Envoyer saisie et vider le champ
-				//saisieChat.getText()
-				//saisieChat.setText();
+				if(idSalleCourante!=null) {
+					if (saisieChat.getText()!="") {
+						Message messageAEnvoyer=new Message(client.myClientInfos.getNom(),saisieChat.getText());
+						d("saisieChat déclenchée");
+						d("message formulé par "+client.myClientInfos.getNom()+" : "+saisieChat.getText());
+						try {
+							client.getServeur().posterMessage(client.getIdSalleObservee(),messageAEnvoyer);
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						saisieChat.setText("");
+					}
+				}else {
+					d("Envoi de message non déclenché car aucune salle n'a été choisie ou le message est vide");
+				}
 			}
 		});
 		panelSaisieChat.add(btnEnvoyer, BorderLayout.EAST);
