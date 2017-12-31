@@ -8,7 +8,7 @@ public class ServeurInfo {
 	String port="";
 	
 	public String getAdresseServeur() {
-		return "//"+ip+":"+port+"/hoteldesventes";
+		return "rmi://"+ip+":"+port+"/hoteldesventes";
 	}
 
 	public ServeurInfo(String ipServeur,String portServeur) {
