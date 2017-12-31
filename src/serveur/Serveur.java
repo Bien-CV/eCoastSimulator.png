@@ -9,6 +9,7 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.ExportException;
 
 public class Serveur {
@@ -25,8 +26,12 @@ public class Serveur {
 		try {	
 			//hdv est l'objet à rendre disponible au client
 			hdv=new HotelDesVentes();
-			LocateRegistry.createRegistry(port);
-			Naming.bind("//localhost:"+port+"/hoteldesventes", hdv);
+			Registry r = LocateRegistry.getRegistry(port);
+			if (r==null) {
+				r=LocateRegistry.createRegistry(port);
+			}
+			System.out.println("Serveur: Registre créé au port "+port+"\n");
+			Naming.bind("//127.0.0.1:"+port+"/hoteldesventes", hdv);
 		} catch(AlreadyBoundException | ExportException e )	{
 			//Exception ignorée
 		} catch(RemoteException |  MalformedURLException e){

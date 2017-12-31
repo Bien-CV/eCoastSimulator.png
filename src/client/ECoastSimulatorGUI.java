@@ -160,7 +160,7 @@ public class ECoastSimulatorGUI {
 	 */
 	private void initialize() {
 		saisieIpServeur = new JTextField();
-		saisieIpServeur.setText("localhost");
+		saisieIpServeur.setText("127.0.0.1");
 		saisiePortServeur = new JTextField();
 		saisiePortServeur.setText("8090");
 		frmEcoastsimulatorpng = new JFrame();

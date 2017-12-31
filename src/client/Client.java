@@ -7,6 +7,7 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.UUID;
 import java.util.Collection;
@@ -57,7 +58,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	public Client(String nom,String ipServeurSaisi, String portServeurSaisi) throws RemoteException {
 		super();
 		//TODO: Récupérer la vraie IP du client
-		this.myClientInfos = new ClientInfo(UUID.randomUUID(),nom, "//localhost", "8092");
+		this.myClientInfos = new ClientInfo(UUID.randomUUID(),nom, "//127.0.0.1", "8092");
 		serveur= new ServeurInfo(ipServeurSaisi,portServeurSaisi);
 		d(serveur.getAdresseServeur());
 		connexionServeur();
@@ -274,9 +275,16 @@ public class Client extends UnicastRemoteObject implements IClient {
 		Boolean flagRegistreOkay=false;
 		while(!flagRegistreOkay) {
 			try {
-				LocateRegistry.createRegistry(Integer.parseInt(getPortClient()));
+				Registry r = LocateRegistry.getRegistry(Integer.parseInt(serveur.getPort()));
+				if (r==null) {
+					
+					r=LocateRegistry.createRegistry(Integer.parseInt(serveur.getPort()));
+					d("Registre créé au port "+serveur.getPort());
+				}else {
+					d("Registre trouvé au port "+serveur.getPort());
+				}
 				flagRegistreOkay=true;
-				d("Registre créé au port "+getPortClient());
+				
 			} catch (NumberFormatException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
