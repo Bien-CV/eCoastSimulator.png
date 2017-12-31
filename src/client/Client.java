@@ -58,7 +58,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	public Client(String nom,String ipServeurSaisi, String portServeurSaisi) throws RemoteException {
 		super();
 		//TODO: Récupérer la vraie IP du client
-		this.myClientInfos = new ClientInfo(UUID.randomUUID(),nom, "//127.0.0.1", "8092");
+		this.myClientInfos = new ClientInfo(UUID.randomUUID(),nom, "127.0.0.1", "8092");
 		serveur= new ServeurInfo(ipServeurSaisi,portServeurSaisi);
 		d(serveur.getAdresseServeur());
 		connexionServeur();
