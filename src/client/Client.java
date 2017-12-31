@@ -69,7 +69,8 @@ public class Client extends UnicastRemoteObject implements IClient {
 
 	public void connexionServeur() {
 		d("Tentative d'initialisation de hdv à l'adresse:"+serveur.getAdresseServeur());
-		while(hdv==null) {
+		int nombreDeConnexions = 0;
+		while(hdv==null && nombreDeConnexions < 20) {
 			try {
 				hdv = (IHotelDesVentes) Naming.lookup(serveur.getAdresseServeur());
 				System.out.println("Connexion au serveur " + serveur.getAdresseServeur() + " reussi.");
@@ -82,6 +83,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			nombreDeConnexions++;
 		}
 	}
 	
