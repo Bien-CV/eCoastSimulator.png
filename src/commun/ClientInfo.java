@@ -16,7 +16,7 @@ public class ClientInfo  implements Serializable {
 	String port;
 	
 	public String getAdresseClient() {
-		return "rmi://"+ip+":"+port+"/"+id;
+		return "//"+ip+":"+port+"/"+id;
 	}
 	//Donner une durée de vie à un client avec un Timestamp
 	//List<UUID> currentRooms;

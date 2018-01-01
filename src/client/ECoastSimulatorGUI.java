@@ -161,7 +161,7 @@ public class ECoastSimulatorGUI {
 		saisieIpServeur = new JTextField();
 		saisieIpServeur.setText("127.0.0.1");
 		saisiePortServeur = new JTextField();
-		saisiePortServeur.setText("8090");
+		saisiePortServeur.setText("1099");
 		frmEcoastsimulatorpng = new JFrame();
 		frmEcoastsimulatorpng.setIconImage(Toolkit.getDefaultToolkit().getImage(ECoastSimulatorGUI.class.getResource("/com/sun/javafx/scene/control/skin/caspian/images/vk-light.png")));
 		frmEcoastsimulatorpng.setTitle("eCoastSimulator.png");

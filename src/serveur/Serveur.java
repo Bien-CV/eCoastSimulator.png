@@ -18,12 +18,13 @@ import commun.DebugTools;
 
 public class Serveur {
 	private static HotelDesVentes hdv= null;
-	private static int port = 8090;
+	private static int PORT_SERVEUR = 1099;
 	private static Registry r = null;
-	private static String adresseServeur="rmi://localhost:"+port+"/hoteldesventes";
+	private static String ipServeur="127.0.0.1";
+	private static String adresseServeur="//"+ipServeur+":"+PORT_SERVEUR+"/hoteldesventes";
 	
 	public static void main(String[] argv) {
-		System.setProperty("java.rmi.server.hostname", adresseServeur);
+		//System.setProperty("java.rmi.server.hostname", ipServeur);
 		initHdv();
 		initRegistry();
 		bindServeur();
@@ -32,7 +33,7 @@ public class Serveur {
 	private static void bindServeur() {
 		try {
 			
-			DebugTools.d("Adresse serveur= "+adresseServeur);
+			DebugTools.d("Adresse serveur="+adresseServeur);
 			Naming.rebind(adresseServeur, hdv);
 		} catch (AccessException e) {
 			e.printStackTrace();
@@ -55,7 +56,7 @@ public class Serveur {
 	private static void getRegistry() {
 		try {
 			
-			r = LocateRegistry.getRegistry(port);
+			r = LocateRegistry.getRegistry(PORT_SERVEUR);
 			
 			if (r!=null) {
 				DebugTools.d("Registry existant trouvé :");
@@ -71,8 +72,8 @@ public class Serveur {
 	private static void createRegistryIfNull() {
 		try {	
 			if (r==null) {
-				r=LocateRegistry.createRegistry(port);
-				System.out.println("Serveur: Registre créé au port "+port+" :");
+				r=LocateRegistry.createRegistry(PORT_SERVEUR);
+				System.out.println("Serveur: Registre créé au port "+PORT_SERVEUR+" :");
 				DebugTools.d(r.toString());
 			}
 		} catch( ExportException e )	{

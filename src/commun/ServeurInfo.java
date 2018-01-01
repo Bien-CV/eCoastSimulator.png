@@ -4,11 +4,11 @@ import java.util.UUID;
 
 public class ServeurInfo {
 
-	String ip="localhost";
-	String port="8090";
+	String ip="127.0.0.1";
+	String port="1099";
 	
 	public String getAdresseServeur() {
-		return "rmi://"+ip+":"+port+"/hoteldesventes";
+		return "//"+ip+":"+port+"/hoteldesventes";
 	}
 
 	public ServeurInfo(String ipServeur,String portServeur) {

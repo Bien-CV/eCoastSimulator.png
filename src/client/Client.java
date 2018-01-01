@@ -30,8 +30,6 @@ import commun.Message;
 public class Client extends UnicastRemoteObject implements IClient {
 
 	private static final long serialVersionUID = 1L;
-	private String urlEtPortServeur;
-	private String adresseServeur;
 	public ServeurInfo serveur;
 	
 	public String getAdresseClient() {
@@ -305,11 +303,9 @@ public class Client extends UnicastRemoteObject implements IClient {
 		
 		try {
 			r.rebind(getAdresseClient(), this);
-			DebugTools.d("bind effectué");
+			DebugTools.d("bind à "+getAdresseClient()+" effectué.");
 		} catch (RemoteException e1) {
-			DebugTools.d("bind échoué");
-			// TODO Auto-generated catch block
-			
+			DebugTools.d("bind à "+getAdresseClient()+" échoué.");			
 			e1.printStackTrace();
 		}
 		

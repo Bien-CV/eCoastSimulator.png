@@ -86,7 +86,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	@Override
 	public HashMap<UUID, SalleDeVenteInfo> login(ClientInfo client) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException{
 		//TODO Récupération de session 
-
+		System.out.println("Tentative de connexion client.");
 		//Pas d'homonyme
 		for(ClientInfo c : listeClients){
 			if (( c.getNom() == client.getNom() ) && ( c.getId()!=client.getId() )){
@@ -99,6 +99,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 				throw new DejaConnecteException();
 			}
 		}
+		
 		IClient ref = connexionClient(client.getId(), client.getAdresseClient());
 		if (ref != null) {
 			listeRefsClient.put(client.getId(), ref);
