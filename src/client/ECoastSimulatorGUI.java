@@ -69,7 +69,7 @@ public class ECoastSimulatorGUI {
 	private JList<SalleDeVenteInfo> listeDesSalles = new JList<SalleDeVenteInfo>();
 	private JList<SalleDeVenteInfo> listeDesSallesSuivies = new JList<SalleDeVenteInfo>();
 	private JTextField saisiePortServeur;
-	
+	JTextArea affichageChat = new JTextArea();
 	
 	
 	/**
@@ -103,7 +103,15 @@ public class ECoastSimulatorGUI {
 		updateListeDesSallesServeur();
 		updateListeDesSallesSuivies();
 		updateObjetSalleCourante();
+		updateChat();
 		DebugTools.d("Actualisation de toute l'interface");
+	}
+
+	private void updateChat() {
+		//listesMessages.get(idSalle)
+		if (affichageChat!= null) affichageChat.setText(client.getListesMessages().get(idSalleCourante).toString());
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void updateListeDesSallesSuivies() {
@@ -158,6 +166,8 @@ public class ECoastSimulatorGUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		affichageChat.setLineWrap(true);
+		affichageChat.setText("");
 		saisieIpServeur = new JTextField();
 		saisieIpServeur.setText("127.0.0.1");
 		saisiePortServeur = new JTextField();
@@ -354,15 +364,10 @@ public class ECoastSimulatorGUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				DebugTools.d("Click se connecter");
-				//Demande à se connecter au serveur avec le pseudo entré dans pseudonymeConnexion.getText()
-				//Si la connexion a réussi, on masque le panel panelConnexion et affiche panelDeconnexion
-				//On refresh un peu toute la GUI.
-				try {
-					client = new Client(pseudonymeConnexion.getText(),saisieIpServeur.getText(),saisiePortServeur.getText());
-				} catch (RemoteException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				client = creerClient(
+						pseudonymeConnexion.getText(),
+						saisieIpServeur.getText(),
+						saisiePortServeur.getText());
 				DebugTools.d("Client créé");
 				
 				client.connexionServeur();
@@ -376,7 +381,9 @@ public class ECoastSimulatorGUI {
 				lblPseudoDeConnexion.setText(client.myClientInfos.getNom());
 				DebugTools.d("Pseudonyme du client affiché en haut à gauche");
 
-				actualiserInterface();
+				updateListeDesSallesServeur();
+				updateListeDesSallesSuivies();
+
 				DebugTools.d("Actualisation de l'interface");
 			}
 		});
@@ -768,7 +775,7 @@ public class ECoastSimulatorGUI {
 		gbc_lblDiscussionsDansLa.gridy = 0;
 		panelGlobalChat.add(lblDiscussionsDansLa, gbc_lblDiscussionsDansLa);
 
-		JTextArea affichageChat = new JTextArea();
+		
 		affichageChat.setLineWrap(true);
 		affichageChat.setText("Mario: Je t'aime Baptiste\r\nJoachim: Je t'aime Baptiste omg\r\nBaptiste: Les gars stop c'est embarrassant *blush*");
 		GridBagConstraints gbc_affichageChat = new GridBagConstraints();
@@ -838,6 +845,16 @@ public class ECoastSimulatorGUI {
 			}
 		});
 		panelSaisieChat.add(btnEnvoyer, BorderLayout.EAST);
+	}
+
+	protected Client creerClient(String nom, String ipServeur, String portServeur) {
+		
+		try {
+			return new Client(this,nom,ipServeur,portServeur);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

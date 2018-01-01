@@ -50,8 +50,6 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		SalleDeVente salleRejointe = getSalleById(roomId);
 		if ( fetchedClient == client ){
 			ajouterClientASalle(fetchedClient,salleRejointe);
-			// diffusion de la nouvelle salle aux clients connectés
-			notifCreationSalle(roomId);
 			return salleRejointe.getObjetCourant();
 		}
 		return null;
@@ -78,6 +76,8 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		System.out.println("Serveur: le client "+client.getId()+" demande à créer une salle "+nomDeSalle+" avec objet "+o);
 		SalleDeVente nouvelleSDV=new SalleDeVente(o, nomDeSalle, client.getId());
 		ajouterUneSalle(nouvelleSDV);
+		// diffusion de la nouvelle salle aux clients connectés
+		notifCreationSalle(nouvelleSDV.getId());
 		return nouvelleSDV.getId();
 	}
 

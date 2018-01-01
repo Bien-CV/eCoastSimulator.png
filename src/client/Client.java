@@ -2,6 +2,7 @@
 
 package client;
 
+import java.awt.event.MouseAdapter;
 import java.net.MalformedURLException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
@@ -48,17 +49,19 @@ public class Client extends UnicastRemoteObject implements IClient {
 	private String nomSalleObservee;
 	private UUID idObjetObserve;
 	private String nomObjetObserve;
+	private ECoastSimulatorGUI interfaceClient;
 
 	public void setIdSalleObservee(UUID idSalleObservee) {
 		this.idSalleObservee = idSalleObservee;
 	}
 
 
-	public Client(String nom,String ipServeurSaisi, String portServeurSaisi) throws RemoteException {
+	public Client(ECoastSimulatorGUI gui, String nom,String ipServeurSaisi, String portServeurSaisi) throws RemoteException {
 		super();
 		//TODO: Récupérer la vraie IP du client
 		this.myClientInfos = new ClientInfo(UUID.randomUUID(),nom, "127.0.0.1", "8092");
-
+		
+		interfaceClient=gui;
 		serveur= new ServeurInfo(ipServeurSaisi,portServeurSaisi);
 		DebugTools.d(serveur.getAdresseServeur());
 		connexionServeur();
@@ -181,8 +184,8 @@ public class Client extends UnicastRemoteObject implements IClient {
 
 	@Override
 	public void nouveauMessage(UUID idSalle, Message message) {
-		listesMessages.get(idSalle).add(message);
-		// TODO : refresh l'IHM pour prendre en compte les modifs
+		getListesMessages().get(idSalle).add(message);
+		interfaceClient.actualiserInterface();
 		// TODO : éventuellement supprimer les plus anciens messages au dela d'un certain nombre.
 	}
 
@@ -190,19 +193,20 @@ public class Client extends UnicastRemoteObject implements IClient {
 	public void notifModifObjet(UUID idSalle, Objet objet) {
 		ventesSuivies.put(idSalle, objet);
 		mapInfosSalles.get(idSalle).setObjCourrant(objet);
-		// TODO : refresh l'IHM pour prendre en compte les modifs
+		interfaceClient.actualiserInterface();
 	}
 
 	@Override
 	public void notifFermetureSalle(UUID idSalle) {
 		ventesSuivies.remove(idSalle);
 		mapInfosSalles.remove(idSalle);
-		// TODO : refresh l'IHM pour prendre en compte les modifs
+		interfaceClient.actualiserInterface();
 	}
 
 	@Override
 	public void notifNouvelleSalle(UUID idsdv, SalleDeVenteInfo sdvi) {
 		mapInfosSalles.put(idsdv, sdvi);
+		interfaceClient.actualiserInterface();
 	}
 
 	public UUID getIdSalleObservee() {
@@ -310,6 +314,16 @@ public class Client extends UnicastRemoteObject implements IClient {
 		}
 		
 		
+	}
+
+
+	public HashMap<UUID, List<Message>> getListesMessages() {
+		return listesMessages;
+	}
+
+
+	public void setListesMessages(HashMap<UUID, List<Message>> listesMessages) {
+		this.listesMessages = listesMessages;
 	}
 
 
