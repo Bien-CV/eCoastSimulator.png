@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import commun.ClientInfo;
+import commun.DebugTools;
 import commun.DejaConnecteException;
 import commun.IClient;
 import commun.IHotelDesVentes;
@@ -59,8 +60,9 @@ public class Client extends UnicastRemoteObject implements IClient {
 		super();
 		//TODO: Récupérer la vraie IP du client
 		this.myClientInfos = new ClientInfo(UUID.randomUUID(),nom, "127.0.0.1", "8092");
+
 		serveur= new ServeurInfo(ipServeurSaisi,portServeurSaisi);
-		d(serveur.getAdresseServeur());
+		DebugTools.d(serveur.getAdresseServeur());
 		connexionServeur();
 		this.ventesSuivies = new HashMap<UUID, Objet>();
 		
@@ -68,7 +70,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	}
 
 	public void connexionServeur() {
-		d("Tentative d'initialisation de hdv à l'adresse:"+serveur.getAdresseServeur());
+		DebugTools.d("Tentative d'initialisation de hdv à l'adresse:"+serveur.getAdresseServeur());
 		int nombreDeConnexions = 0;
 		while(hdv==null && nombreDeConnexions < 20) {
 			try {
@@ -278,14 +280,15 @@ public class Client extends UnicastRemoteObject implements IClient {
 		Registry r=null;
 		while(!flagRegistreOkay) {
 			try {
-				r = LocateRegistry.getRegistry(Integer.parseInt(myClientInfos.getPort()));
+				//XXX: Get un registry fait bugger !
+				//r = LocateRegistry.getRegistry(Integer.parseInt(myClientInfos.getPort()));
 				
 				if (r==null) {
 					
 					r=LocateRegistry.createRegistry(Integer.parseInt(myClientInfos.getPort()));
-					d("Registre créé au port "+Integer.parseInt(myClientInfos.getPort()));
+					DebugTools.d("Registre créé au port "+Integer.parseInt(myClientInfos.getPort()));
 				}else {
-					d("Registre trouvé au port "+Integer.parseInt(myClientInfos.getPort()));
+					DebugTools.d("Registre trouvé au port "+Integer.parseInt(myClientInfos.getPort()));
 				}
 				flagRegistreOkay=true;
 				
@@ -298,24 +301,19 @@ public class Client extends UnicastRemoteObject implements IClient {
 			}
 			setPortClient( Integer.toString(Integer.parseInt(getPortClient())+1) );
 		}
-		d("Tentative de bind à "+getAdresseClient());
+		DebugTools.d("Tentative de bind à "+getAdresseClient());
 		
 		try {
 			r.rebind(getAdresseClient(), this);
-			d("bind effectué");
+			DebugTools.d("bind effectué");
 		} catch (RemoteException e1) {
-			d("bind échoué");
+			DebugTools.d("bind échoué");
 			// TODO Auto-generated catch block
 			
 			e1.printStackTrace();
 		}
 		
 		
-	}
-
-
-	public static void d(String msg) {
-		System.out.println(msg+"\n");
 	}
 
 

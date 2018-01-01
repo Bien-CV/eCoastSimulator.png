@@ -30,6 +30,7 @@ import commun.Message;
 import commun.Objet;
 import commun.SalleDeVente;
 import commun.SalleDeVenteInfo;
+import commun.DebugTools;
 import commun.IHotelDesVentes;
 
 import java.awt.Component;
@@ -70,22 +71,20 @@ public class ECoastSimulatorGUI {
 	private JTextField saisiePortServeur;
 	
 	
-	public static void d(String msg) {
-		System.out.println(msg+"\n");
-	}
+	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		d("Lancement du client.");
+		DebugTools.d("Lancement du client.");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					d("Run");
+					DebugTools.d("Run");
 					ECoastSimulatorGUI window = new ECoastSimulatorGUI();
-					d("GUI initialized");
+					DebugTools.d("GUI initialized");
 					window.frmEcoastsimulatorpng.setVisible(true);
-					d("GUI visible");
+					DebugTools.d("GUI visible");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -104,11 +103,11 @@ public class ECoastSimulatorGUI {
 		updateListeDesSallesServeur();
 		updateListeDesSallesSuivies();
 		updateObjetSalleCourante();
-		d("Actualisation de toute l'interface");
+		DebugTools.d("Actualisation de toute l'interface");
 	}
 
 	private void updateListeDesSallesSuivies() {
-		d("Actualisation des salles suivies");
+		DebugTools.d("Actualisation des salles suivies");
 
 		listeDesSallesSuivies.setModel(new AbstractListModel<SalleDeVenteInfo>() {
 
@@ -125,7 +124,7 @@ public class ECoastSimulatorGUI {
 
 	}
 	private void updateObjetSalleCourante() {
-		d("Actualisation de l'objet courant");
+		DebugTools.d("Actualisation de l'objet courant");
 		
 		if (this.idSalleCourante!=null) {
 			Objet objCourant=client.getVentesSuivies().get(this.idSalleCourante);
@@ -137,7 +136,7 @@ public class ECoastSimulatorGUI {
 	}
 
 	private void updateListeDesSallesServeur() {
-		d("Actualisation des salles du serveur");
+		DebugTools.d("Actualisation des salles du serveur");
 
 		listeDesSalles.setModel(new AbstractListModel<SalleDeVenteInfo>() {
 
@@ -195,7 +194,7 @@ public class ECoastSimulatorGUI {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					d("Envoi d'un ping au serveur");
+					DebugTools.d("Envoi d'un ping au serveur");
 					client.pingServeur();
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
@@ -259,7 +258,7 @@ public class ECoastSimulatorGUI {
 		btnSeDconnecter.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				d("TODO:Click se déconnecter");
+				DebugTools.d("TODO:Click se déconnecter");
 				client.deconnexion();
 				
 				//TODO: si ok rendre panelDeconnexion invisible et panelConnexion visible
@@ -277,7 +276,7 @@ public class ECoastSimulatorGUI {
 		btnNouvelleEnchre.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				d("TODO:CLick nouvelle enchère");
+				DebugTools.d("TODO:CLick nouvelle enchère");
 				try {
 					client.nouvelleSalle(txtNomDeLobjet.getText(), txtDescriptionDeLobjet.getText(), Float.parseFloat(txtPrixDeBase.getText()));
 				} catch (NumberFormatException | RemoteException e1) {
@@ -355,7 +354,7 @@ public class ECoastSimulatorGUI {
 		btnSeConnecter_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				d("Click se connecter");
+				DebugTools.d("Click se connecter");
 				//Demande à se connecter au serveur avec le pseudo entré dans pseudonymeConnexion.getText()
 				//Si la connexion a réussi, on masque le panel panelConnexion et affiche panelDeconnexion
 				//On refresh un peu toute la GUI.
@@ -365,21 +364,21 @@ public class ECoastSimulatorGUI {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				d("Client créé");
+				DebugTools.d("Client créé");
 				
 				client.connexionServeur();
 				client.bindClient();
 				panelConnexion.setVisible(false);
-				d("Panel de connexion caché");
+				DebugTools.d("Panel de connexion caché");
 				panelDeconnexion.setVisible(true);
-				d("Panel de déconnexion rendu visible");
+				DebugTools.d("Panel de déconnexion rendu visible");
 				client.myClientInfos.setNom(pseudonymeConnexion.getText());
-				d("Pseudonyme client actualisé selon saisie");
+				DebugTools.d("Pseudonyme client actualisé selon saisie");
 				lblPseudoDeConnexion.setText(client.myClientInfos.getNom());
-				d("Pseudonyme du client affiché en haut à gauche");
+				DebugTools.d("Pseudonyme du client affiché en haut à gauche");
 
 				actualiserInterface();
-				d("Actualisation de l'interface");
+				DebugTools.d("Actualisation de l'interface");
 			}
 		});
 		GridBagConstraints gbc_btnSeConnecter_1 = new GridBagConstraints();
@@ -626,14 +625,14 @@ public class ECoastSimulatorGUI {
 					if (e.getKeyChar()=='\n') {
 	
 						try {
-							d("Touche entrée saisie, envoi de l'enchère de : "+saisieEnchere.getText());
+							DebugTools.d("Touche entrée saisie, envoi de l'enchère de : "+saisieEnchere.getText());
 							IHotelDesVentes serveur=client.getServeur();
-							d("Serveur récupéré du client.");
+							DebugTools.d("Serveur récupéré du client.");
 							if( saisieEnchere.getText() != "") {
 								float enchere=Float.parseFloat(saisieEnchere.getText());
 								serveur.encherir(enchere, client.getId(), client.getIdSalleObservee());
 		
-								d("Réussi.");
+								DebugTools.d("Réussi.");
 								saisieEnchere.setText("");
 							}
 						} catch (RemoteException re) {
@@ -668,7 +667,7 @@ public class ECoastSimulatorGUI {
 			public void mouseClicked(MouseEvent e) {
 				if(client.getIdSalleObservee()!=null) {
 					IHotelDesVentes serveur=client.getServeur();
-					d("Serveur récupéré du client.");
+					DebugTools.d("Serveur récupéré du client.");
 					if( saisieEnchere.getText() != "") {
 						float enchere=Float.parseFloat(saisieEnchere.getText());
 						try {
@@ -676,13 +675,13 @@ public class ECoastSimulatorGUI {
 						} catch (RemoteException e1) {
 							e1.printStackTrace();
 						}
-						d("Réussi.");
+						DebugTools.d("Réussi.");
 						saisieEnchere.setText("");
 					}else {
-						d("Saisie vide");
+						DebugTools.d("Saisie vide");
 					}
 				}else {
-					d("Aucune salle n'est sélectionnée comme salle courante");
+					DebugTools.d("Aucune salle n'est sélectionnée comme salle courante");
 				}
 			}
 		});
@@ -798,8 +797,8 @@ public class ECoastSimulatorGUI {
 				if(idSalleCourante!=null && saisieChat.getText()!="") {
 					if (key.getKeyChar()=='\n') {
 						Message messageAEnvoyer=new Message(client.myClientInfos.getNom(),saisieChat.getText());
-						d("saisieChat déclenchée");
-						d("message formulé par "+client.myClientInfos.getNom()+" : "+saisieChat.getText());
+						DebugTools.d("saisieChat déclenchée");
+						DebugTools.d("message formulé par "+client.myClientInfos.getNom()+" : "+saisieChat.getText());
 						try {
 							client.getServeur().posterMessage(client.getIdSalleObservee(),messageAEnvoyer);
 						} catch (RemoteException e) {
@@ -809,7 +808,7 @@ public class ECoastSimulatorGUI {
 						saisieChat.setText("");
 					}
 				}else {
-					d("Envoi de message non déclenché car aucune salle n'a été choisie ou le message est vide");
+					DebugTools.d("Envoi de message non déclenché car aucune salle n'a été choisie ou le message est vide");
 				}
 				
 			}
@@ -824,8 +823,8 @@ public class ECoastSimulatorGUI {
 				if(idSalleCourante!=null) {
 					if (saisieChat.getText()!="") {
 						Message messageAEnvoyer=new Message(client.myClientInfos.getNom(),saisieChat.getText());
-						d("saisieChat déclenchée");
-						d("message formulé par "+client.myClientInfos.getNom()+" : "+saisieChat.getText());
+						DebugTools.d("saisieChat déclenchée");
+						DebugTools.d("message formulé par "+client.myClientInfos.getNom()+" : "+saisieChat.getText());
 						try {
 							client.getServeur().posterMessage(client.getIdSalleObservee(),messageAEnvoyer);
 						} catch (RemoteException e) {
@@ -835,7 +834,7 @@ public class ECoastSimulatorGUI {
 						saisieChat.setText("");
 					}
 				}else {
-					d("Envoi de message non déclenché car aucune salle n'a été choisie ou le message est vide");
+					DebugTools.d("Envoi de message non déclenché car aucune salle n'a été choisie ou le message est vide");
 				}
 			}
 		});
