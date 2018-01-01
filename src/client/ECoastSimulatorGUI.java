@@ -276,7 +276,6 @@ public class ECoastSimulatorGUI {
 		btnNouvelleEnchre.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				DebugTools.d("TODO:CLick nouvelle enchère");
 				try {
 					client.nouvelleSalle(txtNomDeLobjet.getText(), txtDescriptionDeLobjet.getText(), Float.parseFloat(txtPrixDeBase.getText()));
 				} catch (NumberFormatException | RemoteException e1) {

@@ -77,10 +77,16 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	public UUID creerSalle(ClientInfo client, Objet o, String nomDeSalle) throws RemoteException {
 		System.out.println("Serveur: le client "+client.getId()+" demande à créer une salle "+nomDeSalle+" avec objet "+o);
 		SalleDeVente nouvelleSDV=new SalleDeVente(o, nomDeSalle, client.getId());
-		listeSalles.add(nouvelleSDV);
-		mapSalles.put(nouvelleSDV.getId(), nomDeSalle);
+		ajouterUneSalle(nouvelleSDV);
 		return nouvelleSDV.getId();
 	}
+
+	private void ajouterUneSalle(SalleDeVente nouvelleSDV) {
+		listeSalles.add(nouvelleSDV);
+		mapSalles.put(nouvelleSDV.getId(), nouvelleSDV.getNom());
+	}
+
+
 
 	//Méthode accessible par le client
 	@Override
