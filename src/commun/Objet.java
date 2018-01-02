@@ -97,6 +97,9 @@ public class Objet implements Serializable{
 
 	public void setDateDeMiseEnVente(Date dateDeMiseEnVente) {
 		this.dateDeMiseEnVente = dateDeMiseEnVente;
-
+	}
+	
+	public String tempsRestant() {
+		return "";
 	}
 }
