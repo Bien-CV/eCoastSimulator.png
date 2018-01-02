@@ -1,6 +1,7 @@
 package commun;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -100,6 +101,9 @@ public class Objet implements Serializable{
 	}
 	
 	public String tempsRestant() {
-		return "";
+		Calendar cal = Calendar.getInstance();
+		long present = cal.getTimeInMillis();
+		long restant = dateDeFinDeVente.getTime() - present;
+		return (restant%86400000)/3600000+":"+((restant%86400000)%3600000)/60000+":"+(((restant%86400000)%3600000)%60000)/1000;
 	}
 }
