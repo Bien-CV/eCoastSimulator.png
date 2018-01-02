@@ -4,6 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.UUID;
 import java.util.HashMap;
+import java.util.List;
 
 public interface IHotelDesVentes extends Remote {
 	
@@ -32,5 +33,7 @@ public interface IHotelDesVentes extends Remote {
 	public void quitterSalle(UUID idClient, UUID idSalleAQuitter) throws RemoteException;
 	
 	public void ping() throws RemoteException;
+
+	public List<Message> getMessagesSalle(UUID idSalle) throws RemoteException;
 	
 }

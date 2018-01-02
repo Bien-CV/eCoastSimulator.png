@@ -35,6 +35,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -97,7 +98,7 @@ public class ECoastSimulatorGUI {
 		//listesMessages.get(idSalle)
 		if (affichageChat!= null){
 			if (client.getIdSalleObservee()!=null){
-				affichageChat.setText(client.getListesMessages().get(client.getIdSalleObservee()).toString());
+				affichageChat.setText(affichage(client.getListesMessages().get(client.getIdSalleObservee())));
 				affichageChat.repaint();
 			}
 			
@@ -105,6 +106,14 @@ public class ECoastSimulatorGUI {
 		
 		// TODO Auto-generated method stub
 		
+	}
+
+	private String affichage(List<Message> list) {
+		String affichageChat="";
+		for (Message m : list) { 
+			affichageChat+=m.getContenu()+"\n";
+		   }
+		return affichageChat;
 	}
 
 	public void updateListeDesSallesSuivies() {
@@ -798,7 +807,6 @@ public class ECoastSimulatorGUI {
 				if(client.getIdSalleObservee()!=null && saisieChat.getText()!="") {
 					if (key.getKeyChar()=='\n') {
 						Message messageAEnvoyer=new Message(client.myClientInfos.getNom(),saisieChat.getText());
-						DebugTools.d("saisieChat déclenchée");
 						DebugTools.d("message formulé par "+client.myClientInfos.getNom()+" : "+saisieChat.getText());
 						try {
 							client.getServeur().posterMessage(client.getIdSalleObservee(),messageAEnvoyer);
@@ -807,6 +815,7 @@ public class ECoastSimulatorGUI {
 							e.printStackTrace();
 						}
 						saisieChat.setText("");
+						saisieChat.repaint();
 					}
 				}else {
 					DebugTools.d("Envoi de message non déclenché car aucune salle n'a été choisie ou le message est vide");
@@ -833,6 +842,7 @@ public class ECoastSimulatorGUI {
 							e.printStackTrace();
 						}
 						saisieChat.setText("");
+						saisieChat.repaint();
 					}
 				}else {
 					DebugTools.d("Envoi de message non déclenché car aucune salle n'a été choisie ou le message est vide");

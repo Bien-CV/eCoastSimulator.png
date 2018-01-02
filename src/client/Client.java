@@ -38,7 +38,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	private HashMap<UUID, Objet> ventesSuivies;
 	private HashMap<UUID, SalleDeVenteInfo> mapInfosSalles;
 	// liste des messages postés dans les différentes salles de ventes suivies
-	private HashMap<UUID, List<Message>> listesMessages;
+	private HashMap<UUID, List<Message>> listesMessages=new HashMap<UUID, List<Message>>();
 
 	public ClientInfo myClientInfos;
 	
@@ -170,6 +170,12 @@ public class Client extends UnicastRemoteObject implements IClient {
 			e.printStackTrace();
 			// TODO : affichage d'un message d'erreur par l'IHM
 		}
+		try {
+			listesMessages.put(idSalle, hdv.getMessagesSalle(idSalle));
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public HashMap<UUID, Objet> getVentesSuivies() {
@@ -178,7 +184,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 
 	@Override
 	public void nouveauMessage(UUID idSalle, Message message) {
-		getListesMessages().get(idSalle).add(message);
+		listesMessages.get(idSalle).add(message);
 		interfaceClient.updateChat();
 		// TODO : éventuellement supprimer les plus anciens messages au dela d'un certain nombre.
 	}
@@ -275,22 +281,20 @@ public class Client extends UnicastRemoteObject implements IClient {
 
 	public void bindClient() {
 		Boolean flagRegistreOkay=false;
+		int portClient=Integer.parseInt( getPortClient() );
 		while(!flagRegistreOkay) {
 			try {
-				//XXX: Get un registry fait bugger !
-				//r = LocateRegistry.getRegistry(Integer.parseInt(myClientInfos.getPort()));
-				
-				LocateRegistry.createRegistry(Integer.parseInt(myClientInfos.getPort()));
-				DebugTools.d("Registre créé au port "+Integer.parseInt(myClientInfos.getPort()));
+				LocateRegistry.createRegistry(portClient);
+				DebugTools.d("Registre créé au port "+portClient);
 				flagRegistreOkay=true;
+				setPortClient(Integer.toString(portClient));
 			} catch (NumberFormatException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (RemoteException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				DebugTools.d("Port "+portClient+" non disponible.");
 			}
-			setPortClient( Integer.toString( Integer.parseInt( getPortClient() ) ) );
+			portClient++;
 		}
 		DebugTools.d("Tentative de bind à "+getAdresseClient());
 		

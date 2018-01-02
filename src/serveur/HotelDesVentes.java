@@ -1,5 +1,3 @@
-//TODO:
-
 package serveur;
 
 import java.rmi.Naming;
@@ -118,7 +116,6 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 			listeClients.add(client);
 			return genererListeSalles();
 		}
-		// TODO : lever une exception plutot que retourner null est préférable.
 		else{
 			System.out.print("ALERTE : connexionClient renvoie null");
 			return null;
@@ -311,6 +308,13 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	public void ping() throws RemoteException {
 		System.out.println("Serveur: je reçois un ping");
 		
+	}
+
+
+
+	@Override
+	public List<Message> getMessagesSalle(UUID idSalle) {
+		return getSalleById(idSalle).getListeMessages();
 	}
 
 }

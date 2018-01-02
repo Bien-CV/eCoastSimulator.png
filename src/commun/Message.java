@@ -4,7 +4,10 @@
 
 package commun;
 
-public class Message {
+import java.io.Serializable;
+
+public class Message implements Serializable{
+	private static final long serialVersionUID = -7045948667272167832L;
 	private String auteur;
 	private String contenu;
 	
