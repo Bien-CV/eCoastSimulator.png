@@ -434,8 +434,8 @@ public class ECoastSimulatorGUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				DebugTools.d("On demande à rejoindre la salle d'id : "+listeDesSalles.getSelectedValue().getId());
-				UUID id=listeDesSalles.getSelectedValue().getId();
+				DebugTools.d("On demande à rejoindre la salle d'id : "+listeDesSallesSuivies.getSelectedValue().getId());
+				UUID id=listeDesSallesSuivies.getSelectedValue().getId();
 				client.setIdSalleObservee(id);
 				DebugTools.d("id "+client.getIdSalleObservee()+client.getIdSalleObservee());
 				actualiserInterface();

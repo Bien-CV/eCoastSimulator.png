@@ -22,4 +22,10 @@ public class TimerVente {
 		Timer timer = new Timer(true);
 		timer.schedule(timerTask,dateDeFin);
 	}
+	
+	public void run() {
+		TimerTask timerTask = new TaskObjetSuivantClient(parent, idSdv);
+		Timer timer = new Timer(true);
+		timer.schedule(timerTask,dateDeFin);
+	}
 }
