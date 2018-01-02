@@ -49,7 +49,7 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	public Objet rejoindreSalle(UUID roomId, ClientInfo client) throws RemoteException {
 		ClientInfo fetchedClient=getClientById(client.getId());
 		SalleDeVente salleRejointe = getSalleById(roomId);
-		if ( fetchedClient == client ){
+		if ( fetchedClient.getId() == client.getId() ){
 			ajouterClientASalle(fetchedClient,salleRejointe);
 			return salleRejointe.getObjetCourant();
 		}
