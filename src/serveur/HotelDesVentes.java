@@ -49,7 +49,7 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	public Objet rejoindreSalle(UUID roomId, ClientInfo client) throws RemoteException {
 		ClientInfo fetchedClient=getClientById(client.getId());
 		SalleDeVente salleRejointe = getSalleById(roomId);
-		if ( fetchedClient.getId() == client.getId() ){
+		if ( fetchedClient.getId().equals(client.getId()) ){
 			ajouterClientASalle(fetchedClient,salleRejointe);
 			return salleRejointe.getObjetCourant();
 		}
@@ -189,7 +189,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	// Obtention d'un client en fonction de son id.
 	private ClientInfo getClientById(UUID clientId) {
 		for ( ClientInfo client :listeClients ){
-			if( client.getId()==clientId){
+			if( client.getId().equals(clientId)){
 				return client;
 			}
 		}
@@ -200,7 +200,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	public SalleDeVente getSalleById(UUID roomId) {
 
 		for (SalleDeVente sdv : listeSalles ){
-			if ( sdv.getId()==roomId ) return sdv;
+			if ( sdv.getId().equals(roomId) ) return sdv;
 		}
 		return null;
 	}
