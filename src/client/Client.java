@@ -2,9 +2,6 @@
 
 package client;
 
-import java.awt.event.MouseAdapter;
-import java.net.MalformedURLException;
-import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -46,9 +43,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 	public ClientInfo myClientInfos;
 	
 	private UUID idSalleObservee;
-	private String nomSalleObservee;
-	private UUID idObjetObserve;
-	private String nomObjetObserve;
 	private ECoastSimulatorGUI interfaceClient;
 
 	public void setIdSalleObservee(UUID idSalleObservee) {
