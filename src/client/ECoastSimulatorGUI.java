@@ -6,19 +6,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 //import net.miginfocom.swing.MigLayout;
-import javax.swing.JSeparator;
-import javax.swing.BoxLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import javax.swing.UIManager;
-import javax.swing.border.BevelBorder;
-import javax.swing.JSplitPane;
 import java.awt.Insets;
 import javax.swing.JLabel;
 import java.awt.FlowLayout;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import java.awt.GridLayout;
 import javax.swing.JTextArea;
 import javax.swing.JList;
 import javax.swing.SwingConstants;
@@ -28,28 +22,20 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 import commun.Message;
 import commun.Objet;
-import commun.SalleDeVente;
 import commun.SalleDeVenteInfo;
 import commun.DebugTools;
 import commun.IHotelDesVentes;
 
 import java.awt.Component;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.border.LineBorder;
-import java.awt.Window.Type;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.MalformedURLException;
-import java.rmi.AlreadyBoundException;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
 import java.util.UUID;
 
 
