@@ -11,13 +11,13 @@ public class SalleDeVenteInfo implements Serializable {
 	private static final long serialVersionUID = -5766736704258333158L;
 	private String nom;
 	private UUID id;
-	private Objet objCourrant;
+	private Objet objCourant;
 	
 	public SalleDeVenteInfo(String nom, UUID id, Objet objCourrant) {
 		super();
 		this.nom = nom;
 		this.id = id;
-		this.objCourrant = objCourrant;
+		this.objCourant = objCourrant;
 	}
 	
 	public String getNom() {
@@ -37,11 +37,15 @@ public class SalleDeVenteInfo implements Serializable {
 	}
 	
 	public Objet getObjCourant() {
-		return objCourrant;
+		return objCourant;
 	}
 	
 	public void setObjCourrant(Objet objCourrant) {
-		this.objCourrant = objCourrant;
+		this.objCourant = objCourrant;
 	}
 
+	public String toString(){
+		return nom+":"+objCourant.getNom();
+		
+	}
 }

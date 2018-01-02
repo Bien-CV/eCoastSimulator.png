@@ -65,6 +65,8 @@ public class Objet implements Serializable{
 	public void miseEnVente () {
 		dateDeMiseEnVente = new Date();
 		setDateDeFinDeVente(ajouterSeconde(dateDeMiseEnVente, 30));
+		//TODO:Créer le TimerVente approprié
+		
 	}
 	
 	public static Date ajouterSeconde(Date date, int nbSeconde) {

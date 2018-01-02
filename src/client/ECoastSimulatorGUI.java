@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -54,11 +56,12 @@ public class ECoastSimulatorGUI {
 	private JList<SalleDeVenteInfo> listeDesSalles = new JList<SalleDeVenteInfo>();
 	private JList<SalleDeVenteInfo> listeDesSallesSuivies = new JList<SalleDeVenteInfo>();
 	private JTextField saisiePortServeur;
+	
 	JTextArea affichageChat = new JTextArea();
+	JScrollPane scrollPane = new JScrollPane( affichageChat );
 	JLabel affichageNomObj = new JLabel("patate");
 	JLabel affichagePrix = new JLabel("240");
 	JLabel affichageTempsRestant = new JLabel("7 secondes");
-	
 	/**
 	 * Launch the application.
 	 */
@@ -99,6 +102,7 @@ public class ECoastSimulatorGUI {
 		if (affichageChat!= null){
 			if (client.getIdSalleObservee()!=null){
 				affichageChat.setText(affichage(client.getListesMessages().get(client.getIdSalleObservee())));
+				affichageChat.setCaretPosition(affichageChat.getDocument().getLength());
 				affichageChat.repaint();
 			}
 			
@@ -111,7 +115,7 @@ public class ECoastSimulatorGUI {
 	private String affichage(List<Message> list) {
 		String affichageChat="";
 		for (Message m : list) { 
-			affichageChat+=m.getContenu()+"\n";
+			affichageChat+=m.getAuteur()+": "+m.getContenu()+"\n";
 		   }
 		return affichageChat;
 	}
@@ -180,7 +184,8 @@ public class ECoastSimulatorGUI {
 		frmEcoastsimulatorpng.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmEcoastsimulatorpng.getContentPane().setLayout(new BorderLayout(0, 0));
 		JPanel panelConnexion = new JPanel();
-
+		
+		
 		JPanel topBar = new JPanel();
 		topBar.setBorder(null);
 		frmEcoastsimulatorpng.getContentPane().add(topBar, BorderLayout.NORTH);
@@ -433,8 +438,7 @@ public class ECoastSimulatorGUI {
 				UUID id=listeDesSalles.getSelectedValue().getId();
 				client.setIdSalleObservee(id);
 				DebugTools.d("id "+client.getIdSalleObservee()+client.getIdSalleObservee());
-				updateObjetSalleCourante();
-				updateListeDesSallesSuivies();
+				actualiserInterface();
 			}
 		});
 		GridBagConstraints gbc_btnRejoindreSalleDeLObjet = new GridBagConstraints();
@@ -535,13 +539,10 @@ public class ECoastSimulatorGUI {
 		gbc_panelNombrePersonnesDansSalle.gridy = 0;
 		panelBoutonsPourListeSalles.add(panelNombrePersonnesDansSalle, gbc_panelNombrePersonnesDansSalle);
 
-		JLabel lblPersonnesDansLa = new JLabel("Connectés : ");
+		JLabel lblPersonnesDansLa = new JLabel("");
 		panelNombrePersonnesDansSalle.add(lblPersonnesDansLa);
 
-		JLabel labelNombreConnectesParSalle = new JLabel("3");
-		panelNombrePersonnesDansSalle.add(labelNombreConnectesParSalle);
-
-		JLabel lblPersonnes = new JLabel("personnes");
+		JLabel lblPersonnes = new JLabel("");
 		panelNombrePersonnesDansSalle.add(lblPersonnes);
 
 		JPanel panelPlusHauteEnchere = new JPanel();
@@ -553,13 +554,13 @@ public class ECoastSimulatorGUI {
 		gbc_panelPlusHauteEnchere.gridy = 1;
 		panelBoutonsPourListeSalles.add(panelPlusHauteEnchere, gbc_panelPlusHauteEnchere);
 
-		JLabel lblEnchre = new JLabel("Enchère : ");
+		JLabel lblEnchre = new JLabel("");
 		panelPlusHauteEnchere.add(lblEnchre);
 
-		JLabel labelPrixObjetSalle = new JLabel("500");
+		JLabel labelPrixObjetSalle = new JLabel("");
 		panelPlusHauteEnchere.add(labelPrixObjetSalle);
 
-		JLabel label_euro = new JLabel("€");
+		JLabel label_euro = new JLabel("");
 		panelPlusHauteEnchere.add(label_euro);
 
 		JPanel panelRejoidreOuQuitterSalle = new JPanel();
@@ -585,8 +586,7 @@ public class ECoastSimulatorGUI {
 				UUID id=listeDesSalles.getSelectedValue().getId();
 				client.setIdSalleObservee(id);
 				client.rejoindreSalle(id);
-				updateObjetSalleCourante();
-				updateListeDesSallesSuivies();
+				actualiserInterface();
 			}
 		});
 		GridBagConstraints gbc_btnRejoindreSalleListe = new GridBagConstraints();
@@ -781,13 +781,13 @@ public class ECoastSimulatorGUI {
 
 		
 		affichageChat.setLineWrap(true);
-		affichageChat.setText("Mario: Je t'aime Baptiste\r\nJoachim: Je t'aime Baptiste omg\r\nBaptiste: Les gars stop c'est embarrassant *blush*");
+		affichageChat.setText("");
 		GridBagConstraints gbc_affichageChat = new GridBagConstraints();
 		gbc_affichageChat.fill = GridBagConstraints.BOTH;
 		gbc_affichageChat.insets = new Insets(0, 0, 5, 0);
 		gbc_affichageChat.gridx = 0;
 		gbc_affichageChat.gridy = 1;
-		panelGlobalChat.add(affichageChat, gbc_affichageChat);
+		panelGlobalChat.add(scrollPane, gbc_affichageChat);
 
 		JPanel panelSaisieChat = new JPanel();
 		panelSaisieChat.setBorder(new LineBorder(new Color(0, 0, 0)));

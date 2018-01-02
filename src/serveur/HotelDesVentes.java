@@ -231,6 +231,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	
 	// notification d'une nouvelle vente ou de la fermeture de la salle le cas échéant.
 	public void nouvelleVente(UUID idSalle) {
+		//TODO:
 		SalleDeVente SDV = getSalleById(idSalle);
 		List<ClientInfo> listeDiffusion = SDV.getListeAcheteurs();
 		try {
