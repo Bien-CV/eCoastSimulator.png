@@ -5,7 +5,6 @@ package client;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.UUID;
 import java.util.Collection;
@@ -274,21 +273,14 @@ public class Client extends UnicastRemoteObject implements IClient {
 
 	public void bindClient() {
 		Boolean flagRegistreOkay=false;
-		Registry r=null;
 		while(!flagRegistreOkay) {
 			try {
 				//XXX: Get un registry fait bugger !
 				//r = LocateRegistry.getRegistry(Integer.parseInt(myClientInfos.getPort()));
 				
-				if (r==null) {
-					
-					r=LocateRegistry.createRegistry(Integer.parseInt(myClientInfos.getPort()));
-					DebugTools.d("Registre créé au port "+Integer.parseInt(myClientInfos.getPort()));
-				}else {
-					DebugTools.d("Registre trouvé au port "+Integer.parseInt(myClientInfos.getPort()));
-				}
+				LocateRegistry.createRegistry(Integer.parseInt(myClientInfos.getPort()));
+				DebugTools.d("Registre créé au port "+Integer.parseInt(myClientInfos.getPort()));
 				flagRegistreOkay=true;
-				
 			} catch (NumberFormatException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -301,7 +293,12 @@ public class Client extends UnicastRemoteObject implements IClient {
 		DebugTools.d("Tentative de bind à "+getAdresseClient());
 		
 		try {
-			r.rebind(getAdresseClient(), this);
+			try {
+				Naming.rebind(getAdresseClient(), this);
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			DebugTools.d("bind à "+getAdresseClient()+" effectué.");
 		} catch (RemoteException e1) {
 			DebugTools.d("bind à "+getAdresseClient()+" échoué.");			

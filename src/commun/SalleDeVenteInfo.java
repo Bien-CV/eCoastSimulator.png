@@ -1,9 +1,14 @@
 package commun;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class SalleDeVenteInfo {
+public class SalleDeVenteInfo implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5766736704258333158L;
 	private String nom;
 	private UUID id;
 	private Objet objCourrant;
