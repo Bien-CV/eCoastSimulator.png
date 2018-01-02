@@ -54,7 +54,9 @@ public class ECoastSimulatorGUI {
 	private JList<SalleDeVenteInfo> listeDesSallesSuivies = new JList<SalleDeVenteInfo>();
 	private JTextField saisiePortServeur;
 	JTextArea affichageChat = new JTextArea();
-	
+	JLabel affichageNomObj = new JLabel("patate");
+	JLabel affichagePrix = new JLabel("240");
+	JLabel affichageTempsRestant = new JLabel("7 secondes");
 	
 	/**
 	 * Launch the application.
@@ -124,11 +126,10 @@ public class ECoastSimulatorGUI {
 			Objet objCourant=client.getVentesSuivies().get(client.getIdSalleObservee());
 			
 			DebugTools.d("obj :"+objCourant+"\nid salle:"+client.getIdSalleObservee());
-			txtNomDeLobjet.setText(objCourant.getNom());
-			txtDescriptionDeLobjet.setText(objCourant.getDescription());
 			String prixCourant=Float.toString(objCourant.getPrixCourant());
-			txtPrixDeBase.setText(prixCourant);	
-			
+			affichageNomObj.setText(objCourant.getNom()+" : "+objCourant.getDescription());
+			affichagePrix.setText(prixCourant);	
+			affichageTempsRestant.setText(objCourant.tempsRestant());
 			txtPrixDeBase.repaint();
 			txtDescriptionDeLobjet.repaint();
 			txtNomDeLobjet.repaint();
@@ -146,6 +147,9 @@ public class ECoastSimulatorGUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
+		
+		
 		txtNomDeLobjet = new JTextField();
 		txtDescriptionDeLobjet = new JTextField();
 		txtPrixDeBase = new JTextField();
@@ -710,8 +714,8 @@ public class ECoastSimulatorGUI {
 		JLabel lblNomDeLobjet = new JLabel("Nom de l'objet : ");
 		panel_5.add(lblNomDeLobjet);
 
-		JLabel lblPatate = new JLabel("patate");
-		panel_5.add(lblPatate);
+		
+		panel_5.add(affichageNomObj);
 
 		JPanel panel_6 = new JPanel();
 		GridBagConstraints gbc_panel_6 = new GridBagConstraints();
@@ -723,9 +727,8 @@ public class ECoastSimulatorGUI {
 
 		JLabel lblEchreCourante = new JLabel("Echère courante : ");
 		panel_6.add(lblEchreCourante);
-
-		JLabel label_1 = new JLabel("240");
-		panel_6.add(label_1);
+		
+		panel_6.add(affichagePrix);
 
 		JLabel label_2 = new JLabel("€");
 		panel_6.add(label_2);
@@ -740,8 +743,8 @@ public class ECoastSimulatorGUI {
 		JLabel lblTempsRestantAvant = new JLabel("Fin dans : ");
 		panel_7.add(lblTempsRestantAvant);
 
-		JLabel lblSecondes = new JLabel("7 secondes");
-		panel_7.add(lblSecondes);
+		
+		panel_7.add(affichageTempsRestant);
 
 		JPanel panelGlobalChat = new JPanel();
 		GridBagConstraints gbc_panelGlobalChat = new GridBagConstraints();
