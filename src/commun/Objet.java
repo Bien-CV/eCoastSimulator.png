@@ -66,7 +66,7 @@ public class Objet implements Serializable{
 	
 	public void miseEnVente () {
 		dateDeMiseEnVente = new Date();
-		setDateDeFinDeVente(ajouterSeconde(dateDeMiseEnVente, 30));
+		setDateDeFinDeVente(ajouterSeconde(dateDeMiseEnVente, 120));
 	}
 	
 	public static Date ajouterSeconde(Date date, int nbSeconde) {
