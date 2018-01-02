@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 import commun.ClientInfo;
+import commun.DebugTools;
 import commun.DejaConnecteException;
 import commun.DejaDansLaSalleException;
 import commun.IClient;
@@ -76,7 +77,6 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		System.out.println("Serveur: le client "+client.getId()+" demande à créer une salle "+nomDeSalle+" avec objet "+o);
 		SalleDeVente nouvelleSDV=new SalleDeVente(o, nomDeSalle, client.getId());
 		ajouterUneSalle(nouvelleSDV);
-		// diffusion de la nouvelle salle aux clients connectés
 		notifCreationSalle(nouvelleSDV.getId());
 		return nouvelleSDV.getId();
 	}
@@ -117,7 +117,10 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 			return genererListeSalles();
 		}
 		// TODO : lever une exception plutot que retourner null est préférable.
-		else return null;
+		else{
+			System.out.print("ALERTE : connexionClient renvoie null");
+			return null;
+		}
 	}
 
 
@@ -283,8 +286,10 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	public void notifCreationSalle (UUID idSalle) {
 		SalleDeVente sdv = getSalleById(idSalle);
 		SalleDeVenteInfo sdvi = new SalleDeVenteInfo(sdv.getNom(), sdv.getId(), sdv.getObjetCourant());
+		System.out.println("Liste des clients : "+listeClients.toString());
 		for (ClientInfo ci : listeClients) {
 			try {
+				DebugTools.d("Envoi notification création salle");
 				listeRefsClient.get(ci.getId()).notifNouvelleSalle(idSalle, sdvi);
 			} catch (RemoteException e) {
 				e.printStackTrace();
