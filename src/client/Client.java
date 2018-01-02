@@ -179,7 +179,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	@Override
 	public void nouveauMessage(UUID idSalle, Message message) {
 		getListesMessages().get(idSalle).add(message);
-		interfaceClient.actualiserInterface();
+		interfaceClient.updateChat();
 		// TODO : éventuellement supprimer les plus anciens messages au dela d'un certain nombre.
 	}
 
@@ -187,13 +187,14 @@ public class Client extends UnicastRemoteObject implements IClient {
 	public void notifModifObjet(UUID idSalle, Objet objet) {
 		ventesSuivies.put(idSalle, objet);
 		mapInfosSalles.get(idSalle).setObjCourrant(objet);
-		interfaceClient.actualiserInterface();
+		interfaceClient.updateObjetSalleCourante();
 	}
 
 	@Override
 	public void notifFermetureSalle(UUID idSalle) {
 		ventesSuivies.remove(idSalle);
 		mapInfosSalles.remove(idSalle);
+		//TODO: devrait être travaillé
 		interfaceClient.actualiserInterface();
 	}
 
@@ -201,7 +202,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	public void notifNouvelleSalle(UUID idsdv, SalleDeVenteInfo sdvi) {
 		mapInfosSalles.put(idsdv, sdvi);
 		System.out.println("Une nouvelle salle a été crée");
-		interfaceClient.actualiserInterface();
+		interfaceClient.updateListeDesSallesServeur();
 	}
 
 	public UUID getIdSalleObservee() {

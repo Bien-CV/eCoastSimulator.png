@@ -92,7 +92,7 @@ public class ECoastSimulatorGUI {
 		DebugTools.d("Actualisation de toute l'interface");
 	}
 
-	private void updateChat() {
+	public void updateChat() {
 		//listesMessages.get(idSalle)
 		if (affichageChat!= null){
 			if (idSalleCourante!=null){
@@ -106,7 +106,7 @@ public class ECoastSimulatorGUI {
 		
 	}
 
-	private void updateListeDesSallesSuivies() {
+	public void updateListeDesSallesSuivies() {
 		DebugTools.d("Actualisation des salles suivies");
 		//DebugTools.d(Integer.toString(client.getTabVentesSuivies().length));
 		listeDesSallesSuivies.setListData(client.getTabVentesSuivies());
@@ -114,7 +114,7 @@ public class ECoastSimulatorGUI {
 
 
 	}
-	private void updateObjetSalleCourante() {
+	public void updateObjetSalleCourante() {
 		DebugTools.d("Actualisation de l'objet courant");
 		
 		if (this.idSalleCourante!=null) {
@@ -133,7 +133,7 @@ public class ECoastSimulatorGUI {
 		}
 	}
 
-	private void updateListeDesSallesServeur() {
+	public void updateListeDesSallesServeur() {
 		DebugTools.d("Actualisation des salles du serveur");
 		listeDesSalles.setListData(client.getTabInfosSalles());
 		listeDesSalles.repaint();
