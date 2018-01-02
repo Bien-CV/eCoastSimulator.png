@@ -201,7 +201,11 @@ public class Client extends UnicastRemoteObject implements IClient {
 		ventesSuivies.remove(idSalle);
 		mapInfosSalles.remove(idSalle);
 		//TODO: devrait être travaillé
-		interfaceClient.actualiserInterface();
+		if (idSalle.equals(idSalleObservee)) {
+			idSalleObservee = null;
+			interfaceClient.actualiserInterface();
+		}
+		else interfaceClient.actualiserInterface();
 	}
 
 	@Override
