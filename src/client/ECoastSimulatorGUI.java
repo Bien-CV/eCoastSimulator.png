@@ -62,6 +62,10 @@ public class ECoastSimulatorGUI {
 	JLabel affichageNomObj = new JLabel("patate");
 	JLabel affichagePrix = new JLabel("240");
 	JLabel affichageTempsRestant = new JLabel("7 secondes");
+	JPanel panel_2 = new JPanel();
+	JPanel panel_5 = new JPanel();
+	JPanel panel_4 = new JPanel();
+	JPanel panelGlobalObjet = new JPanel();
 	/**
 	 * Launch the application.
 	 */
@@ -132,7 +136,7 @@ public class ECoastSimulatorGUI {
 		DebugTools.d("Actualisation de l'objet courant");
 		
 		if (client.getIdSalleObservee()!=null) {
-			
+			panelGlobalObjet.setVisible(true);
 
 			DebugTools.d("ventes suivies :"+client.getVentesSuivies()+"\nid salle:"+client.getVentesSuivies().get(client.getIdSalleObservee()));
 			
@@ -143,9 +147,12 @@ public class ECoastSimulatorGUI {
 			affichageNomObj.setText(objCourant.getNom()+" : "+objCourant.getDescription());
 			affichagePrix.setText(prixCourant);	
 			affichageTempsRestant.setText(objCourant.tempsRestant());
-			txtPrixDeBase.repaint();
-			txtDescriptionDeLobjet.repaint();
-			txtNomDeLobjet.repaint();
+			affichageNomObj.repaint();
+			affichagePrix.repaint();
+			affichageTempsRestant.repaint();
+		}else{
+			
+			panelGlobalObjet.setVisible(false);
 		}
 	}
 
@@ -161,8 +168,7 @@ public class ECoastSimulatorGUI {
 	 */
 	private void initialize() {
 		
-		
-		
+		panelGlobalObjet.setVisible(false);
 		txtNomDeLobjet = new JTextField();
 		txtDescriptionDeLobjet = new JTextField();
 		txtPrixDeBase = new JTextField();
@@ -261,7 +267,7 @@ public class ECoastSimulatorGUI {
 		gbc_lblConnectEnTemps.gridy = 0;
 		panelDeconnexion.add(lblConnectEnTemps, gbc_lblConnectEnTemps);
 
-		JLabel lblPseudoDeConnexion = new JLabel("Baptiste");
+		JLabel lblPseudoDeConnexion = new JLabel("");
 		lblPseudoDeConnexion.setFont(new Font("Tahoma", Font.BOLD, 16));
 		GridBagConstraints gbc_lblPseudoDeConnexion = new GridBagConstraints();
 		gbc_lblPseudoDeConnexion.insets = new Insets(0, 0, 5, 0);
@@ -273,10 +279,8 @@ public class ECoastSimulatorGUI {
 		btnSeDconnecter.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				DebugTools.d("TODO:Click se déconnecter");
 				client.deconnexion();
 				
-				//TODO: si ok rendre panelDeconnexion invisible et panelConnexion visible
 				panelDeconnexion.setVisible(false);
 				panelConnexion.setVisible(false);
 			}
@@ -287,7 +291,7 @@ public class ECoastSimulatorGUI {
 		gbc_btnSeDconnecter.gridy = 2;
 		panelDeconnexion.add(btnSeDconnecter, gbc_btnSeDconnecter);
 
-		JButton btnNouvelleEnchre = new JButton("Nouvelle vente");
+		JButton btnNouvelleEnchre = new JButton("Créer salle");
 		btnNouvelleEnchre.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -304,6 +308,24 @@ public class ECoastSimulatorGUI {
 		gbc_btnNouvelleEnchre.gridx = 0;
 		gbc_btnNouvelleEnchre.gridy = 3;
 		panelDeconnexion.add(btnNouvelleEnchre, gbc_btnNouvelleEnchre);
+		
+		JButton btnAjoutObjet = new JButton("Ajouter objet");
+		btnAjoutObjet.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					client.nouvelleSoumission(txtNomDeLobjet.getText(), txtDescriptionDeLobjet.getText(), Float.parseFloat(txtPrixDeBase.getText()));
+				} catch (NumberFormatException | RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}				
+			}
+		});
+		GridBagConstraints gbc_btnAjoutObjet = new GridBagConstraints();
+		gbc_btnAjoutObjet.insets = new Insets(0, 0, 5, 0);
+		gbc_btnAjoutObjet.gridx = 0;
+		gbc_btnAjoutObjet.gridy = 7;
+		panelDeconnexion.add(btnAjoutObjet, gbc_btnAjoutObjet);
 
 		
 		txtNomDeLobjet.setText("Nom de l'objet");
@@ -434,7 +456,7 @@ public class ECoastSimulatorGUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				DebugTools.d("On demande à rejoindre la salle d'id : "+listeDesSalles.getSelectedValue().getId());
+				DebugTools.d("On demandé à rejoindre la salle d'id : "+listeDesSalles.getSelectedValue().getId());
 				UUID id=listeDesSalles.getSelectedValue().getId();
 				client.setIdSalleObservee(id);
 				DebugTools.d("id "+client.getIdSalleObservee()+client.getIdSalleObservee());
@@ -446,7 +468,7 @@ public class ECoastSimulatorGUI {
 		gbc_btnRejoindreSalleDeLObjet.gridx = 0;
 		gbc_btnRejoindreSalleDeLObjet.gridy = 0;
 		panelBoutonsObjetsSuivis.add(btnRejoindreSalleDeLObjet, gbc_btnRejoindreSalleDeLObjet);
-
+		
 		JButton btnQuitterSalleDe = new JButton("Quitter salle de l'objet");
 		btnQuitterSalleDe.addMouseListener(new MouseAdapter() {
 			@Override
@@ -529,7 +551,6 @@ public class ECoastSimulatorGUI {
 		panelBoutonsPourListeSalles.setLayout(gbl_panelBoutonsPourListeSalles);
 
 		JPanel panelNombrePersonnesDansSalle = new JPanel();
-		@SuppressWarnings("unused")
 		FlowLayout flowLayout = (FlowLayout) panelNombrePersonnesDansSalle.getLayout();
 		GridBagConstraints gbc_panelNombrePersonnesDansSalle = new GridBagConstraints();
 		gbc_panelNombrePersonnesDansSalle.anchor = GridBagConstraints.NORTH;
@@ -582,7 +603,7 @@ public class ECoastSimulatorGUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				DebugTools.d("On demande à rejoindre la salle d'id : "+listeDesSalles.getSelectedValue().getId());
+				DebugTools.d("On demandé à rejoindre la salle d'id : "+listeDesSalles.getSelectedValue().getId());
 				UUID id=listeDesSalles.getSelectedValue().getId();
 				client.setIdSalleObservee(id);
 				client.rejoindreSalle(id);
@@ -595,7 +616,7 @@ public class ECoastSimulatorGUI {
 		gbc_btnRejoindreSalleListe.gridy = 0;
 		panelRejoidreOuQuitterSalle.add(btnRejoindreSalleListe, gbc_btnRejoindreSalleListe);
 
-		JPanel panelGlobalObjet = new JPanel();
+		
 		panelGlobalObjet.setBorder(new LineBorder(new Color(0, 0, 0)));
 		GridBagConstraints gbc_panelGlobalObjet = new GridBagConstraints();
 		gbc_panelGlobalObjet.anchor = GridBagConstraints.WEST;
@@ -613,7 +634,7 @@ public class ECoastSimulatorGUI {
 		gbl_panelBoutonsObjet.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panelBoutonsObjet.setLayout(gbl_panelBoutonsObjet);
 
-		JPanel panel_2 = new JPanel();
+		
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
 		gbc_panel_2.anchor = GridBagConstraints.NORTHWEST;
 		gbc_panel_2.insets = new Insets(0, 0, 0, 5);
@@ -703,7 +724,7 @@ public class ECoastSimulatorGUI {
 		gbc_btnEnchrir.gridy = 0;
 		panelBoutonsObjet.add(btnEnchrir, gbc_btnEnchrir);
 
-		JPanel panel_4 = new JPanel();
+		
 		panelGlobalObjet.add(panel_4, BorderLayout.CENTER);
 		GridBagLayout gbl_panel_4 = new GridBagLayout();
 		gbl_panel_4.columnWidths = new int[]{0, 0};
@@ -712,7 +733,7 @@ public class ECoastSimulatorGUI {
 		gbl_panel_4.rowWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
 		panel_4.setLayout(gbl_panel_4);
 
-		JPanel panel_5 = new JPanel();
+		
 		GridBagConstraints gbc_panel_5 = new GridBagConstraints();
 		gbc_panel_5.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_5.fill = GridBagConstraints.BOTH;
@@ -734,7 +755,7 @@ public class ECoastSimulatorGUI {
 		gbc_panel_6.gridy = 1;
 		panel_4.add(panel_6, gbc_panel_6);
 
-		JLabel lblEchreCourante = new JLabel("Echère courante : ");
+		JLabel lblEchreCourante = new JLabel("Enchère courante : ");
 		panel_6.add(lblEchreCourante);
 		
 		panel_6.add(affichagePrix);
