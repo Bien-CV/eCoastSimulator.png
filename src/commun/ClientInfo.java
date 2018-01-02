@@ -16,7 +16,7 @@ public class ClientInfo  implements Serializable {
 	String port;
 	
 	public String getAdresseClient() {
-		return ip+":"+port+"/"+id;
+		return "//"+ip+":"+port+"/"+id;
 	}
 	//Donner une durée de vie à un client avec un Timestamp
 	//List<UUID> currentRooms;
@@ -34,5 +34,33 @@ public class ClientInfo  implements Serializable {
 
 	public String getNom() {
 		return nom;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public String getPort() {
+		return port;
+	}
+
+	public void setPort(String port) {
+		this.port = port;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 }

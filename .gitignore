@@ -25,3 +25,4 @@ hs_err_pid*
 # Project file
 .project
 *.project
+.settings/org.eclipse.wst.sse.core.prefs

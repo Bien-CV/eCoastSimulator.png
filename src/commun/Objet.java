@@ -19,12 +19,12 @@ public class Objet implements Serializable{
 	private Date dateDeFinDeVente = null;
 	
 	
-	public Objet(String nom, String description, int prixBase, String nomDuProprietaire) {
+	public Objet(String nom, String description, float f, String nomDuProprietaire) {
 		super();
 		this.nom = nom;
 		this.description = description;
-		this.prixBase = prixBase;
-		this.prixCourant = prixBase;
+		this.prixBase = f;
+		this.prixCourant = f;
 		this.nomGagnant = nomDuProprietaire;
 		this.nomProprietaire = nomDuProprietaire;
 	}

@@ -1,5 +1,4 @@
 //TODO:
-//notifyNouvelleEnchere donne l'idObjet, le nouveau prix et le nouveau gagnant de l'objet au client
 
 package serveur;
 
@@ -11,20 +10,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import client.IClient;
 import commun.ClientInfo;
 import commun.DejaConnecteException;
 import commun.DejaDansLaSalleException;
+import commun.IClient;
+import commun.IHotelDesVentes;
 import commun.Objet;
 import commun.PasCreateurException;
 import commun.PlusDeVenteException;
 import commun.PseudoDejaUtiliseException;
 import commun.SalleDeVente;
+import commun.SalleDeVenteInfo;
 import commun.Message;
 
-@SuppressWarnings("serial")
+
 public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVentes {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5790188780288793715L;
 	private List<SalleDeVente> listeSalles = new ArrayList<SalleDeVente>();
 	private List<ClientInfo> listeClients = new ArrayList<ClientInfo>();
 	private HashMap<UUID, IClient> listeRefsClient = new HashMap<UUID, IClient>();
@@ -45,9 +50,6 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		SalleDeVente salleRejointe = getSalleById(roomId);
 		if ( fetchedClient == client ){
 			ajouterClientASalle(fetchedClient,salleRejointe);
-			// diffusion de la nouvelle salle aux clients connectés
-			// TODO : a voir si on garde
-			notifCreationSalle(roomId);
 			return salleRejointe.getObjetCourant();
 		}
 		return null;
@@ -71,17 +73,26 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	//Méthode accessible par le client
 	@Override
 	public UUID creerSalle(ClientInfo client, Objet o, String nomDeSalle) throws RemoteException {
+		System.out.println("Serveur: le client "+client.getId()+" demande à créer une salle "+nomDeSalle+" avec objet "+o);
 		SalleDeVente nouvelleSDV=new SalleDeVente(o, nomDeSalle, client.getId());
-		listeSalles.add(nouvelleSDV);
-		mapSalles.put(nouvelleSDV.getId(), nomDeSalle);
+		ajouterUneSalle(nouvelleSDV);
+		// diffusion de la nouvelle salle aux clients connectés
+		notifCreationSalle(nouvelleSDV.getId());
 		return nouvelleSDV.getId();
 	}
 
+	private void ajouterUneSalle(SalleDeVente nouvelleSDV) {
+		listeSalles.add(nouvelleSDV);
+		mapSalles.put(nouvelleSDV.getId(), nouvelleSDV.getNom());
+	}
+
+
+
 	//Méthode accessible par le client
 	@Override
-	public HashMap<UUID, Objet> login(ClientInfo client) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException{
+	public HashMap<UUID, SalleDeVenteInfo> login(ClientInfo client) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException{
 		//TODO Récupération de session 
-
+		System.out.println("Tentative de connexion client.");
 		//Pas d'homonyme
 		for(ClientInfo c : listeClients){
 			if (( c.getNom() == client.getNom() ) && ( c.getId()!=client.getId() )){
@@ -94,6 +105,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 				throw new DejaConnecteException();
 			}
 		}
+		
 		IClient ref = connexionClient(client.getId(), client.getAdresseClient());
 		if (ref != null) {
 			listeRefsClient.put(client.getId(), ref);
@@ -140,7 +152,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	//Méthode accessible par le client
 	// Ajout d'une enchère sur l'objet courant d'une salle donnée.
 	@Override
-	public void encherir(int prix, UUID clientId, UUID idSDV) throws RemoteException {
+	public void encherir(float prix, UUID clientId, UUID idSDV) throws RemoteException {
 		Objet objEnVente = getObjetEnVente(idSDV);
 
 		if(objEnVente.getPrixCourant()<prix){
@@ -188,7 +200,6 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	}
 	
 	// suppression salle de vente
-	@Override
 	public void supprimerSDV(UUID roomID) {
 		listeSalles.remove(getSalleById(roomID));
 		mapSalles.remove(roomID);
@@ -226,9 +237,15 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 			}
 		} catch (PlusDeVenteException e) {
 			for (ClientInfo ci : listeDiffusion ) {
-				listeRefsClient.get(ci.getId()).notifFermetureSalle(idSalle);
+				try {
+					listeRefsClient.get(ci.getId()).notifFermetureSalle(idSalle);
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
 			}
 			supprimerSDV(idSalle);
+		} catch (RemoteException e) {
+			e.printStackTrace();
 		}
 		
 	}
@@ -239,7 +256,11 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		List<ClientInfo> listeDiffusion = SDV.getListeAcheteurs();
 		if (SDV.getIdCreateur().equals(idClient)) {
 			for (ClientInfo ci : listeDiffusion ) {
-				listeRefsClient.get(ci.getId()).notifFermetureSalle(idSalle);
+				try {
+					listeRefsClient.get(ci.getId()).notifFermetureSalle(idSalle);
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
 			}
 			supprimerSDV(idSalle);
 		}
@@ -247,10 +268,11 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	}
 	
 	// génere une liste des salles de vente avec leur objet courant pour le client.
-	public HashMap<UUID, Objet> genererListeSalles() {
-		HashMap<UUID, Objet> salles = new HashMap<UUID, Objet>();
+	public HashMap<UUID, SalleDeVenteInfo> genererListeSalles() {
+		HashMap<UUID, SalleDeVenteInfo> salles = new HashMap<UUID, SalleDeVenteInfo>();
 		for (SalleDeVente sdv : listeSalles) {
-			salles.put(sdv.getId(), sdv.getObjetCourant());
+			SalleDeVenteInfo sdvi = new SalleDeVenteInfo(sdv.getNom(), sdv.getId(), sdv.getObjetCourant());
+			salles.put(sdv.getId(), sdvi);
 		}
 		return salles;
 	}
@@ -258,9 +280,29 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	// notification aux clients de la création d'unne salle pour permettre la mise à jour de la liste de son coté
 	// peut être à remplacer par une fonction "refresh" coté client.
 	public void notifCreationSalle (UUID idSalle) {
+		SalleDeVente sdv = getSalleById(idSalle);
+		SalleDeVenteInfo sdvi = new SalleDeVenteInfo(sdv.getNom(), sdv.getId(), sdv.getObjetCourant());
 		for (ClientInfo ci : listeClients) {
-			listeRefsClient.get(ci.getId()).notifNouvelleSalle(idSalle, getSalleById(idSalle).getObjetCourant());
+			try {
+				listeRefsClient.get(ci.getId()).notifNouvelleSalle(idSalle, sdvi);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
 		}
+	}
+
+
+	@Override
+	public void quitterSalle(UUID idClient, UUID idSalleAQuitter) throws RemoteException {
+		getSalleById(idSalleAQuitter).retirerClient(getClientById(idClient));
+	}
+
+
+
+	@Override
+	public void ping() throws RemoteException {
+		System.out.println("Serveur: je reçois un ping");
+		
 	}
 
 }
