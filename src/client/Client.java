@@ -206,6 +206,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	@Override
 	public void notifNouvelleSalle(UUID idsdv, SalleDeVenteInfo sdvi) {
 		mapInfosSalles.put(idsdv, sdvi);
+		System.out.println("Une nouvelle salle a été crée");
 		interfaceClient.actualiserInterface();
 	}
 

@@ -84,6 +84,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	private void ajouterUneSalle(SalleDeVente nouvelleSDV) {
 		listeSalles.add(nouvelleSDV);
 		mapSalles.put(nouvelleSDV.getId(), nouvelleSDV.getNom());
+		//System.out.println("Liste des salles: "+mapSalles.toString());
 	}
 
 

@@ -110,24 +110,15 @@ public class ECoastSimulatorGUI {
 	private void updateChat() {
 		//listesMessages.get(idSalle)
 		if (affichageChat!= null) affichageChat.setText(client.getListesMessages().get(idSalleCourante).toString());
+		affichageChat.repaint();
 		// TODO Auto-generated method stub
 		
 	}
 
 	private void updateListeDesSallesSuivies() {
 		DebugTools.d("Actualisation des salles suivies");
-
-		listeDesSallesSuivies.setModel(new AbstractListModel<SalleDeVenteInfo>() {
-
-			private static final long serialVersionUID = 6110811681481178698L;
-			SalleDeVenteInfo[] values = client.getTabVentesSuivies();
-			public int getSize() {
-				return values.length;
-			}
-			public SalleDeVenteInfo getElementAt(int index) {
-				return values[index];
-			}
-		});
+		listeDesSallesSuivies.setListData(client.getTabVentesSuivies());
+		listeDesSallesSuivies.repaint();
 
 
 	}
@@ -140,25 +131,18 @@ public class ECoastSimulatorGUI {
 			txtDescriptionDeLobjet.setText(objCourant.getDescription());
 			String prixCourant=Float.toString(objCourant.getPrixCourant());
 			txtPrixDeBase.setText(prixCourant);	
+			
+			txtPrixDeBase.repaint();
+			txtDescriptionDeLobjet.repaint();
+			txtNomDeLobjet.repaint();
 		}
 	}
 
 	private void updateListeDesSallesServeur() {
 		DebugTools.d("Actualisation des salles du serveur");
-
-		listeDesSalles.setModel(new AbstractListModel<SalleDeVenteInfo>() {
-
-			private static final long serialVersionUID = -6762872273592088709L;
-
-			
-			SalleDeVenteInfo[] values=client.getTabInfosSalles();
-			public int getSize() {
-				return values.length;
-			}
-			public SalleDeVenteInfo getElementAt(int index) {
-				return values[index];
-			}
-		});
+		DebugTools.d(client.getTabInfosSalles().toString());
+		listeDesSalles.setListData(client.getTabInfosSalles());
+		listeDesSalles.repaint();
 
 	}
 
