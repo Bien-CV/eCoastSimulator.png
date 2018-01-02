@@ -61,8 +61,9 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 
 public static IClient connexionClient(UUID idClient,String adresseClient) {
 	try {
+		
 		IClient client = (IClient) Naming.lookup(adresseClient);
-		System.out.println("Connexion au serveur " + adresseClient + " reussi.");
+		System.out.println("Connexion au serveur " + client.toString() + adresseClient + " reussi.");
 		return client;
 	} catch (Exception e) {
 		System.out.println("Connexion au serveur " + adresseClient + " impossible.");
@@ -93,6 +94,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	@Override
 	public HashMap<UUID, SalleDeVenteInfo> login(ClientInfo client) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException{
 		//TODO Récupération de session 
+
 		System.out.println("Tentative de connexion client.");
 		//Pas d'homonyme
 		for(ClientInfo c : listeClients){
