@@ -239,6 +239,8 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		List<ClientInfo> listeDiffusion = SDV.getListeAcheteurs();
 		try {
 			SDV.venteSuivante();
+			TimerVente tv = new TimerVente(SDV.getObjetCourant().getDateDeFinDeVente(),this,SDV.getId());
+			tv.run();
 			for (ClientInfo ci : listeDiffusion ) {
 				listeRefsClient.get(ci.getId()).notifModifObjet(idSalle, SDV.getObjetCourant());
 			}
