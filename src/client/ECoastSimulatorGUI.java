@@ -117,11 +117,14 @@ public class ECoastSimulatorGUI {
 	public void updateObjetSalleCourante() {
 		DebugTools.d("Actualisation de l'objet courant");
 		
-		if (this.idSalleCourante!=null) {
+		if (idSalleCourante!=null) {
 			
+
+			DebugTools.d("ventes suivies :"+client.getVentesSuivies()+"\nid salle:"+client.getVentesSuivies().get(idSalleCourante));
 			
-			Objet objCourant=client.getVentesSuivies().get(this.idSalleCourante);
+			Objet objCourant=client.getVentesSuivies().get(idSalleCourante);
 			
+			DebugTools.d("obj :"+objCourant+"\nid salle:"+idSalleCourante);
 			txtNomDeLobjet.setText(objCourant.getNom());
 			txtDescriptionDeLobjet.setText(objCourant.getDescription());
 			String prixCourant=Float.toString(objCourant.getPrixCourant());
