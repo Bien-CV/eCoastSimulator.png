@@ -302,7 +302,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			setPortClient( Integer.toString(Integer.parseInt(getPortClient())+1) );
+			setPortClient( Integer.toString( Integer.parseInt( getPortClient() ) ) );
 		}
 		DebugTools.d("Tentative de bind à "+getAdresseClient());
 		
@@ -314,6 +314,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 			e1.printStackTrace();
 		}
 		
+		connexion();
 	}
 
 

@@ -140,7 +140,7 @@ public class ECoastSimulatorGUI {
 
 	private void updateListeDesSallesServeur() {
 		DebugTools.d("Actualisation des salles du serveur");
-		DebugTools.d(client.getTabInfosSalles().toString());
+		DebugTools.d(Integer.toString(client.getTabInfosSalles().length));
 		listeDesSalles.setListData(client.getTabInfosSalles());
 		listeDesSalles.repaint();
 

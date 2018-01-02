@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 import commun.ClientInfo;
+import commun.DebugTools;
 import commun.DejaConnecteException;
 import commun.DejaDansLaSalleException;
 import commun.IClient;
@@ -60,8 +61,9 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 
 public static IClient connexionClient(UUID idClient,String adresseClient) {
 	try {
+		
 		IClient client = (IClient) Naming.lookup(adresseClient);
-		System.out.println("Connexion au serveur " + adresseClient + " reussi.");
+		System.out.println("Connexion au serveur " + client.toString() + adresseClient + " reussi.");
 		return client;
 	} catch (Exception e) {
 		System.out.println("Connexion au serveur " + adresseClient + " impossible.");
@@ -76,7 +78,6 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		System.out.println("Serveur: le client "+client.getId()+" demande à créer une salle "+nomDeSalle+" avec objet "+o);
 		SalleDeVente nouvelleSDV=new SalleDeVente(o, nomDeSalle, client.getId());
 		ajouterUneSalle(nouvelleSDV);
-		// diffusion de la nouvelle salle aux clients connectés
 		notifCreationSalle(nouvelleSDV.getId());
 		return nouvelleSDV.getId();
 	}
@@ -93,6 +94,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	@Override
 	public HashMap<UUID, SalleDeVenteInfo> login(ClientInfo client) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException{
 		//TODO Récupération de session 
+
 		System.out.println("Tentative de connexion client.");
 		//Pas d'homonyme
 		for(ClientInfo c : listeClients){
@@ -117,7 +119,10 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 			return genererListeSalles();
 		}
 		// TODO : lever une exception plutot que retourner null est préférable.
-		else return null;
+		else{
+			System.out.print("ALERTE : connexionClient renvoie null");
+			return null;
+		}
 	}
 
 
@@ -283,8 +288,10 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 	public void notifCreationSalle (UUID idSalle) {
 		SalleDeVente sdv = getSalleById(idSalle);
 		SalleDeVenteInfo sdvi = new SalleDeVenteInfo(sdv.getNom(), sdv.getId(), sdv.getObjetCourant());
+		System.out.println("Liste des clients : "+listeClients.toString());
 		for (ClientInfo ci : listeClients) {
 			try {
+				DebugTools.d("Envoi notification création salle");
 				listeRefsClient.get(ci.getId()).notifNouvelleSalle(idSalle, sdvi);
 			} catch (RemoteException e) {
 				e.printStackTrace();
