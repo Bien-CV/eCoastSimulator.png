@@ -314,7 +314,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 			e1.printStackTrace();
 		}
 		
-		
 	}
 
 
