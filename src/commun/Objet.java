@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
+import serveur.TimerVente;
+
 public class Objet implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -65,8 +67,6 @@ public class Objet implements Serializable{
 	public void miseEnVente () {
 		dateDeMiseEnVente = new Date();
 		setDateDeFinDeVente(ajouterSeconde(dateDeMiseEnVente, 30));
-		//TODO:Créer le TimerVente approprié
-		
 	}
 	
 	public static Date ajouterSeconde(Date date, int nbSeconde) {

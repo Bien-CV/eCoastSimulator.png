@@ -10,15 +10,16 @@ public class TimerVente {
 	private static Date dateDeFin;
 	private static UUID idSdv;
 	private static HotelDesVentes parent;
-	
-	public TimerVente(Date d,HotelDesVentes hdv) {
+
+	public TimerVente(Date d,HotelDesVentes hdv, UUID sdv) {
 		dateDeFin=d;
 		parent=hdv;
+		idSdv=sdv;
 	}
-	
+
 	public static void main(final String[] args) {
-	    TimerTask timerTask = new TaskObjetSuivantClient(parent, idSdv);
-	    Timer timer = new Timer(true);
-	    timer.schedule(timerTask,dateDeFin);
-	  }
+		TimerTask timerTask = new TaskObjetSuivantClient(parent, idSdv);
+		Timer timer = new Timer(true);
+		timer.schedule(timerTask,dateDeFin);
+	}
 }

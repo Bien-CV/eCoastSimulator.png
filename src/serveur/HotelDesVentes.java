@@ -77,6 +77,8 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		SalleDeVente nouvelleSDV=new SalleDeVente(o, nomDeSalle, client.getId());
 		ajouterUneSalle(nouvelleSDV);
 		notifCreationSalle(nouvelleSDV.getId());
+		//TODO:Créer le TimerVente approprié
+		new TimerVente(o.getDateDeFinDeVente(),this,nouvelleSDV.getId());
 		return nouvelleSDV.getId();
 	}
 
