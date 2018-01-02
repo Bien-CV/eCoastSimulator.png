@@ -94,8 +94,11 @@ public class ECoastSimulatorGUI {
 
 	private void updateChat() {
 		//listesMessages.get(idSalle)
-		if (affichageChat!= null) affichageChat.setText(client.getListesMessages().get(idSalleCourante).toString());
-		affichageChat.repaint();
+		if (affichageChat!= null){
+			affichageChat.setText(client.getListesMessages().get(idSalleCourante).toString());
+			affichageChat.repaint();
+		}
+		
 		// TODO Auto-generated method stub
 		
 	}
