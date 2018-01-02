@@ -108,6 +108,7 @@ public class ECoastSimulatorGUI {
 
 	private void updateListeDesSallesSuivies() {
 		DebugTools.d("Actualisation des salles suivies");
+		//DebugTools.d(Integer.toString(client.getTabVentesSuivies().length));
 		listeDesSallesSuivies.setListData(client.getTabVentesSuivies());
 		listeDesSallesSuivies.repaint();
 
@@ -117,7 +118,10 @@ public class ECoastSimulatorGUI {
 		DebugTools.d("Actualisation de l'objet courant");
 		
 		if (this.idSalleCourante!=null) {
+			
+			
 			Objet objCourant=client.getVentesSuivies().get(this.idSalleCourante);
+			
 			txtNomDeLobjet.setText(objCourant.getNom());
 			txtDescriptionDeLobjet.setText(objCourant.getDescription());
 			String prixCourant=Float.toString(objCourant.getPrixCourant());
@@ -131,7 +135,6 @@ public class ECoastSimulatorGUI {
 
 	private void updateListeDesSallesServeur() {
 		DebugTools.d("Actualisation des salles du serveur");
-		DebugTools.d(Integer.toString(client.getTabInfosSalles().length));
 		listeDesSalles.setListData(client.getTabInfosSalles());
 		listeDesSalles.repaint();
 
@@ -141,6 +144,13 @@ public class ECoastSimulatorGUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		txtNomDeLobjet = new JTextField();
+		txtDescriptionDeLobjet = new JTextField();
+		txtPrixDeBase = new JTextField();
+		txtNomDeLobjet.setText("");
+		txtDescriptionDeLobjet.setText("");
+		txtPrixDeBase.setText("");
+		
 		affichageChat.setLineWrap(true);
 		affichageChat.setText("");
 		saisieIpServeur = new JTextField();
@@ -275,7 +285,7 @@ public class ECoastSimulatorGUI {
 		gbc_btnNouvelleEnchre.gridy = 3;
 		panelDeconnexion.add(btnNouvelleEnchre, gbc_btnNouvelleEnchre);
 
-		txtNomDeLobjet = new JTextField();
+		
 		txtNomDeLobjet.setText("Nom de l'objet");
 		GridBagConstraints gbc_txtNomDeLobjet = new GridBagConstraints();
 		gbc_txtNomDeLobjet.insets = new Insets(0, 0, 5, 0);
@@ -285,7 +295,7 @@ public class ECoastSimulatorGUI {
 		panelDeconnexion.add(txtNomDeLobjet, gbc_txtNomDeLobjet);
 		txtNomDeLobjet.setColumns(10);
 
-		txtDescriptionDeLobjet = new JTextField();
+		
 		txtDescriptionDeLobjet.setText("Description de l'objet");
 		GridBagConstraints gbc_txtDescriptionDeLobjet = new GridBagConstraints();
 		gbc_txtDescriptionDeLobjet.insets = new Insets(0, 0, 5, 0);
@@ -295,7 +305,7 @@ public class ECoastSimulatorGUI {
 		panelDeconnexion.add(txtDescriptionDeLobjet, gbc_txtDescriptionDeLobjet);
 		txtDescriptionDeLobjet.setColumns(10);
 
-		txtPrixDeBase = new JTextField();
+		
 		txtPrixDeBase.setText("Prix de base de l'objet");
 		GridBagConstraints gbc_txtPrixDeBase = new GridBagConstraints();
 		gbc_txtPrixDeBase.fill = GridBagConstraints.HORIZONTAL;
@@ -403,8 +413,16 @@ public class ECoastSimulatorGUI {
 		btnRejoindreSalleDeLObjet.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
-				client.setIdSalleObservee(listeDesSalles.getSelectedValue().getId());
+				
+				DebugTools.d("On demande à rejoindre la salle d'id : "+listeDesSalles.getSelectedValue().getId());
+				UUID id=listeDesSalles.getSelectedValue().getId();
+				idSalleCourante=id;
+				client.setIdSalleObservee(id);
+				
+				
+				
+				DebugTools.d("id "+idSalleCourante+client.getIdSalleObservee());
+				
 				updateObjetSalleCourante();
 				updateListeDesSallesSuivies();
 			}
