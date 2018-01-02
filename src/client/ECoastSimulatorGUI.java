@@ -50,7 +50,6 @@ public class ECoastSimulatorGUI {
 	private JTextField txtDescriptionDeLobjet;
 	private JTextField txtPrixDeBase;
 	public static Client client;
-	private UUID idSalleCourante=null;
 	private JList<SalleDeVenteInfo> listeDesSalles = new JList<SalleDeVenteInfo>();
 	private JList<SalleDeVenteInfo> listeDesSallesSuivies = new JList<SalleDeVenteInfo>();
 	private JTextField saisiePortServeur;
@@ -95,8 +94,8 @@ public class ECoastSimulatorGUI {
 	public void updateChat() {
 		//listesMessages.get(idSalle)
 		if (affichageChat!= null){
-			if (idSalleCourante!=null){
-				affichageChat.setText(client.getListesMessages().get(idSalleCourante).toString());
+			if (client.getIdSalleObservee()!=null){
+				affichageChat.setText(client.getListesMessages().get(client.getIdSalleObservee()).toString());
 				affichageChat.repaint();
 			}
 			
@@ -117,14 +116,14 @@ public class ECoastSimulatorGUI {
 	public void updateObjetSalleCourante() {
 		DebugTools.d("Actualisation de l'objet courant");
 		
-		if (idSalleCourante!=null) {
+		if (client.getIdSalleObservee()!=null) {
 			
 
-			DebugTools.d("ventes suivies :"+client.getVentesSuivies()+"\nid salle:"+client.getVentesSuivies().get(idSalleCourante));
+			DebugTools.d("ventes suivies :"+client.getVentesSuivies()+"\nid salle:"+client.getVentesSuivies().get(client.getIdSalleObservee()));
 			
-			Objet objCourant=client.getVentesSuivies().get(idSalleCourante);
+			Objet objCourant=client.getVentesSuivies().get(client.getIdSalleObservee());
 			
-			DebugTools.d("obj :"+objCourant+"\nid salle:"+idSalleCourante);
+			DebugTools.d("obj :"+objCourant+"\nid salle:"+client.getIdSalleObservee());
 			txtNomDeLobjet.setText(objCourant.getNom());
 			txtDescriptionDeLobjet.setText(objCourant.getDescription());
 			String prixCourant=Float.toString(objCourant.getPrixCourant());
@@ -419,13 +418,8 @@ public class ECoastSimulatorGUI {
 				
 				DebugTools.d("On demande à rejoindre la salle d'id : "+listeDesSalles.getSelectedValue().getId());
 				UUID id=listeDesSalles.getSelectedValue().getId();
-				idSalleCourante=id;
 				client.setIdSalleObservee(id);
-				
-				
-				
-				DebugTools.d("id "+idSalleCourante+client.getIdSalleObservee());
-				
+				DebugTools.d("id "+client.getIdSalleObservee()+client.getIdSalleObservee());
 				updateObjetSalleCourante();
 				updateListeDesSallesSuivies();
 			}
@@ -573,11 +567,13 @@ public class ECoastSimulatorGUI {
 		btnRejoindreSalleListe.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				idSalleCourante=listeDesSalles.getSelectedValue().getId();
-				client.rejoindreSalle(idSalleCourante);
+				
+				DebugTools.d("On demande à rejoindre la salle d'id : "+listeDesSalles.getSelectedValue().getId());
+				UUID id=listeDesSalles.getSelectedValue().getId();
+				client.setIdSalleObservee(id);
+				client.rejoindreSalle(id);
 				updateObjetSalleCourante();
-
-
+				updateListeDesSallesSuivies();
 			}
 		});
 		GridBagConstraints gbc_btnRejoindreSalleListe = new GridBagConstraints();
@@ -796,7 +792,7 @@ public class ECoastSimulatorGUI {
 			@Override
 			public void keyTyped(KeyEvent key) {
 				//TODO: Chat : Si on appuie sur entrée, envoyer saisie et vider le champ
-				if(idSalleCourante!=null && saisieChat.getText()!="") {
+				if(client.getIdSalleObservee()!=null && saisieChat.getText()!="") {
 					if (key.getKeyChar()=='\n') {
 						Message messageAEnvoyer=new Message(client.myClientInfos.getNom(),saisieChat.getText());
 						DebugTools.d("saisieChat déclenchée");
@@ -822,7 +818,7 @@ public class ECoastSimulatorGUI {
 		btnEnvoyer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if(idSalleCourante!=null) {
+				if(client.getIdSalleObservee()!=null) {
 					if (saisieChat.getText()!="") {
 						Message messageAEnvoyer=new Message(client.myClientInfos.getNom(),saisieChat.getText());
 						DebugTools.d("saisieChat déclenchée");
