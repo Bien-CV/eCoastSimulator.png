@@ -23,8 +23,10 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 import commun.Message;
 import commun.Objet;
+import commun.PseudoDejaUtiliseException;
 import commun.SalleDeVenteInfo;
 import commun.DebugTools;
+import commun.DejaConnecteException;
 import commun.IHotelDesVentes;
 
 import java.awt.Component;
@@ -400,21 +402,27 @@ public class ECoastSimulatorGUI {
 						saisiePortServeur.getText());
 				DebugTools.d("Client créé");
 				
-				client.connexionServeur();
-				client.bindClient();
-				panelConnexion.setVisible(false);
-				DebugTools.d("Panel de connexion caché");
-				panelDeconnexion.setVisible(true);
-				DebugTools.d("Panel de déconnexion rendu visible");
-				client.myClientInfos.setNom(pseudonymeConnexion.getText());
-				DebugTools.d("Pseudonyme client actualisé selon saisie");
-				lblPseudoDeConnexion.setText(client.myClientInfos.getNom());
-				DebugTools.d("Pseudonyme du client affiché en haut à gauche");
-
-				updateListeDesSallesServeur();
-				updateListeDesSallesSuivies();
-
-				DebugTools.d("Actualisation de l'interface");
+				try {
+					client.connexionServeur();
+					client.bindClient();
+					panelConnexion.setVisible(false);
+					DebugTools.d("Panel de connexion caché");
+					panelDeconnexion.setVisible(true);
+					DebugTools.d("Panel de déconnexion rendu visible");
+					client.myClientInfos.setNom(pseudonymeConnexion.getText());
+					DebugTools.d("Pseudonyme client actualisé selon saisie");
+					lblPseudoDeConnexion.setText(client.myClientInfos.getNom());
+					DebugTools.d("Pseudonyme du client affiché en haut à gauche");
+	
+					updateListeDesSallesServeur();
+					updateListeDesSallesSuivies();
+	
+					DebugTools.d("Actualisation de l'interface");
+				} catch (PseudoDejaUtiliseException pdue) {
+					// TODO : afficher un joli prompt.
+				} catch (DejaConnecteException dce) {
+					// TODO : afficher un joli prompt.
+				}
 			}
 		});
 		GridBagConstraints gbc_btnSeConnecter_1 = new GridBagConstraints();

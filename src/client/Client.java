@@ -4,6 +4,7 @@ package client;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
@@ -84,7 +85,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	}
 	
 	// notification au serveur de l'arrivée d'un nouveau client
-	public void connexion () {
+	public void connexion () throws PseudoDejaUtiliseException, DejaConnecteException {
 		try {
 			// login + récupération de la liste des salles existantes.
 			mapInfosSalles = hdv.login(this.myClientInfos);
@@ -94,9 +95,11 @@ public class Client extends UnicastRemoteObject implements IClient {
 		} catch (PseudoDejaUtiliseException pdue) {
 			System.out.println("Pseudo déjà utilisé !");
 			deconnexion();
+			throw pdue;
 		} catch (DejaConnecteException dce) {
 			System.out.println("Deja connecté au serveur !");
 			deconnexion();
+			throw dce;
 		}
 	}
 	
@@ -105,9 +108,9 @@ public class Client extends UnicastRemoteObject implements IClient {
 		try {
 			hdv.logout(myClientInfos);
 			idSalleObservee = null;
-			ventesSuivies.clear();
-			mapInfosSalles.clear();
-			listesMessages.clear();
+			if(ventesSuivies != null) ventesSuivies.clear();
+			if(mapInfosSalles != null) mapInfosSalles.clear();
+			if(listesMessages != null) listesMessages.clear();
 			hdv = null;
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -289,7 +292,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 	}
 
 
-	public void bindClient() {
+	public void bindClient() throws PseudoDejaUtiliseException, DejaConnecteException{
 		Boolean flagRegistreOkay=false;
 		int portClient=Integer.parseInt( getPortClient() );
 		while(!flagRegistreOkay) {
@@ -320,8 +323,13 @@ public class Client extends UnicastRemoteObject implements IClient {
 			DebugTools.d("bind à "+getAdresseClient()+" échoué.");			
 			e1.printStackTrace();
 		}
-		
-		connexion();
+		try {
+			connexion();
+		} catch (PseudoDejaUtiliseException pdue) {
+			throw pdue;
+		} catch (DejaConnecteException dce) {
+			throw dce;
+		}
 	}
 
 
