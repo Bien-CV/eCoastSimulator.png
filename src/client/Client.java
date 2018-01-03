@@ -260,6 +260,8 @@ public class Client extends UnicastRemoteObject implements IClient {
 	public void quitterSalle(UUID idSalleAQuitter) {
 		try {
 			hdv.quitterSalle( getId(),idSalleAQuitter);
+			ventesSuivies.remove(idSalleAQuitter);
+			idSalleObservee = null;
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

@@ -474,8 +474,8 @@ public class ECoastSimulatorGUI {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				UUID idSalleAQuitter = listeDesSallesSuivies.getSelectedValue().getId();
-				client.getVentesSuivies().remove(idSalleAQuitter);
 				client.quitterSalle(idSalleAQuitter);
+				actualiserInterface();
 			}
 		});
 		GridBagConstraints gbc_btnQuitterSalleDe = new GridBagConstraints();
