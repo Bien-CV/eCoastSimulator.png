@@ -70,6 +70,7 @@ public class ECoastSimulatorGUI {
 	JPanel panelGlobalObjet = new JPanel();
 	JPanel globalLowPanel = new JPanel();
 	JPanel panelGlobalChat = new JPanel();
+	JPanel topBar = new JPanel();
 	/**
 	 * Launch the application.
 	 */
@@ -177,6 +178,7 @@ public class ECoastSimulatorGUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		topBar.setVisible(false);
 		panelGlobalChat.setVisible(false);
 		panelGlobalObjet.setVisible(false);
 		txtNomDeLobjet = new JTextField();
@@ -202,7 +204,7 @@ public class ECoastSimulatorGUI {
 		JPanel panelConnexion = new JPanel();
 		
 		
-		JPanel topBar = new JPanel();
+		
 		topBar.setBorder(null);
 		frmEcoastsimulatorpng.getContentPane().add(topBar, BorderLayout.NORTH);
 
