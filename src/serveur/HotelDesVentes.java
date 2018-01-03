@@ -77,7 +77,6 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		SalleDeVente nouvelleSDV=new SalleDeVente(o, nomDeSalle, client.getId());
 		ajouterUneSalle(nouvelleSDV);
 		notifCreationSalle(nouvelleSDV.getId());
-		//TODO:Créer le TimerVente approprié
 		TimerVente tv = new TimerVente(o.getDateDeFinDeVente(),this,nouvelleSDV.getId());
 		tv.run();
 		return nouvelleSDV.getId();
@@ -94,22 +93,21 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	//Méthode accessible par le client
 	@Override
 	public HashMap<UUID, SalleDeVenteInfo> login(ClientInfo client) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException{
-		//TODO Récupération de session 
-
 		System.out.println("Tentative de connexion client.");
 		//Pas d'homonyme
 		for(ClientInfo c : listeClients){
-			if (( c.getNom() == client.getNom() ) && ( c.getId()!=client.getId() )){
+			if (( c.getNom().equals(client.getNom()) ) && !(c.getId().equals(client.getId()))){
 				throw new PseudoDejaUtiliseException();
 			}
 		}
 		//Pas déjà enregistré
 		for(ClientInfo c : listeClients){
-			if (c.getId()==client.getId() ){
+			if (c.getId().equals(client.getId()) ){
 				throw new DejaConnecteException();
 			}
 		}
 		
+		// TODO : l'execution semble continuer malgré le fait qu'une exception soit levée.
 		IClient ref = connexionClient(client.getId(), client.getAdresseClient());
 		if (ref != null) {
 			listeRefsClient.put(client.getId(), ref);

@@ -77,7 +77,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			nombreDeConnexions++;
@@ -88,11 +87,14 @@ public class Client extends UnicastRemoteObject implements IClient {
 	public void connexion () {
 		try {
 			// login + récupération de la liste des salles existantes.
-			// TODO : mettre a jour l'IHM avec la liste susmentionnée.
 			mapInfosSalles = hdv.login(this.myClientInfos);
 			
-		} catch (RemoteException | PseudoDejaUtiliseException | DejaConnecteException e) {
+		} catch (RemoteException e) {
 			e.printStackTrace();
+		} catch (PseudoDejaUtiliseException pdue) {
+			System.out.println("Pseudo déjà utilisé !");
+		} catch (DejaConnecteException dce) {
+			System.out.println("Deja connecté au serveur !");
 		}
 	}
 	
@@ -115,7 +117,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 	public void nouvelleSoumission(String nom, String description, float prix) throws RemoteException {
 		Objet nouveau = new Objet(nom, description, prix,myClientInfos.getNom());
 		//ajout de l'objet par le hdv
-		// TODO : peut etre autoriser l'ajout seulement pour le créateur de la salle
 		try {
 			hdv.ajouterObjet(nouveau, getIdSalleObservee(), getId());
 		} catch (PasCreateurException e) {
@@ -170,7 +171,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 		try {
 			Objet obj = hdv.rejoindreSalle(idSalle, this.myClientInfos);
 			ventesSuivies.put(idSalle, obj);
-			// TODO : refresh l'IHM pour prendre en compte les modifs
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			// TODO : affichage d'un message d'erreur par l'IHM
@@ -178,7 +178,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 		try {
 			listesMessages.put(idSalle, hdv.getMessagesSalle(idSalle));
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -243,7 +242,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 			}
 			return tab;
 		}
-		// TODO : lever une exception ?
 		else return new SalleDeVenteInfo[0];
 	}
 	
@@ -258,7 +256,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 			}
 			return tab;
 		}
-		// TODO : lever une exception ?
 		else return new SalleDeVenteInfo[0];
 	}
 
