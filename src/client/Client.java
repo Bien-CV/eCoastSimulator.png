@@ -93,8 +93,10 @@ public class Client extends UnicastRemoteObject implements IClient {
 			e.printStackTrace();
 		} catch (PseudoDejaUtiliseException pdue) {
 			System.out.println("Pseudo déjà utilisé !");
+			deconnexion();
 		} catch (DejaConnecteException dce) {
 			System.out.println("Deja connecté au serveur !");
+			deconnexion();
 		}
 	}
 	

@@ -88,8 +88,6 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		//System.out.println("Liste des salles: "+mapSalles.toString());
 	}
 
-
-
 	//Méthode accessible par le client
 	@Override
 	public HashMap<UUID, SalleDeVenteInfo> login(ClientInfo client) throws RemoteException, PseudoDejaUtiliseException, DejaConnecteException{
@@ -107,7 +105,6 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 			}
 		}
 		
-		// TODO : l'execution semble continuer malgré le fait qu'une exception soit levée.
 		IClient ref = connexionClient(client.getId(), client.getAdresseClient());
 		if (ref != null) {
 			listeRefsClient.put(client.getId(), ref);
