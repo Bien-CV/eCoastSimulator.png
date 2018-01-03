@@ -200,9 +200,11 @@ public class Client extends UnicastRemoteObject implements IClient {
 
 	@Override
 	public void notifModifObjet(UUID idSalle, Objet objet) {
-		ventesSuivies.put(idSalle, objet);
-		mapInfosSalles.get(idSalle).setObjCourrant(objet);
-		interfaceClient.updateObjetSalleCourante();
+		if ( ventesSuivies.containsKey(idSalle) ){
+			ventesSuivies.put(idSalle, objet);
+		}
+		mapInfosSalles.get(idSalle).setObjCourant(objet);
+		interfaceClient.actualiserInterface();
 	}
 
 	@Override

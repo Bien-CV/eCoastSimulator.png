@@ -40,7 +40,7 @@ public class SalleDeVenteInfo implements Serializable {
 		return objCourant;
 	}
 	
-	public void setObjCourrant(Objet objCourrant) {
+	public void setObjCourant(Objet objCourrant) {
 		this.objCourant = objCourrant;
 	}
 
