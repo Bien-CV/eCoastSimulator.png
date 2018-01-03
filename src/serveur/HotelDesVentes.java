@@ -228,20 +228,21 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		}
 	}
 	
-	// notification d'une nouvelle vente ou de la fermeture de la salle le cas échéant.
+	//Notification : Nouvel objet mis en vente dans salle, portée = Clients présents dans la salle
+	//Si la salle n'a plus de ventes à suivre:
+	//Notification : fermeture de la salle, portée= tout le monde.
 	public void nouvelleVente(UUID idSalle) {
 		//TODO:
 		SalleDeVente SDV = getSalleById(idSalle);
-		List<ClientInfo> listeDiffusion = SDV.getListeAcheteurs();
 		try {
 			SDV.venteSuivante();
 			TimerVente tv = new TimerVente(SDV.getObjetCourant().getDateDeFinDeVente(),this,SDV.getId());
 			tv.run();
-			for (ClientInfo ci : listeDiffusion ) {
+			for (ClientInfo ci : listeClients ) {
 				listeRefsClient.get(ci.getId()).notifModifObjet(idSalle, SDV.getObjetCourant());
 			}
 		} catch (PlusDeVenteException e) {
-			for (ClientInfo ci : listeDiffusion ) {
+			for (ClientInfo ci : listeClients ) {
 				try {
 					listeRefsClient.get(ci.getId()).notifFermetureSalle(idSalle);
 				} catch (RemoteException e1) {
@@ -255,12 +256,14 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		
 	}
 
+	//Notification : fermeture manuelle d'une salle par un client.
+	//Portée : tous les clients de l'hotel des ventes
 	@Override
 	public void fermerSalle(UUID idSalle, UUID idClient) throws PasCreateurException {
 		SalleDeVente SDV = getSalleById(idSalle);
 		List<ClientInfo> listeDiffusion = SDV.getListeAcheteurs();
 		if (SDV.getIdCreateur().equals(idClient)) {
-			for (ClientInfo ci : listeDiffusion ) {
+			for (ClientInfo ci : listeClients ) {
 				try {
 					listeRefsClient.get(ci.getId()).notifFermetureSalle(idSalle);
 				} catch (RemoteException e) {

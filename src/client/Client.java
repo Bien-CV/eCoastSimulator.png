@@ -212,9 +212,8 @@ public class Client extends UnicastRemoteObject implements IClient {
 		//TODO: devrait être travaillé
 		if (idSalle.equals(idSalleObservee)) {
 			idSalleObservee = null;
-			interfaceClient.actualiserInterface();
 		}
-		else interfaceClient.actualiserInterface();
+		interfaceClient.actualiserInterface();
 	}
 
 	@Override
@@ -305,6 +304,8 @@ public class Client extends UnicastRemoteObject implements IClient {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (RemoteException e1) {
+				
+				
 				DebugTools.d("Port "+portClient+" non disponible.");
 			}
 			portClient++;
