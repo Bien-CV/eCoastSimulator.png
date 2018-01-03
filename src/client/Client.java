@@ -89,7 +89,7 @@ public class Client extends UnicastRemoteObject implements IClient {
 		try {
 			// login + récupération de la liste des salles existantes.
 			mapInfosSalles = hdv.login(this.myClientInfos);
-			
+			interfaceClient.actualiserInterface();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (PseudoDejaUtiliseException pdue) {
@@ -140,14 +140,6 @@ public class Client extends UnicastRemoteObject implements IClient {
 	public void pingServeur() throws RemoteException {
 		if ( hdv==null) System.out.print("Hdv null : connexion pas effectué\n");
 		hdv.ping();
-	}
-
-	public static void main(String[] argv) {
-		try {
-			//start IHM
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	public IHotelDesVentes getServeur() {

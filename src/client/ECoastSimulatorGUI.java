@@ -68,6 +68,8 @@ public class ECoastSimulatorGUI {
 	JPanel panel_5 = new JPanel();
 	JPanel panel_4 = new JPanel();
 	JPanel panelGlobalObjet = new JPanel();
+	JPanel globalLowPanel = new JPanel();
+	JPanel panelGlobalChat = new JPanel();
 	/**
 	 * Launch the application.
 	 */
@@ -107,9 +109,15 @@ public class ECoastSimulatorGUI {
 		//listesMessages.get(idSalle)
 		if (affichageChat!= null){
 			if (client.getIdSalleObservee()!=null){
+				
+				panelGlobalChat.setVisible(true);
+				panelGlobalChat.repaint();
 				affichageChat.setText(affichage(client.getListesMessages().get(client.getIdSalleObservee())));
 				affichageChat.setCaretPosition(affichageChat.getDocument().getLength());
 				affichageChat.repaint();
+			}else{
+				panelGlobalChat.setVisible(false);
+				panelGlobalChat.repaint();
 			}
 			
 		}
@@ -169,7 +177,7 @@ public class ECoastSimulatorGUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		
+		panelGlobalChat.setVisible(false);
 		panelGlobalObjet.setVisible(false);
 		txtNomDeLobjet = new JTextField();
 		txtDescriptionDeLobjet = new JTextField();
@@ -227,7 +235,7 @@ public class ECoastSimulatorGUI {
 		});
 		topBar.add(btnPing);
 
-		JPanel globalLowPanel = new JPanel();
+		
 		frmEcoastsimulatorpng.getContentPane().add(globalLowPanel);
 		globalLowPanel.setLayout(new BorderLayout(0, 0));
 
@@ -787,7 +795,7 @@ public class ECoastSimulatorGUI {
 		
 		panel_7.add(affichageTempsRestant);
 
-		JPanel panelGlobalChat = new JPanel();
+		
 		GridBagConstraints gbc_panelGlobalChat = new GridBagConstraints();
 		gbc_panelGlobalChat.fill = GridBagConstraints.BOTH;
 		gbc_panelGlobalChat.anchor = GridBagConstraints.NORTHWEST;
@@ -882,6 +890,7 @@ public class ECoastSimulatorGUI {
 			}
 		});
 		panelSaisieChat.add(btnEnvoyer, BorderLayout.EAST);
+		
 	}
 
 	protected Client creerClient(String nom, String ipServeur, String portServeur) {
