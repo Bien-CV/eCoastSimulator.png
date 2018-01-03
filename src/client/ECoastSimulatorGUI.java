@@ -156,7 +156,7 @@ public class ECoastSimulatorGUI {
 			String prixCourant=Float.toString(objCourant.getPrixCourant());
 			affichageNomObj.setText(objCourant.getNom()+" : "+objCourant.getDescription());
 			affichagePrix.setText(prixCourant);	
-			affichageTempsRestant.setText(objCourant.tempsRestant());
+			affichageTempsRestant.setText(objCourant.getDateDeFinDeVente().toString());
 			affichageNomObj.repaint();
 			affichagePrix.repaint();
 			affichageTempsRestant.repaint();
@@ -789,7 +789,7 @@ public class ECoastSimulatorGUI {
 		gbc_panel_7.gridy = 2;
 		panel_4.add(panel_7, gbc_panel_7);
 
-		JLabel lblTempsRestantAvant = new JLabel("Fin dans : ");
+		JLabel lblTempsRestantAvant = new JLabel("Fin de vente : ");
 		panel_7.add(lblTempsRestantAvant);
 
 		
