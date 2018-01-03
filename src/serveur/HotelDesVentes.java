@@ -57,18 +57,18 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	}
 
 
-public static IClient connexionClient(UUID idClient,String adresseClient) {
-	try {
-		
-		IClient client = (IClient) Naming.lookup(adresseClient);
-		System.out.println("Connexion au serveur " + client.toString() + adresseClient + " reussi.");
-		return client;
-	} catch (Exception e) {
-		System.out.println("Connexion au serveur " + adresseClient + " impossible.");
-		e.printStackTrace();
-		return null;
+	public static IClient connexionClient(UUID idClient,String adresseClient) {
+		try {
+			
+			IClient client = (IClient) Naming.lookup(adresseClient);
+			System.out.println("Connexion au serveur " + client.toString() + adresseClient + " reussi.");
+			return client;
+		} catch (Exception e) {
+			System.out.println("Connexion au serveur " + adresseClient + " impossible.");
+			e.printStackTrace();
+			return null;
+		}
 	}
-}
 
 	//Méthode accessible par le client
 	@Override
@@ -133,6 +133,7 @@ public static IClient connexionClient(UUID idClient,String adresseClient) {
 		//Enlever client de la liste client de l'hdv 
 		//Enlever client de chaque salle
 		listeClients.remove(client);
+		listeRefsClient.remove(client.getId());
 		for (SalleDeVente sdv : listeSalles) {
 			sdv.retirerClient(client);
 		}

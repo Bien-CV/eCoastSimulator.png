@@ -100,6 +100,11 @@ public class Client extends UnicastRemoteObject implements IClient {
 	public void deconnexion () {
 		try {
 			hdv.logout(myClientInfos);
+			idSalleObservee = null;
+			ventesSuivies.clear();
+			mapInfosSalles.clear();
+			listesMessages.clear();
+			hdv = null;
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

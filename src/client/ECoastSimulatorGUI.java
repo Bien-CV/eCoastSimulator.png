@@ -282,7 +282,8 @@ public class ECoastSimulatorGUI {
 				client.deconnexion();
 				
 				panelDeconnexion.setVisible(false);
-				panelConnexion.setVisible(false);
+				panelConnexion.setVisible(true);
+				actualiserInterface();
 			}
 		});
 		GridBagConstraints gbc_btnSeDconnecter = new GridBagConstraints();
