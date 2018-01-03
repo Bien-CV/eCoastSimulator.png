@@ -4,7 +4,6 @@ package client;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
@@ -136,10 +135,9 @@ public class Client extends UnicastRemoteObject implements IClient {
 		System.out.println(""+myClientInfos.getAdresseClient()+" "+myClientInfos.getNom()+" "+getId()+" "+nouveau+" "+myClientInfos.getNom()+" \n");
 		hdv.creerSalle(myClientInfos, nouveau, "Salle de "+myClientInfos.getNom());
 	}
-	// notification au serveur de l'ajout d'un nouvel objet a vendre dans une salle donnée.
 	public void pingServeur() throws RemoteException {
-		if ( hdv==null) System.out.print("Hdv null : connexion pas effectué\n");
-		hdv.ping();
+		//if ( hdv==null) System.out.print("Hdv null : connexion pas effectué\n");
+		//hdv.ping();
 	}
 
 	public IHotelDesVentes getServeur() {

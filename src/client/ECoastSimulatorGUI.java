@@ -11,7 +11,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JLabel;
-import java.awt.FlowLayout;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
@@ -572,7 +571,6 @@ public class ECoastSimulatorGUI {
 		panelBoutonsPourListeSalles.setLayout(gbl_panelBoutonsPourListeSalles);
 
 		JPanel panelNombrePersonnesDansSalle = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panelNombrePersonnesDansSalle.getLayout();
 		GridBagConstraints gbc_panelNombrePersonnesDansSalle = new GridBagConstraints();
 		gbc_panelNombrePersonnesDansSalle.anchor = GridBagConstraints.NORTH;
 		gbc_panelNombrePersonnesDansSalle.insets = new Insets(0, 0, 5, 0);
@@ -681,7 +679,7 @@ public class ECoastSimulatorGUI {
 							DebugTools.d("Touche entrée saisie, envoi de l'enchère de : "+saisieEnchere.getText());
 							IHotelDesVentes serveur=client.getServeur();
 							DebugTools.d("Serveur récupéré du client.");
-							if( saisieEnchere.getText() != "") {
+							if( !saisieEnchere.getText().equals("")) {
 								float enchere=Float.parseFloat(saisieEnchere.getText());
 								serveur.encherir(enchere, client.getId(), client.getIdSalleObservee());
 		
@@ -721,7 +719,7 @@ public class ECoastSimulatorGUI {
 				if(client.getIdSalleObservee()!=null) {
 					IHotelDesVentes serveur=client.getServeur();
 					DebugTools.d("Serveur récupéré du client.");
-					if( saisieEnchere.getText() != "") {
+					if( !saisieEnchere.getText().equals("")) {
 						float enchere=Float.parseFloat(saisieEnchere.getText());
 						try {
 							serveur.encherir(enchere, client.getId(), client.getIdSalleObservee());
@@ -846,7 +844,7 @@ public class ECoastSimulatorGUI {
 			@Override
 			public void keyTyped(KeyEvent key) {
 				//TODO: Chat : Si on appuie sur entrée, envoyer saisie et vider le champ
-				if(client.getIdSalleObservee()!=null && saisieChat.getText()!="") {
+				if(client.getIdSalleObservee()!=null && !saisieChat.getText().equals("")) {
 					if (key.getKeyChar()=='\n') {
 						Message messageAEnvoyer=new Message(client.myClientInfos.getNom(),saisieChat.getText());
 						DebugTools.d("message formulé par "+client.myClientInfos.getNom()+" : "+saisieChat.getText());
@@ -873,7 +871,7 @@ public class ECoastSimulatorGUI {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if(client.getIdSalleObservee()!=null) {
-					if (saisieChat.getText()!="") {
+					if (!saisieChat.getText().equals("")) {
 						Message messageAEnvoyer=new Message(client.myClientInfos.getNom(),saisieChat.getText());
 						DebugTools.d("saisieChat déclenchée");
 						DebugTools.d("message formulé par "+client.myClientInfos.getNom()+" : "+saisieChat.getText());

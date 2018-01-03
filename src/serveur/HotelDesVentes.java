@@ -158,7 +158,7 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 		Objet objEnVente = getObjetEnVente(idSDV);
 
 		if(objEnVente.getPrixCourant()<prix){
-			if( objEnVente.getNomGagnant()!=getClientById(clientId).getNom()){
+			if( !objEnVente.getNomGagnant().equals(getClientById(clientId).getNom())){
 				objEnVente.setPrixCourant(prix);
 				objEnVente.setNomGagnant(getClientById(clientId).getNom());
 				nouvelleEnchere(idSDV, objEnVente);
@@ -232,7 +232,6 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	//Si la salle n'a plus de ventes à suivre:
 	//Notification : fermeture de la salle, portée= tout le monde.
 	public void nouvelleVente(UUID idSalle) {
-		//TODO:
 		SalleDeVente SDV = getSalleById(idSalle);
 		try {
 			SDV.venteSuivante();
@@ -261,7 +260,7 @@ public class HotelDesVentes extends UnicastRemoteObject implements IHotelDesVent
 	@Override
 	public void fermerSalle(UUID idSalle, UUID idClient) throws PasCreateurException {
 		SalleDeVente SDV = getSalleById(idSalle);
-		List<ClientInfo> listeDiffusion = SDV.getListeAcheteurs();
+		//List<ClientInfo> listeDiffusion = SDV.getListeAcheteurs();
 		if (SDV.getIdCreateur().equals(idClient)) {
 			for (ClientInfo ci : listeClients ) {
 				try {
