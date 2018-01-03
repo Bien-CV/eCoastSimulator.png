@@ -274,6 +274,8 @@ public class ECoastSimulatorGUI {
 		gbc_lblPseudoDeConnexion.gridx = 0;
 		gbc_lblPseudoDeConnexion.gridy = 1;
 		panelDeconnexion.add(lblPseudoDeConnexion, gbc_lblPseudoDeConnexion);
+		
+		panelDeconnexion.setVisible(false);
 
 		JButton btnSeDconnecter = new JButton("Se déconnecter");
 		btnSeDconnecter.addMouseListener(new MouseAdapter() {
